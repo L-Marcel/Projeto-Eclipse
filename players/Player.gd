@@ -23,6 +23,7 @@ extends CharacterBody2D
 			key_fire = "green_fire";
 			key_interact = "green_interact";
 
+var flash : PackedScene = preload("res://effects/Flash.tscn");
 var bullet : PackedScene = preload("res://objects/Bullet.tscn");
 var furtive : bool = false;
 
@@ -53,15 +54,23 @@ var fire_on_crouch_heights : Array[int] = [-2, -1, 2];
 
 func fire(height : float = -2):
 	if Input.is_action_pressed(key_fire) && can_fire:
+		var flash_instance = flash.instantiate();
+		
+		
 		var bullet_instance = bullet.instantiate();
 		bullet_instance.configure_as_ally(self);
 		if scale.y == -abs(scale.y) && rotation_degrees == -180:
 			bullet_instance.global_position = global_position + Vector2(-12, height);
+			flash_instance.global_position = bullet_instance.global_position;
 			bullet_instance.linear_velocity = -bullet_instance.linear_velocity;
+			flash_instance.scale.y = -abs(flash_instance.scale.y);
 			bullet_instance.scale.y = -abs(bullet_instance.scale.y);
+			flash_instance.rotation_degrees = 180;
 			bullet_instance.rotation_degrees = 180;
 		else:
 			bullet_instance.global_position = global_position + Vector2(12, height);
+			flash_instance.global_position = bullet_instance.global_position;
+		get_parent().add_child(flash_instance);
 		get_parent().add_child(bullet_instance);
 		can_fire = false;
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://ddwaxapj5cpuk"]
+[gd_scene load_steps=7 format=3 uid="uid://ddwaxapj5cpuk"]
 
 [ext_resource type="Script" path="res://objects/Bullet.gd" id="1_c5ui7"]
 [ext_resource type="Texture2D" uid="uid://b8np4kd4vc271" path="res://assets/TeamGunner_By_SecretHideout_060519/EXTRAS/BulletStream.png" id="1_mcfq5"]
+[ext_resource type="Texture2D" uid="uid://c6mr3qb1fslun" path="res://assets/TeamGunner_By_SecretHideout_060519/EXTRAS/SpongeBullet.png" id="2_82fjk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_38f16"]
 size = Vector2(30, 1)
@@ -22,9 +23,13 @@ gravity_scale = 0.0
 linear_velocity = Vector2(400, 0)
 script = ExtResource("1_c5ui7")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Stream" type="Sprite2D" parent="."]
 texture = ExtResource("1_mcfq5")
 flip_h = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(41.5, -0.5)
+texture = ExtResource("2_82fjk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(25, -0.5)
