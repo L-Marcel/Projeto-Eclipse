@@ -2,10 +2,10 @@ class_name Bullet
 extends RigidBody2D
 
 func _ready():
-	pass;
-	#var tween = get_tree().create_tween();
-	#tween.tween_property(self, "modulate.a", 0.0, 10.0);
-	#tween.tween_callback(self.queue_free);
+	var tween = get_tree().create_tween();
+	tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.75);
+	tween.tween_callback(self.queue_free);
+	tween.play();
 
 func configure_as_ally(body : Node2D):
 	add_collision_exception_with(body);
