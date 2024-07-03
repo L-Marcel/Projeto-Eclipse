@@ -48,17 +48,20 @@ func _ready():
 	sprite.sprite_frames = sprite_frames;
 	collision.shape = collision.shape.duplicate();
 
-func fire():
+var fire_on_run_heights : Array[int] = [-3, -5, -2, -4, -5, -2];
+var fire_on_crouch_heights : Array[int] = [-2, -1, 2];
+
+func fire(height : float = -2):
 	if Input.is_action_pressed(key_fire) && can_fire:
 		var bullet_instance = bullet.instantiate();
 		bullet_instance.configure_as_ally(self);
 		if scale.y == -abs(scale.y) && rotation_degrees == -180:
-			bullet_instance.global_position = global_position + Vector2(-12, -2);
+			bullet_instance.global_position = global_position + Vector2(-12, height);
 			bullet_instance.linear_velocity = -bullet_instance.linear_velocity;
 			bullet_instance.scale.y = -abs(bullet_instance.scale.y);
 			bullet_instance.rotation_degrees = 180;
 		else:
-			bullet_instance.global_position = global_position + Vector2(12, -2);
+			bullet_instance.global_position = global_position + Vector2(12, height);
 		get_parent().add_child(bullet_instance);
 		can_fire = false;
 
@@ -106,14 +109,14 @@ func _on_crouch_state_entered():
 	sprite.play("crouch");
 
 func _on_idle_state_processing(_delta):
-	fire();
+	fire(-2 if sprite.frame <= 2 else -1);
 	jump();
 	crouch();
 	var direction = move();
 	if direction != 0:
 		states.send_event("run");
 func _on_run_state_processing(_delta):
-	fire();
+	fire(fire_on_run_heights[sprite.frame if sprite.animation == "run" else 0]);
 	jump();
 	crouch();
 	var direction = move();
@@ -130,7 +133,7 @@ func _on_fall_state_processing(_delta):
 	if is_on_floor():
 		states.send_event("idle");
 func _on_crouch_state_processing(delta):
-	fire();
+	fire(fire_on_crouch_heights[sprite.frame if sprite.animation == "crouch" else 0]);
 	var direction = Input.get_axis(key_left, key_right);
 	velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2);
 	if direction != 0:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://bken5qm8hcl44"]
+[gd_scene load_steps=51 format=3 uid="uid://bken5qm8hcl44"]
 
 [ext_resource type="Script" path="res://players/Player.gd" id="1_7oy03"]
 [ext_resource type="SpriteFrames" uid="uid://d3p2mf1hr8ww" path="res://players/RedGhost.tres" id="1_q6s2f"]
@@ -8,8 +8,13 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="5_bpiqr"]
 [ext_resource type="SpriteFrames" uid="uid://chtoqhnyxv758" path="res://players/GreenPhantom.tres" id="6_2qu1w"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="6_3esgo"]
+[ext_resource type="Shader" path="res://players/Player.gdshader" id="7_8d4qx"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="7_lyb22"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="8_5udck"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p0qtq"]
+shader = ExtResource("7_8d4qx")
+shader_parameter/whitten = false
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_txngr"]
 size = Vector2(21, 32)
@@ -345,10 +350,13 @@ delay_in_seconds = "0.0"
 script = ExtResource("4_aefvf")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_p0qtq")
 sprite_frames = ExtResource("6_2qu1w")
-animation = &"idle"
+animation = &"crouch"
+frame = 2
 
 [node name="Collision" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1.5, -1)
 shape = SubResource("RectangleShape2D_txngr")
 
