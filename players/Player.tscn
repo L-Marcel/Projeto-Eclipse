@@ -1,9 +1,11 @@
-[gd_scene load_steps=54 format=3 uid="uid://bken5qm8hcl44"]
+[gd_scene load_steps=56 format=3 uid="uid://bken5qm8hcl44"]
 
 [ext_resource type="Script" path="res://players/Player.gd" id="1_7oy03"]
 [ext_resource type="SpriteFrames" uid="uid://d3p2mf1hr8ww" path="res://players/RedGhost.tres" id="1_q6s2f"]
+[ext_resource type="AudioStream" uid="uid://dmrh4tt4g784t" path="res://sounds/step_0.wav" id="2_1bky8"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_vf4cs"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_423y7"]
+[ext_resource type="AudioStream" uid="uid://n7csqpcckhsr" path="res://sounds/step_1.wav" id="3_wf6c8"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_aefvf"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="5_bpiqr"]
 [ext_resource type="SpriteFrames" uid="uid://chtoqhnyxv758" path="res://players/GreenPhantom.tres" id="6_2qu1w"]
@@ -212,7 +214,7 @@ data = {
 "run": [SubResource("Resource_hdj0p"), SubResource("Resource_5o4k1"), SubResource("Resource_ineo5"), SubResource("Resource_hy3ou"), SubResource("Resource_77oos"), SubResource("Resource_3u5dn")]
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "collision", "fire_point", "flash", "gun_fire_sound") groups=["mob", "player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "collision", "fire_point", "flash", "gun_fire_sound", "step_sound_player") groups=["mob", "player"]]
 script = ExtResource("1_7oy03")
 sprite = NodePath("Sprite")
 states = NodePath("States")
@@ -220,7 +222,12 @@ collision = NodePath("Collision")
 fire_point = NodePath("FirePoint")
 flash = NodePath("FirePoint/Flash")
 gun_fire_sound = NodePath("FirePoint/FireSound")
+step_sound_player = NodePath("StepSound")
+step_sounds = Array[AudioStream]([ExtResource("2_1bky8"), ExtResource("3_wf6c8")])
 sprite_frames = ExtResource("1_q6s2f")
+
+[node name="StepSound" type="AudioStreamPlayer" parent="."]
+volume_db = -25.0
 
 [node name="States" type="Node" parent="."]
 script = ExtResource("2_vf4cs")
@@ -359,10 +366,10 @@ script = ExtResource("4_aefvf")
 material = SubResource("ShaderMaterial_p0qtq")
 sprite_frames = ExtResource("6_2qu1w")
 animation = &"run"
-frame_progress = 0.155995
+frame = 5
 
 [node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
-position = Vector2(13, -3)
+position = Vector2(13, -2)
 gizmo_extents = 5.0
 script = ExtResource("9_tx268")
 sprite = NodePath("../Sprite")
@@ -376,6 +383,7 @@ mix_target = 1
 position = Vector2(3, 0)
 
 [node name="Collision" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1.5, -1)
 shape = SubResource("RectangleShape2D_txngr")
 
@@ -388,6 +396,7 @@ shape_frames = SubResource("Resource_vw21c")
 [connection signal="state_entered" from="States/Root/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_processing" from="States/Root/Idle" to="." method="_on_idle_state_processing"]
 [connection signal="state_entered" from="States/Root/Run" to="." method="_on_run_state_entered"]
+[connection signal="state_exited" from="States/Root/Run" to="." method="_on_run_state_exited"]
 [connection signal="state_processing" from="States/Root/Run" to="." method="_on_run_state_processing"]
 [connection signal="state_entered" from="States/Root/Crouch" to="." method="_on_crouch_state_entered"]
 [connection signal="state_processing" from="States/Root/Crouch" to="." method="_on_crouch_state_processing"]

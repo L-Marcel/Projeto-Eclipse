@@ -7,6 +7,9 @@ extends CharacterBody2D
 @export var fire_point : FirePoint;
 @export var flash : Flash;
 @export var gun_fire_sound : AudioStreamPlayer;
+@export var step_sound_player : AudioStreamPlayer;
+@export var step_sounds : Array[AudioStream] = [];
+var step_frame : int = 0;
 @export var sprite_frames : SpriteFrames;
 @export var player_one : bool = true :
 	set(value):
@@ -83,6 +86,11 @@ func flip(yes : bool):
 		rotation_degrees = 0;
 		flipped = false;
 
+func step():
+	if sprite.animation == "run" && step_sounds.size() > 0 && step_frame != sprite.frame && (sprite.frame == 2 || sprite.frame == 5):
+		step_sound_player.stream = step_sounds[randi() % step_sounds.size()];
+		step_sound_player.play();
+		step_frame = sprite.frame;
 func move():
 	var direction = Input.get_axis(key_left, key_right);
 	if direction:
@@ -126,6 +134,7 @@ func _on_idle_state_processing(_delta):
 	if direction != 0:
 		states.send_event("run");
 func _on_run_state_processing(_delta):
+	step();
 	fire(0.5);
 	jump();
 	crouch();
@@ -153,3 +162,6 @@ func _on_crouch_state_processing(delta):
 		states.send_event("fall");
 	elif !Input.is_action_pressed(key_down):
 		states.send_event("idle");
+
+func _on_run_state_exited():
+	step_frame = -1;

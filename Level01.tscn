@@ -460,7 +460,7 @@ position = Vector2(570, 402)
 script = ExtResource("1_e30e6")
 follow_mode = 3
 follow_targets = [NodePath("../RedGhost"), NodePath("../GreenPhantom")]
-zoom = Vector2(1.75497, 1.75497)
+zoom = Vector2(1.5, 1.5)
 tween_resource = SubResource("Resource_y3l5k")
 follow_offset = Vector2(64, 64)
 auto_zoom = true
@@ -472,7 +472,7 @@ draw_limits = true
 [node name="Camera" type="Camera2D" parent="World"]
 physics_interpolation_mode = 1
 position = Vector2(570, 402)
-zoom = Vector2(1.75497, 1.75497)
+zoom = Vector2(1.5, 1.5)
 position_smoothing_speed = 8.0
 
 [node name="PhantomCameraHost" type="Node" parent="World/Camera"]

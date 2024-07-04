@@ -20,6 +20,6 @@ func clear():
 	particles.queue_free();
 	light.queue_free();
 	impact_sound.queue_free();
-func check_queue_free(_by : Node2D):
+func check_queue_free(_by : Node):
 	if get_child_count() <= 0:
 		queue_free();
