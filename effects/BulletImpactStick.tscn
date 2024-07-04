@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlgcdbqaf8eeg"]
+
+[ext_resource type="Script" path="res://effects/BulletImpactStick.gd" id="1_t1npm"]
+
+[sub_resource type="Gradient" id="Gradient_3nywo"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qlx3g"]
+gradient = SubResource("Gradient_3nywo")
+width = 12
+
+[sub_resource type="Gradient" id="Gradient_k2p14"]
+offsets = PackedFloat32Array(0, 0.149351, 0.649351)
+colors = PackedColorArray(1, 1, 1, 1, 0.66, 0.66, 0.66, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ha3oa"]
+gradient = SubResource("Gradient_k2p14")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="BulletImpactStick" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 0
+mass = 0.1
+gravity_scale = 0.0
+script = ExtResource("1_t1npm")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(1, 0.521737, 0, 1)
+position = Vector2(6, 0)
+texture = SubResource("GradientTexture1D_qlx3g")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+show_behind_parent = true
+position = Vector2(12, 0)
+color = Color(1, 0.890562, 0, 1)
+shadow_item_cull_mask = 0
+texture = SubResource("GradientTexture2D_ha3oa")

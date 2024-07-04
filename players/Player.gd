@@ -6,6 +6,7 @@ extends CharacterBody2D
 @export var collision : CollisionShape2D;
 @export var fire_point : FirePoint;
 @export var flash : Flash;
+@export var gun_fire_sound : AudioStreamPlayer;
 @export var sprite_frames : SpriteFrames;
 @export var player_one : bool = true :
 	set(value):
@@ -68,6 +69,7 @@ func fire(precision : float = randf_range(0.0, 1.0)):
 			bullet_instance.rotation_degrees = angle_diff;
 			bullet_instance.global_position = fire_point.global_position;
 		bullet_instance.linear_velocity = Vector2.from_angle(bullet_instance.rotation) * 800;
+		gun_fire_sound.play();
 		get_parent().add_child(bullet_instance);
 		can_fire = false;
 

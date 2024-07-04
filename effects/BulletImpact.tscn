@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://c2tspkpbskfs2"]
+
+[ext_resource type="Script" path="res://effects/BulletImpact.gd" id="1_10fb1"]
+[ext_resource type="Texture2D" uid="uid://3wtym04qqpuu" path="res://assets/impact.png" id="2_cg8h2"]
+[ext_resource type="AudioStream" uid="uid://b7gwysgd1ikot" path="res://sounds/bullet_collision.wav" id="2_m1cfb"]
+
+[sub_resource type="Gradient" id="Gradient_ennm5"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mnabu"]
+gradient = SubResource("Gradient_ennm5")
+width = 24
+height = 24
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8, 0.2)
+
+[sub_resource type="Curve" id="Curve_uqflh"]
+_data = [Vector2(0, 0.497813), 0.0, 0.0, 0, 0, Vector2(0.154987, 1), 0.0, 0.0, 0, 0, Vector2(0.845013, 1), 0.0, 0.0, 0, 0, Vector2(0.896226, 0), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Gradient" id="Gradient_jqe5t"]
+
+[node name="BulletImpact" type="Node2D" node_paths=PackedStringArray("particles", "light", "impact_sound")]
+script = ExtResource("1_10fb1")
+particles = NodePath("Particle")
+light = NodePath("PointLight2D")
+impact_sound = NodePath("ImpactSound")
+
+[node name="ImpactSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_m1cfb")
+volume_db = -20.0
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+show_behind_parent = true
+color = Color(1, 0.521737, 0, 1)
+energy = 4.0
+shadow_item_cull_mask = 0
+texture = SubResource("GradientTexture2D_mnabu")
+
+[node name="Particle" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 1
+lifetime = 0.25
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("2_cg8h2")
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_uqflh")
+color = Color(1, 0.890562, 0, 1)
+color_ramp = SubResource("Gradient_jqe5t")

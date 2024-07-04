@@ -1,10 +1,10 @@
 [gd_resource type="SpriteFrames" load_steps=32 format=3 uid="uid://chtoqhnyxv758"]
 
-[ext_resource type="Texture2D" uid="uid://di3cb0vx7v2ht" path="res://assets/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Crouch.png" id="1_qbxm3"]
-[ext_resource type="Texture2D" uid="uid://bmeoadteeyhc8" path="res://assets/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Death.png" id="2_3pm7i"]
-[ext_resource type="Texture2D" uid="uid://civb6kv7je2p3" path="res://assets/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Jump.png" id="3_56u3p"]
-[ext_resource type="Texture2D" uid="uid://ca0tg82l5581f" path="res://assets/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Idle.png" id="4_ycr58"]
-[ext_resource type="Texture2D" uid="uid://dy7i7j2a8anln" path="res://assets/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Run.png" id="5_us04w"]
+[ext_resource type="Texture2D" uid="uid://di3cb0vx7v2ht" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Crouch.png" id="1_qbxm3"]
+[ext_resource type="Texture2D" uid="uid://bmeoadteeyhc8" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Death.png" id="2_3pm7i"]
+[ext_resource type="Texture2D" uid="uid://civb6kv7je2p3" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Jump.png" id="3_56u3p"]
+[ext_resource type="Texture2D" uid="uid://ca0tg82l5581f" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Idle.png" id="4_ycr58"]
+[ext_resource type="Texture2D" uid="uid://dy7i7j2a8anln" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Run.png" id="5_us04w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jh3lx"]
 atlas = ExtResource("1_qbxm3")

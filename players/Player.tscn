@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://bken5qm8hcl44"]
+[gd_scene load_steps=54 format=3 uid="uid://bken5qm8hcl44"]
 
 [ext_resource type="Script" path="res://players/Player.gd" id="1_7oy03"]
 [ext_resource type="SpriteFrames" uid="uid://d3p2mf1hr8ww" path="res://players/RedGhost.tres" id="1_q6s2f"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="8_5udck"]
 [ext_resource type="Script" path="res://scripts/FirePoint.gd" id="9_tx268"]
 [ext_resource type="PackedScene" uid="uid://detu0uglbmgdf" path="res://effects/Flash.tscn" id="10_4ua1c"]
+[ext_resource type="AudioStream" uid="uid://bnjpjrrd0gw1b" path="res://sounds/fire.wav" id="10_h1n07"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p0qtq"]
 shader = ExtResource("7_8d4qx")
@@ -211,13 +212,14 @@ data = {
 "run": [SubResource("Resource_hdj0p"), SubResource("Resource_5o4k1"), SubResource("Resource_ineo5"), SubResource("Resource_hy3ou"), SubResource("Resource_77oos"), SubResource("Resource_3u5dn")]
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "collision", "fire_point", "flash") groups=["mob", "player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "collision", "fire_point", "flash", "gun_fire_sound") groups=["mob", "player"]]
 script = ExtResource("1_7oy03")
 sprite = NodePath("Sprite")
 states = NodePath("States")
 collision = NodePath("Collision")
 fire_point = NodePath("FirePoint")
 flash = NodePath("FirePoint/Flash")
+gun_fire_sound = NodePath("FirePoint/FireSound")
 sprite_frames = ExtResource("1_q6s2f")
 
 [node name="States" type="Node" parent="."]
@@ -364,6 +366,11 @@ position = Vector2(13, -3)
 gizmo_extents = 5.0
 script = ExtResource("9_tx268")
 sprite = NodePath("../Sprite")
+
+[node name="FireSound" type="AudioStreamPlayer" parent="FirePoint"]
+stream = ExtResource("10_h1n07")
+volume_db = -20.0
+mix_target = 1
 
 [node name="Flash" parent="FirePoint" instance=ExtResource("10_4ua1c")]
 position = Vector2(3, 0)
