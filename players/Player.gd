@@ -4,6 +4,8 @@ extends CharacterBody2D
 @export var sprite : AnimatedSprite2D;
 @export var states : StateChart;
 @export var collision : CollisionShape2D;
+@export var fire_point : FirePoint;
+@export var flash : Flash;
 @export var sprite_frames : SpriteFrames;
 @export var player_one : bool = true :
 	set(value):
@@ -23,13 +25,17 @@ extends CharacterBody2D
 			key_fire = "green_fire";
 			key_interact = "green_interact";
 
-var flash : PackedScene = preload("res://effects/Flash.tscn");
 var bullet : PackedScene = preload("res://objects/Bullet.tscn");
 var furtive : bool = false;
 
 const SPEED = 300.0;
 const JUMP_VELOCITY = -400.0;
 
+var flipped : bool = false :
+	set(value):
+		if flipped != value && flash:
+			flash.on = false;
+		flipped = value;
 var fire_delay : float = 0.25;
 var can_fire : bool = true :
 	set(value):
@@ -49,28 +55,19 @@ func _ready():
 	sprite.sprite_frames = sprite_frames;
 	collision.shape = collision.shape.duplicate();
 
-var fire_on_run_heights : Array[int] = [-3, -5, -2, -4, -5, -2];
-var fire_on_crouch_heights : Array[int] = [-2, -1, 2];
-
-func fire(height : float = -2):
+func fire(precision : float = randf_range(0.0, 1.0)):
 	if Input.is_action_pressed(key_fire) && can_fire:
-		var flash_instance = flash.instantiate();
-		
-		
-		var bullet_instance = bullet.instantiate();
+		flash.on = true;
+		var bullet_instance = bullet.instantiate() as Bullet;
 		bullet_instance.configure_as_ally(self);
-		if scale.y == -abs(scale.y) && rotation_degrees == -180:
-			bullet_instance.global_position = global_position + Vector2(-12, height);
-			flash_instance.global_position = bullet_instance.global_position;
-			bullet_instance.linear_velocity = -bullet_instance.linear_velocity;
-			flash_instance.scale.y = -abs(flash_instance.scale.y);
-			bullet_instance.scale.y = -abs(bullet_instance.scale.y);
-			flash_instance.rotation_degrees = 180;
-			bullet_instance.rotation_degrees = 180;
+		var angle_diff = randf_range(-10, 10) * (1.0 - precision);
+		if scale.y == -abs(scale.y):
+			bullet_instance.global_position = fire_point.global_position;
+			bullet_instance.rotation_degrees = 180 + angle_diff;
 		else:
-			bullet_instance.global_position = global_position + Vector2(12, height);
-			flash_instance.global_position = bullet_instance.global_position;
-		get_parent().add_child(flash_instance);
+			bullet_instance.rotation_degrees = angle_diff;
+			bullet_instance.global_position = fire_point.global_position;
+		bullet_instance.linear_velocity = Vector2.from_angle(bullet_instance.rotation) * 800;
 		get_parent().add_child(bullet_instance);
 		can_fire = false;
 
@@ -78,9 +75,11 @@ func flip(yes : bool):
 	if yes:
 		scale.y = -abs(scale.y);
 		rotation_degrees = 180;
+		flipped = true;
 	else:
 		scale.y = abs(scale.y);
 		rotation_degrees = 0;
+		flipped = false;
 
 func move():
 	var direction = Input.get_axis(key_left, key_right);
@@ -118,31 +117,31 @@ func _on_crouch_state_entered():
 	sprite.play("crouch");
 
 func _on_idle_state_processing(_delta):
-	fire(-2 if sprite.frame <= 2 else -1);
+	fire(0.75);
 	jump();
 	crouch();
 	var direction = move();
 	if direction != 0:
 		states.send_event("run");
 func _on_run_state_processing(_delta):
-	fire(fire_on_run_heights[sprite.frame if sprite.animation == "run" else 0]);
+	fire(0.5);
 	jump();
 	crouch();
 	var direction = move();
 	if direction == 0:
 		states.send_event("idle");
 func _on_jump_state_processing(_delta):
-	fire();
+	fire(0.25);
 	move();
 	if velocity.y >= 0:
 		states.send_event("fall");
 func _on_fall_state_processing(_delta):
-	fire();
+	fire(0.25);
 	move();
 	if is_on_floor():
 		states.send_event("idle");
 func _on_crouch_state_processing(delta):
-	fire(fire_on_crouch_heights[sprite.frame if sprite.animation == "crouch" else 0]);
+	fire(1.0);
 	var direction = Input.get_axis(key_left, key_right);
 	velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2);
 	if direction != 0:

@@ -460,7 +460,7 @@ position = Vector2(570, 402)
 script = ExtResource("1_e30e6")
 follow_mode = 3
 follow_targets = [NodePath("../RedGhost"), NodePath("../GreenPhantom")]
-zoom = Vector2(1.55469, 1.55469)
+zoom = Vector2(1.5, 1.5)
 tween_resource = SubResource("Resource_y3l5k")
 follow_offset = Vector2(64, 64)
 auto_zoom = true
@@ -472,23 +472,25 @@ draw_limits = true
 [node name="Camera" type="Camera2D" parent="World"]
 physics_interpolation_mode = 1
 position = Vector2(570, 402)
-zoom = Vector2(1.55469, 1.55469)
+zoom = Vector2(1.5, 1.5)
 position_smoothing_speed = 8.0
 
 [node name="PhantomCameraHost" type="Node" parent="World/Camera"]
 script = ExtResource("1_s60e6")
 
-[node name="RedGhost" parent="World" node_paths=PackedStringArray("sprite", "states", "collision") instance=ExtResource("1_ub7se")]
+[node name="RedGhost" parent="World" node_paths=PackedStringArray("sprite", "states", "collision", "fire_point") instance=ExtResource("1_ub7se")]
 position = Vector2(547, 402)
 sprite = NodePath("Sprite")
 states = NodePath("States")
 collision = NodePath("Collision")
+fire_point = NodePath("FirePoint")
 
-[node name="GreenPhantom" parent="World" node_paths=PackedStringArray("sprite", "states", "collision") instance=ExtResource("1_ub7se")]
+[node name="GreenPhantom" parent="World" node_paths=PackedStringArray("sprite", "states", "collision", "fire_point") instance=ExtResource("1_ub7se")]
 position = Vector2(657, 358)
 sprite = NodePath("Sprite")
 states = NodePath("States")
 collision = NodePath("Collision")
+fire_point = NodePath("FirePoint")
 sprite_frames = ExtResource("2_vh7nj")
 player_one = false
 

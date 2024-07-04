@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c6mr3qb1fslun" path="res://assets/TeamGunner_By_SecretHideout_060519/EXTRAS/SpongeBullet.png" id="2_82fjk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_38f16"]
-size = Vector2(30, 1)
+size = Vector2(3, 1)
 
 [sub_resource type="Gradient" id="Gradient_k2p14"]
 offsets = PackedFloat32Array(0, 0.149351, 0.649351)
@@ -18,24 +18,26 @@ height = 24
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
-[node name="Bullet" type="RigidBody2D"]
+[node name="Bullet" type="RigidBody2D" node_paths=PackedStringArray("stream")]
 gravity_scale = 0.0
-linear_velocity = Vector2(400, 0)
 script = ExtResource("1_c5ui7")
+stream = NodePath("Stream")
 
 [node name="Stream" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-41.5, 0.5)
 texture = ExtResource("1_mcfq5")
 flip_h = true
 
 [node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(41.5, -0.5)
 texture = ExtResource("2_82fjk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(25, -0.5)
 shape = SubResource("RectangleShape2D_38f16")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(41, -0.5)
+show_behind_parent = true
+position = Vector2(-1, 0)
 color = Color(1, 1, 0, 1)
+shadow_enabled = true
 texture = SubResource("GradientTexture2D_ha3oa")

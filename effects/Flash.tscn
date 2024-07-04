@@ -1,7 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://detu0uglbmgdf"]
+[gd_scene load_steps=5 format=3 uid="uid://detu0uglbmgdf"]
 
 [ext_resource type="Texture2D" uid="uid://b5y1i3vdtt68w" path="res://assets/TeamGunner_By_SecretHideout_060519/EXTRAS/MuzzleFlash.png" id="1_78fhr"]
 [ext_resource type="Script" path="res://effects/Flash.gd" id="2_i2muh"]
+
+[sub_resource type="Gradient" id="Gradient_ea5b7"]
+offsets = PackedFloat32Array(0, 0.275862, 0.768025)
+colors = PackedColorArray(1, 1, 1, 1, 0.577008, 0.577008, 0.577008, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8n143"]
+gradient = SubResource("Gradient_ea5b7")
+width = 56
+height = 56
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.928775, 0.0598291)
 
 [node name="Flash" type="Node2D"]
 script = ExtResource("2_i2muh")
@@ -9,3 +21,11 @@ script = ExtResource("2_i2muh")
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(4, -1)
 texture = ExtResource("1_78fhr")
+
+[node name="Light" type="PointLight2D" parent="."]
+position = Vector2(0, -0.5)
+color = Color(1, 0.733333, 0, 1)
+energy = 0.75
+shadow_enabled = true
+shadow_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_8n143")
