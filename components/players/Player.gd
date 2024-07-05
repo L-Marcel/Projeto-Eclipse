@@ -3,9 +3,10 @@ extends CharacterBody2D
 
 @export var sprite : AnimatedSprite2D;
 @export var states : StateChart;
-@export var collision : CollisionShape2D;
+@export var hurtbox : Hurtbox;
 @export var fire_point : FirePoint;
 @export var flash : Flash;
+@export var health : Health;
 @export var gun_fire_sound : AudioStreamPlayer;
 @export var step_sound_player : AudioStreamPlayer;
 @export var step_sounds : Array[AudioStream] = [];
@@ -29,7 +30,7 @@ var step_frame : int = 0;
 			key_fire = "green_fire";
 			key_interact = "green_interact";
 
-var bullet : PackedScene = preload("res://objects/Bullet.tscn");
+var bullet : PackedScene = preload("res://components/objects/Bullet.tscn");
 var furtive : bool = false;
 
 const SPEED = 300.0;
@@ -57,7 +58,7 @@ var key_interact : String = "red_interact";
 func _ready():
 	Mobs.registry(self);
 	sprite.sprite_frames = sprite_frames;
-	collision.shape = collision.shape.duplicate();
+	hurtbox.shape = hurtbox.shape.duplicate();
 
 func fire(precision : float = randf_range(0.0, 1.0)):
 	if Input.is_action_pressed(key_fire) && can_fire:
@@ -110,6 +111,9 @@ func jump():
 func crouch():
 	if Input.is_action_pressed(key_down):
 		states.send_event("crouch");
+func death():
+	if health.is_dead():
+		states.send_event("death");
 
 func _physics_process(delta):
 	apply_gravity(delta);
@@ -125,8 +129,12 @@ func _on_fall_state_entered():
 	sprite.play("fall");
 func _on_crouch_state_entered():
 	sprite.play("crouch");
+func _on_death_state_entered():
+	set_collision_layer_value(1, false);
+	sprite.play("death");
 
 func _on_idle_state_processing(_delta):
+	death();
 	fire(0.75);
 	jump();
 	crouch();
@@ -134,6 +142,7 @@ func _on_idle_state_processing(_delta):
 	if direction != 0:
 		states.send_event("run");
 func _on_run_state_processing(_delta):
+	death();
 	step();
 	fire(0.5);
 	jump();
@@ -142,16 +151,21 @@ func _on_run_state_processing(_delta):
 	if direction == 0:
 		states.send_event("idle");
 func _on_jump_state_processing(_delta):
+	death();
 	fire(0.25);
 	move();
+	if !Input.is_action_pressed(key_jump):
+		velocity.y = 0;
 	if velocity.y >= 0:
 		states.send_event("fall");
 func _on_fall_state_processing(_delta):
+	death();
 	fire(0.25);
 	move();
 	if is_on_floor():
 		states.send_event("idle");
 func _on_crouch_state_processing(delta):
+	death();
 	fire(1.0);
 	var direction = Input.get_axis(key_left, key_right);
 	velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2);

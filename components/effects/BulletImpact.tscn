@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c2tspkpbskfs2"]
 
-[ext_resource type="Script" path="res://effects/BulletImpact.gd" id="1_10fb1"]
+[ext_resource type="Script" path="res://components/effects/BulletImpact.gd" id="1_vnrqg"]
 [ext_resource type="Texture2D" uid="uid://3wtym04qqpuu" path="res://assets/impact.png" id="2_cg8h2"]
 [ext_resource type="AudioStream" uid="uid://b7gwysgd1ikot" path="res://sounds/bullet_collision.wav" id="2_m1cfb"]
 
@@ -22,7 +22,7 @@ point_count = 5
 [sub_resource type="Gradient" id="Gradient_jqe5t"]
 
 [node name="BulletImpact" type="Node2D" node_paths=PackedStringArray("particles", "light", "impact_sound")]
-script = ExtResource("1_10fb1")
+script = ExtResource("1_vnrqg")
 particles = NodePath("Particle")
 light = NodePath("PointLight2D")
 impact_sound = NodePath("ImpactSound")

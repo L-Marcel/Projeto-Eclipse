@@ -1,34 +1,30 @@
-[gd_scene load_steps=56 format=3 uid="uid://bken5qm8hcl44"]
+[gd_scene load_steps=55 format=3 uid="uid://cgxiblhs26fbj"]
 
-[ext_resource type="Script" path="res://players/Player.gd" id="1_7oy03"]
-[ext_resource type="SpriteFrames" uid="uid://d3p2mf1hr8ww" path="res://players/RedGhost.tres" id="1_q6s2f"]
-[ext_resource type="AudioStream" uid="uid://dmrh4tt4g784t" path="res://sounds/step_0.wav" id="2_1bky8"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_vf4cs"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_423y7"]
-[ext_resource type="AudioStream" uid="uid://n7csqpcckhsr" path="res://sounds/step_1.wav" id="3_wf6c8"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_aefvf"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="5_bpiqr"]
-[ext_resource type="SpriteFrames" uid="uid://chtoqhnyxv758" path="res://players/GreenPhantom.tres" id="6_2qu1w"]
-[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="6_3esgo"]
-[ext_resource type="Shader" path="res://players/Player.gdshader" id="7_8d4qx"]
-[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="7_lyb22"]
-[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="8_5udck"]
-[ext_resource type="Script" path="res://scripts/FirePoint.gd" id="9_tx268"]
-[ext_resource type="PackedScene" uid="uid://detu0uglbmgdf" path="res://effects/Flash.tscn" id="10_4ua1c"]
-[ext_resource type="AudioStream" uid="uid://bnjpjrrd0gw1b" path="res://sounds/fire.wav" id="10_h1n07"]
+[ext_resource type="Script" path="res://components/enemies/Enemy.gd" id="1_g43js"]
+[ext_resource type="AudioStream" uid="uid://dmrh4tt4g784t" path="res://sounds/step_0.wav" id="2_bkb81"]
+[ext_resource type="AudioStream" uid="uid://n7csqpcckhsr" path="res://sounds/step_1.wav" id="3_nxci1"]
+[ext_resource type="SpriteFrames" uid="uid://b0nhovijexdwn" path="res://components/enemies/Enemy.tres" id="4_l2ntd"]
+[ext_resource type="Script" path="res://components/entity/Health.gd" id="5_urrmf"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="6_mjn33"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_g4652"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_x4m1w"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="9_nswew"]
+[ext_resource type="Script" path="res://scripts/FirePoint.gd" id="10_p3nx8"]
+[ext_resource type="AudioStream" uid="uid://bnjpjrrd0gw1b" path="res://sounds/fire.wav" id="11_mvlwv"]
+[ext_resource type="PackedScene" uid="uid://detu0uglbmgdf" path="res://components/effects/Flash.tscn" id="12_1hgo1"]
+[ext_resource type="Script" path="res://components/entity/Hurtbox.gd" id="13_3jk5w"]
+[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="14_kr387"]
+[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="15_0ocyi"]
+[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="16_7nvub"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_p0qtq"]
-shader = ExtResource("7_8d4qx")
-shader_parameter/whitten = false
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_txngr"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g7rdg"]
 size = Vector2(21, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gly67"]
 size = Vector2(21, 33)
 
 [sub_resource type="Resource" id="Resource_tpeqg"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -1.5)
 disabled = false
 shape = SubResource("RectangleShape2D_gly67")
@@ -38,7 +34,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 32)
 
 [sub_resource type="Resource" id="Resource_fx1qy"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -1)
 disabled = false
 shape = SubResource("RectangleShape2D_odcbh")
@@ -48,7 +44,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 29)
 
 [sub_resource type="Resource" id="Resource_i0hba"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, 0.5)
 disabled = false
 shape = SubResource("RectangleShape2D_7i801")
@@ -58,7 +54,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 34)
 
 [sub_resource type="Resource" id="Resource_saqtq"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -2)
 disabled = false
 shape = SubResource("RectangleShape2D_ejgh2")
@@ -68,7 +64,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 32)
 
 [sub_resource type="Resource" id="Resource_d7fcx"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -1)
 disabled = false
 shape = SubResource("RectangleShape2D_ahsln")
@@ -78,7 +74,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 32)
 
 [sub_resource type="Resource" id="Resource_n7isg"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -1)
 disabled = false
 shape = SubResource("RectangleShape2D_g0p5s")
@@ -88,7 +84,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 33)
 
 [sub_resource type="Resource" id="Resource_0ej5h"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -1.5)
 disabled = false
 shape = SubResource("RectangleShape2D_8d40u")
@@ -98,7 +94,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 33)
 
 [sub_resource type="Resource" id="Resource_7qsxl"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -1.5)
 disabled = false
 shape = SubResource("RectangleShape2D_kdfqj")
@@ -108,7 +104,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 32)
 
 [sub_resource type="Resource" id="Resource_p5i88"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -1)
 disabled = false
 shape = SubResource("RectangleShape2D_m2pao")
@@ -118,7 +114,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 32)
 
 [sub_resource type="Resource" id="Resource_wi4ug"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -1)
 disabled = false
 shape = SubResource("RectangleShape2D_4lgik")
@@ -128,7 +124,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 32)
 
 [sub_resource type="Resource" id="Resource_hwiqr"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -1)
 disabled = false
 shape = SubResource("RectangleShape2D_d0nit")
@@ -138,7 +134,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 34)
 
 [sub_resource type="Resource" id="Resource_lcolt"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -2)
 disabled = false
 shape = SubResource("RectangleShape2D_agdw4")
@@ -148,7 +144,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 34)
 
 [sub_resource type="Resource" id="Resource_hdj0p"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -2)
 disabled = false
 shape = SubResource("RectangleShape2D_tusqt")
@@ -158,7 +154,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 36)
 
 [sub_resource type="Resource" id="Resource_5o4k1"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -3)
 disabled = false
 shape = SubResource("RectangleShape2D_u7a21")
@@ -168,7 +164,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 34)
 
 [sub_resource type="Resource" id="Resource_ineo5"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -2)
 disabled = false
 shape = SubResource("RectangleShape2D_kymbw")
@@ -178,7 +174,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 35)
 
 [sub_resource type="Resource" id="Resource_hy3ou"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -2.5)
 disabled = false
 shape = SubResource("RectangleShape2D_al2ua")
@@ -188,7 +184,7 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 36)
 
 [sub_resource type="Resource" id="Resource_77oos"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -3)
 disabled = false
 shape = SubResource("RectangleShape2D_q78my")
@@ -198,14 +194,14 @@ debug_color = Color(0, 0, 0, 1)
 size = Vector2(21, 34)
 
 [sub_resource type="Resource" id="Resource_3u5dn"]
-script = ExtResource("7_lyb22")
+script = ExtResource("15_0ocyi")
 position = Vector2(-1.5, -2)
 disabled = false
 shape = SubResource("RectangleShape2D_c8rlr")
 debug_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Resource" id="Resource_vw21c"]
-script = ExtResource("8_5udck")
+script = ExtResource("16_7nvub")
 data = {
 "crouch": [SubResource("Resource_tpeqg"), SubResource("Resource_fx1qy"), SubResource("Resource_i0hba")],
 "fall": [SubResource("Resource_saqtq"), SubResource("Resource_d7fcx")],
@@ -214,183 +210,190 @@ data = {
 "run": [SubResource("Resource_hdj0p"), SubResource("Resource_5o4k1"), SubResource("Resource_ineo5"), SubResource("Resource_hy3ou"), SubResource("Resource_77oos"), SubResource("Resource_3u5dn")]
 }
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "collision", "fire_point", "flash", "gun_fire_sound", "step_sound_player") groups=["mob", "player"]]
-script = ExtResource("1_7oy03")
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "flash", "health", "gun_fire_sound", "step_sound_player") groups=["mob"]]
+process_mode = 1
+z_index = 200
+script = ExtResource("1_g43js")
 sprite = NodePath("Sprite")
 states = NodePath("States")
-collision = NodePath("Collision")
+hurtbox = NodePath("Hurtbox")
 fire_point = NodePath("FirePoint")
 flash = NodePath("FirePoint/Flash")
+health = NodePath("Health")
 gun_fire_sound = NodePath("FirePoint/FireSound")
 step_sound_player = NodePath("StepSound")
-step_sounds = Array[AudioStream]([ExtResource("2_1bky8"), ExtResource("3_wf6c8")])
-sprite_frames = ExtResource("1_q6s2f")
+step_sounds = Array[AudioStream]([ExtResource("2_bkb81"), ExtResource("3_nxci1")])
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("5_urrmf")
+_total = 4.0
+_limit = 4.0
+_base = 4.0
 
 [node name="StepSound" type="AudioStreamPlayer" parent="."]
 volume_db = -25.0
 
 [node name="States" type="Node" parent="."]
-script = ExtResource("2_vf4cs")
+script = ExtResource("6_mjn33")
 
 [node name="Root" type="Node" parent="States"]
-script = ExtResource("3_423y7")
+script = ExtResource("7_g4652")
 initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="States/Root"]
-script = ExtResource("4_aefvf")
+script = ExtResource("8_x4m1w")
 
 [node name="To Death" type="Node" parent="States/Root/Idle"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Death")
 event = &"death"
 delay_in_seconds = "0.0"
 
 [node name="To Run" type="Node" parent="States/Root/Idle"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Run")
 event = &"run"
 delay_in_seconds = "0.0"
 
 [node name="To Crouch" type="Node" parent="States/Root/Idle"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Crouch")
 event = &"crouch"
 delay_in_seconds = "0.0"
 
 [node name="To Fall" type="Node" parent="States/Root/Idle"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Fall")
 event = &"fall"
 delay_in_seconds = "0.0"
 
 [node name="To Jump" type="Node" parent="States/Root/Idle"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Jump")
 event = &"jump"
 delay_in_seconds = "0.0"
 
 [node name="Run" type="Node" parent="States/Root"]
-script = ExtResource("4_aefvf")
+script = ExtResource("8_x4m1w")
 
 [node name="To Death" type="Node" parent="States/Root/Run"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Death")
 event = &"death"
 delay_in_seconds = "0.0"
 
 [node name="To Idle" type="Node" parent="States/Root/Run"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Idle")
 event = &"idle"
 delay_in_seconds = "0.0"
 
 [node name="To Crouch" type="Node" parent="States/Root/Run"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Crouch")
 event = &"crouch"
 delay_in_seconds = "0.0"
 
 [node name="To Fall" type="Node" parent="States/Root/Run"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Fall")
 event = &"fall"
 delay_in_seconds = "0.0"
 
 [node name="To Jump" type="Node" parent="States/Root/Run"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Jump")
 event = &"jump"
 delay_in_seconds = "0.0"
 
 [node name="Crouch" type="Node" parent="States/Root"]
-script = ExtResource("4_aefvf")
+script = ExtResource("8_x4m1w")
 
 [node name="To Idle" type="Node" parent="States/Root/Crouch"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Idle")
 event = &"idle"
 delay_in_seconds = "0.0"
 
 [node name="To Fall" type="Node" parent="States/Root/Crouch"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Fall")
 event = &"fall"
 delay_in_seconds = "0.0"
 
 [node name="To Jump" type="Node" parent="States/Root/Crouch"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Jump")
 event = &"jump"
 delay_in_seconds = "0.0"
 
 [node name="To Death" type="Node" parent="States/Root/Crouch"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Death")
 event = &"death"
 delay_in_seconds = "0.0"
 
 [node name="Jump" type="Node" parent="States/Root"]
-script = ExtResource("4_aefvf")
+script = ExtResource("8_x4m1w")
 
 [node name="To Fall" type="Node" parent="States/Root/Jump"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Fall")
 event = &"fall"
 delay_in_seconds = "0.0"
 
 [node name="To Death" type="Node" parent="States/Root/Jump"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Death")
 event = &"death"
 delay_in_seconds = "0.0"
 
 [node name="Fall" type="Node" parent="States/Root"]
-script = ExtResource("4_aefvf")
+script = ExtResource("8_x4m1w")
 
 [node name="To Idle" type="Node" parent="States/Root/Fall"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Idle")
 event = &"idle"
 delay_in_seconds = "0.0"
 
 [node name="To Death" type="Node" parent="States/Root/Fall"]
-script = ExtResource("5_bpiqr")
+script = ExtResource("9_nswew")
 to = NodePath("../../Death")
 event = &"death"
 delay_in_seconds = "0.0"
 
 [node name="Death" type="Node" parent="States/Root"]
-script = ExtResource("4_aefvf")
+script = ExtResource("8_x4m1w")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_p0qtq")
-sprite_frames = ExtResource("6_2qu1w")
-animation = &"run"
-frame = 5
+sprite_frames = ExtResource("4_l2ntd")
+animation = &"crouch"
 
 [node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
 position = Vector2(13, -2)
 gizmo_extents = 5.0
-script = ExtResource("9_tx268")
+script = ExtResource("10_p3nx8")
 sprite = NodePath("../Sprite")
 
 [node name="FireSound" type="AudioStreamPlayer" parent="FirePoint"]
-stream = ExtResource("10_h1n07")
+stream = ExtResource("11_mvlwv")
 volume_db = -20.0
 mix_target = 1
 
-[node name="Flash" parent="FirePoint" instance=ExtResource("10_4ua1c")]
+[node name="Flash" parent="FirePoint" instance=ExtResource("12_1hgo1")]
 position = Vector2(3, 0)
 
-[node name="Collision" type="CollisionShape2D" parent="."]
-visible = false
+[node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_txngr")
+shape = SubResource("RectangleShape2D_g7rdg")
+script = ExtResource("13_3jk5w")
+health = NodePath("../Health")
 
 [node name="AnimatedShape2D" type="Node" parent="." node_paths=PackedStringArray("animated_sprite", "collision_shape")]
-script = ExtResource("6_3esgo")
+script = ExtResource("14_kr387")
 animated_sprite = NodePath("../Sprite")
-collision_shape = NodePath("../Collision")
+collision_shape = NodePath("../Hurtbox")
 shape_frames = SubResource("Resource_vw21c")
 
 [connection signal="state_entered" from="States/Root/Idle" to="." method="_on_idle_state_entered"]
@@ -404,3 +407,4 @@ shape_frames = SubResource("Resource_vw21c")
 [connection signal="state_processing" from="States/Root/Jump" to="." method="_on_jump_state_processing"]
 [connection signal="state_entered" from="States/Root/Fall" to="." method="_on_fall_state_entered"]
 [connection signal="state_processing" from="States/Root/Fall" to="." method="_on_fall_state_processing"]
+[connection signal="state_entered" from="States/Root/Death" to="." method="_on_death_state_entered"]

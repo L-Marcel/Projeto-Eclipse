@@ -4,7 +4,7 @@ extends Node2D
 @export var particles : CPUParticles2D;
 @export var light : PointLight2D;
 @export var impact_sound : AudioStreamPlayer;
-var sticks : PackedScene = preload("res://effects/BulletImpactStick.tscn");
+var sticks : PackedScene = preload("res://components/effects/BulletImpactStick.tscn");
 
 func _ready():
 	impact_sound.play();

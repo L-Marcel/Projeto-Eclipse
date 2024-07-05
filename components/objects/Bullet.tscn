@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://ddwaxapj5cpuk"]
 
-[ext_resource type="Script" path="res://objects/Bullet.gd" id="1_c5ui7"]
 [ext_resource type="Texture2D" uid="uid://b8np4kd4vc271" path="res://assets/External/TeamGunner_By_SecretHideout_060519/EXTRAS/BulletStream.png" id="1_mcfq5"]
+[ext_resource type="Script" path="res://components/objects/Bullet.gd" id="1_x26no"]
 [ext_resource type="Texture2D" uid="uid://c6mr3qb1fslun" path="res://assets/External/TeamGunner_By_SecretHideout_060519/EXTRAS/SpongeBullet.png" id="2_82fjk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_38f16"]
@@ -19,9 +19,12 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [node name="Bullet" type="RigidBody2D" node_paths=PackedStringArray("stream")]
+process_mode = 1
 modulate = Color(1, 0.890562, 0, 1)
+z_index = 200
+collision_layer = 0
 gravity_scale = 0.0
-script = ExtResource("1_c5ui7")
+script = ExtResource("1_x26no")
 stream = NodePath("Stream")
 
 [node name="Stream" type="Sprite2D" parent="."]
@@ -34,7 +37,6 @@ flip_h = true
 texture = ExtResource("2_82fjk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("RectangleShape2D_38f16")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]

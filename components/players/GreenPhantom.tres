@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=32 format=3 uid="uid://chtoqhnyxv758"]
+[gd_resource type="SpriteFrames" load_steps=32 format=3 uid="uid://twfmhsoh1mla"]
 
 [ext_resource type="Texture2D" uid="uid://di3cb0vx7v2ht" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Crouch.png" id="1_qbxm3"]
 [ext_resource type="Texture2D" uid="uid://bmeoadteeyhc8" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Green/Gunner_Green_Death.png" id="2_3pm7i"]

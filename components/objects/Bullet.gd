@@ -3,7 +3,7 @@ extends RigidBody2D
 
 @export var stream : Sprite2D;
 
-var impact : PackedScene = preload("res://effects/BulletImpact.tscn");
+var impact : PackedScene = preload("res://components/effects/BulletImpact.tscn");
 
 func _ready():
 	var tween = get_tree().create_tween();
@@ -30,8 +30,15 @@ func configure_as_enemy(body : Node2D):
 func _physics_process(delta):
 	var collision = move_and_collide(linear_velocity * delta, true);
 	if collision:
+		var collider = collision.get_collider();
+		if collider.has_node("Hurtbox"):
+			var hurtbox = collider.get_node("Hurtbox");
+			damage(hurtbox);
 		var impact_instance = impact.instantiate();
 		impact_instance.global_position = collision.get_position();
 		impact_instance.rotation = collision.get_normal().angle();
 		get_parent().add_child(impact_instance);
 		queue_free();
+
+func damage(target : Hurtbox):
+	target.health.hurt(max(randi_range(2, 4), 0));

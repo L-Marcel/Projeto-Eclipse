@@ -1,0 +1,222 @@
+[gd_scene load_steps=18 format=3 uid="uid://ccvd8m4lysnax"]
+
+[ext_resource type="Script" path="res://components/players/Player.gd" id="1_3ajtj"]
+[ext_resource type="AudioStream" uid="uid://dmrh4tt4g784t" path="res://sounds/step_0.wav" id="2_1bky8"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_vf4cs"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_423y7"]
+[ext_resource type="AudioStream" uid="uid://n7csqpcckhsr" path="res://sounds/step_1.wav" id="3_wf6c8"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="4_aefvf"]
+[ext_resource type="SpriteFrames" uid="uid://b0nhovijexdwn" path="res://components/enemies/Enemy.tres" id="4_iyyir"]
+[ext_resource type="SpriteFrames" uid="uid://twfmhsoh1mla" path="res://components/players/GreenPhantom.tres" id="4_kfca6"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="5_bpiqr"]
+[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="6_3esgo"]
+[ext_resource type="Script" path="res://components/entity/Health.gd" id="6_335ax"]
+[ext_resource type="Script" path="res://scripts/FirePoint.gd" id="9_tx268"]
+[ext_resource type="PackedScene" uid="uid://detu0uglbmgdf" path="res://components/effects/Flash.tscn" id="10_4ua1c"]
+[ext_resource type="AudioStream" uid="uid://bnjpjrrd0gw1b" path="res://sounds/fire.wav" id="10_h1n07"]
+[ext_resource type="Script" path="res://components/entity/Hurtbox.gd" id="14_t8vdc"]
+[ext_resource type="Resource" uid="uid://clkypk8p2hx2j" path="res://components/entity/ShapeFrames.tres" id="16_0eqpu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lih3i"]
+size = Vector2(21, 32)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "flash", "health", "gun_fire_sound", "step_sound_player") groups=["mob", "player"]]
+process_mode = 1
+z_index = 200
+script = ExtResource("1_3ajtj")
+sprite = NodePath("Sprite")
+states = NodePath("States")
+hurtbox = NodePath("Hurtbox")
+fire_point = NodePath("FirePoint")
+flash = NodePath("FirePoint/Flash")
+health = NodePath("Health")
+gun_fire_sound = NodePath("FirePoint/FireSound")
+step_sound_player = NodePath("StepSound")
+step_sounds = Array[AudioStream]([ExtResource("2_1bky8"), ExtResource("3_wf6c8")])
+sprite_frames = ExtResource("4_kfca6")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("6_335ax")
+_total = 12.0
+_limit = 12.0
+_base = 12.0
+invencible = true
+
+[node name="StepSound" type="AudioStreamPlayer" parent="."]
+volume_db = -25.0
+
+[node name="States" type="Node" parent="."]
+script = ExtResource("2_vf4cs")
+
+[node name="Root" type="Node" parent="States"]
+script = ExtResource("3_423y7")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="States/Root"]
+script = ExtResource("4_aefvf")
+
+[node name="To Death" type="Node" parent="States/Root/Idle"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Death")
+event = &"death"
+delay_in_seconds = "0.0"
+
+[node name="To Run" type="Node" parent="States/Root/Idle"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Run")
+event = &"run"
+delay_in_seconds = "0.0"
+
+[node name="To Crouch" type="Node" parent="States/Root/Idle"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Crouch")
+event = &"crouch"
+delay_in_seconds = "0.0"
+
+[node name="To Fall" type="Node" parent="States/Root/Idle"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Fall")
+event = &"fall"
+delay_in_seconds = "0.0"
+
+[node name="To Jump" type="Node" parent="States/Root/Idle"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Jump")
+event = &"jump"
+delay_in_seconds = "0.0"
+
+[node name="Run" type="Node" parent="States/Root"]
+script = ExtResource("4_aefvf")
+
+[node name="To Death" type="Node" parent="States/Root/Run"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Death")
+event = &"death"
+delay_in_seconds = "0.0"
+
+[node name="To Idle" type="Node" parent="States/Root/Run"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Idle")
+event = &"idle"
+delay_in_seconds = "0.0"
+
+[node name="To Crouch" type="Node" parent="States/Root/Run"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Crouch")
+event = &"crouch"
+delay_in_seconds = "0.0"
+
+[node name="To Fall" type="Node" parent="States/Root/Run"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Fall")
+event = &"fall"
+delay_in_seconds = "0.0"
+
+[node name="To Jump" type="Node" parent="States/Root/Run"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Jump")
+event = &"jump"
+delay_in_seconds = "0.0"
+
+[node name="Crouch" type="Node" parent="States/Root"]
+script = ExtResource("4_aefvf")
+
+[node name="To Idle" type="Node" parent="States/Root/Crouch"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Idle")
+event = &"idle"
+delay_in_seconds = "0.0"
+
+[node name="To Fall" type="Node" parent="States/Root/Crouch"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Fall")
+event = &"fall"
+delay_in_seconds = "0.0"
+
+[node name="To Jump" type="Node" parent="States/Root/Crouch"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Jump")
+event = &"jump"
+delay_in_seconds = "0.0"
+
+[node name="To Death" type="Node" parent="States/Root/Crouch"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Death")
+event = &"death"
+delay_in_seconds = "0.0"
+
+[node name="Jump" type="Node" parent="States/Root"]
+script = ExtResource("4_aefvf")
+
+[node name="To Fall" type="Node" parent="States/Root/Jump"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Fall")
+event = &"fall"
+delay_in_seconds = "0.0"
+
+[node name="To Death" type="Node" parent="States/Root/Jump"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Death")
+event = &"death"
+delay_in_seconds = "0.0"
+
+[node name="Fall" type="Node" parent="States/Root"]
+script = ExtResource("4_aefvf")
+
+[node name="To Idle" type="Node" parent="States/Root/Fall"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Idle")
+event = &"idle"
+delay_in_seconds = "0.0"
+
+[node name="To Death" type="Node" parent="States/Root/Fall"]
+script = ExtResource("5_bpiqr")
+to = NodePath("../../Death")
+event = &"death"
+delay_in_seconds = "0.0"
+
+[node name="Death" type="Node" parent="States/Root"]
+script = ExtResource("4_aefvf")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("4_iyyir")
+animation = &"run"
+
+[node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
+position = Vector2(13, -3)
+gizmo_extents = 5.0
+script = ExtResource("9_tx268")
+sprite = NodePath("../Sprite")
+
+[node name="FireSound" type="AudioStreamPlayer" parent="FirePoint"]
+stream = ExtResource("10_h1n07")
+volume_db = -20.0
+mix_target = 1
+
+[node name="Flash" parent="FirePoint" instance=ExtResource("10_4ua1c")]
+position = Vector2(3, 0)
+
+[node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
+position = Vector2(-1.5, -1)
+shape = SubResource("RectangleShape2D_lih3i")
+script = ExtResource("14_t8vdc")
+health = NodePath("../Health")
+
+[node name="AnimatedShape2D" type="Node" parent="." node_paths=PackedStringArray("animated_sprite", "collision_shape")]
+script = ExtResource("6_3esgo")
+animated_sprite = NodePath("../Sprite")
+collision_shape = NodePath("../Hurtbox")
+shape_frames = ExtResource("16_0eqpu")
+
+[connection signal="state_entered" from="States/Root/Idle" to="." method="_on_idle_state_entered"]
+[connection signal="state_processing" from="States/Root/Idle" to="." method="_on_idle_state_processing"]
+[connection signal="state_entered" from="States/Root/Run" to="." method="_on_run_state_entered"]
+[connection signal="state_exited" from="States/Root/Run" to="." method="_on_run_state_exited"]
+[connection signal="state_processing" from="States/Root/Run" to="." method="_on_run_state_processing"]
+[connection signal="state_entered" from="States/Root/Crouch" to="." method="_on_crouch_state_entered"]
+[connection signal="state_processing" from="States/Root/Crouch" to="." method="_on_crouch_state_processing"]
+[connection signal="state_entered" from="States/Root/Jump" to="." method="_on_jump_state_entered"]
+[connection signal="state_processing" from="States/Root/Jump" to="." method="_on_jump_state_processing"]
+[connection signal="state_entered" from="States/Root/Fall" to="." method="_on_fall_state_entered"]
+[connection signal="state_processing" from="States/Root/Fall" to="." method="_on_fall_state_processing"]
+[connection signal="state_entered" from="States/Root/Death" to="." method="_on_death_state_entered"]

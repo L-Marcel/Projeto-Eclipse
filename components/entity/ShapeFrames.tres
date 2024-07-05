@@ -1,0 +1,275 @@
+[gd_resource type="Resource" script_class="ShapeFrames2D" load_steps=55 format=3 uid="uid://clkypk8p2hx2j"]
+
+[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="1_x282y"]
+[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="2_fvxbo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gly67"]
+size = Vector2(21, 33)
+
+[sub_resource type="Resource" id="Resource_tpeqg"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -1.5)
+disabled = false
+shape = SubResource("RectangleShape2D_gly67")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_odcbh"]
+size = Vector2(21, 32)
+
+[sub_resource type="Resource" id="Resource_fx1qy"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -1)
+disabled = false
+shape = SubResource("RectangleShape2D_odcbh")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7i801"]
+size = Vector2(21, 29)
+
+[sub_resource type="Resource" id="Resource_i0hba"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, 0.5)
+disabled = false
+shape = SubResource("RectangleShape2D_7i801")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejgh2"]
+size = Vector2(21, 34)
+
+[sub_resource type="Resource" id="Resource_saqtq"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -2)
+disabled = false
+shape = SubResource("RectangleShape2D_ejgh2")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ahsln"]
+size = Vector2(21, 32)
+
+[sub_resource type="Resource" id="Resource_d7fcx"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -1)
+disabled = false
+shape = SubResource("RectangleShape2D_ahsln")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g0p5s"]
+size = Vector2(21, 32)
+
+[sub_resource type="Resource" id="Resource_n7isg"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -1)
+disabled = false
+shape = SubResource("RectangleShape2D_g0p5s")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8d40u"]
+size = Vector2(21, 33)
+
+[sub_resource type="Resource" id="Resource_0ej5h"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -1.5)
+disabled = false
+shape = SubResource("RectangleShape2D_8d40u")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kdfqj"]
+size = Vector2(21, 33)
+
+[sub_resource type="Resource" id="Resource_7qsxl"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -1.5)
+disabled = false
+shape = SubResource("RectangleShape2D_kdfqj")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m2pao"]
+size = Vector2(21, 32)
+
+[sub_resource type="Resource" id="Resource_p5i88"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -1)
+disabled = false
+shape = SubResource("RectangleShape2D_m2pao")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4lgik"]
+size = Vector2(21, 32)
+
+[sub_resource type="Resource" id="Resource_wi4ug"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -1)
+disabled = false
+shape = SubResource("RectangleShape2D_4lgik")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d0nit"]
+size = Vector2(21, 32)
+
+[sub_resource type="Resource" id="Resource_hwiqr"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -1)
+disabled = false
+shape = SubResource("RectangleShape2D_d0nit")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_agdw4"]
+size = Vector2(21, 34)
+
+[sub_resource type="Resource" id="Resource_lcolt"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -2)
+disabled = false
+shape = SubResource("RectangleShape2D_agdw4")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tusqt"]
+size = Vector2(21, 34)
+
+[sub_resource type="Resource" id="Resource_hdj0p"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -2)
+disabled = false
+shape = SubResource("RectangleShape2D_tusqt")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u7a21"]
+size = Vector2(21, 36)
+
+[sub_resource type="Resource" id="Resource_5o4k1"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -3)
+disabled = false
+shape = SubResource("RectangleShape2D_u7a21")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kymbw"]
+size = Vector2(21, 34)
+
+[sub_resource type="Resource" id="Resource_ineo5"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -2)
+disabled = false
+shape = SubResource("RectangleShape2D_kymbw")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_al2ua"]
+size = Vector2(21, 35)
+
+[sub_resource type="Resource" id="Resource_hy3ou"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -2.5)
+disabled = false
+shape = SubResource("RectangleShape2D_al2ua")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q78my"]
+size = Vector2(21, 36)
+
+[sub_resource type="Resource" id="Resource_77oos"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -3)
+disabled = false
+shape = SubResource("RectangleShape2D_q78my")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c8rlr"]
+size = Vector2(21, 34)
+
+[sub_resource type="Resource" id="Resource_3u5dn"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -2)
+disabled = false
+shape = SubResource("RectangleShape2D_c8rlr")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jaap4"]
+size = Vector2(21, 32)
+
+[sub_resource type="Resource" id="Resource_be50m"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, -1)
+disabled = false
+shape = SubResource("RectangleShape2D_jaap4")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_38if6"]
+size = Vector2(19, 30)
+
+[sub_resource type="Resource" id="Resource_q8enm"]
+script = ExtResource("1_x282y")
+position = Vector2(-0.5, 0)
+disabled = false
+shape = SubResource("RectangleShape2D_38if6")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t8iyb"]
+size = Vector2(18, 27)
+
+[sub_resource type="Resource" id="Resource_ht6sk"]
+script = ExtResource("1_x282y")
+position = Vector2(0, 1.5)
+disabled = false
+shape = SubResource("RectangleShape2D_t8iyb")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_swbc8"]
+size = Vector2(21, 17.5)
+
+[sub_resource type="Resource" id="Resource_hrcyh"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, 6.75)
+disabled = false
+shape = SubResource("RectangleShape2D_swbc8")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vnyap"]
+size = Vector2(21, 17)
+
+[sub_resource type="Resource" id="Resource_gijud"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, 6.5)
+disabled = false
+shape = SubResource("RectangleShape2D_vnyap")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mlmkr"]
+size = Vector2(21, 11)
+
+[sub_resource type="Resource" id="Resource_klfeb"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, 9.5)
+disabled = false
+shape = SubResource("RectangleShape2D_mlmkr")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ov2fj"]
+size = Vector2(21, 12)
+
+[sub_resource type="Resource" id="Resource_2jh4o"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, 9)
+disabled = false
+shape = SubResource("RectangleShape2D_ov2fj")
+debug_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f0m8q"]
+size = Vector2(21, 11)
+
+[sub_resource type="Resource" id="Resource_l33hh"]
+script = ExtResource("1_x282y")
+position = Vector2(-1.5, 9.5)
+disabled = false
+shape = SubResource("RectangleShape2D_f0m8q")
+debug_color = Color(0, 0, 0, 1)
+
+[resource]
+script = ExtResource("2_fvxbo")
+data = {
+"crouch": [SubResource("Resource_tpeqg"), SubResource("Resource_fx1qy"), SubResource("Resource_i0hba")],
+"death": [SubResource("Resource_be50m"), SubResource("Resource_q8enm"), SubResource("Resource_ht6sk"), SubResource("Resource_hrcyh"), SubResource("Resource_gijud"), SubResource("Resource_klfeb"), SubResource("Resource_2jh4o"), SubResource("Resource_l33hh")],
+"fall": [SubResource("Resource_saqtq"), SubResource("Resource_d7fcx")],
+"idle": [SubResource("Resource_n7isg"), SubResource("Resource_0ej5h"), SubResource("Resource_7qsxl"), SubResource("Resource_p5i88"), SubResource("Resource_wi4ug")],
+"jump": [SubResource("Resource_hwiqr"), SubResource("Resource_lcolt")],
+"run": [SubResource("Resource_hdj0p"), SubResource("Resource_5o4k1"), SubResource("Resource_ineo5"), SubResource("Resource_hy3ou"), SubResource("Resource_77oos"), SubResource("Resource_3u5dn")]
+}

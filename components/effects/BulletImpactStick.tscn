@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dlgcdbqaf8eeg"]
 
-[ext_resource type="Script" path="res://effects/BulletImpactStick.gd" id="1_t1npm"]
+[ext_resource type="Script" path="res://components/effects/BulletImpactStick.gd" id="1_4adee"]
 
 [sub_resource type="Gradient" id="Gradient_3nywo"]
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
@@ -25,7 +25,7 @@ collision_layer = 0
 collision_mask = 0
 mass = 0.1
 gravity_scale = 0.0
-script = ExtResource("1_t1npm")
+script = ExtResource("1_4adee")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(1, 0.521737, 0, 1)
