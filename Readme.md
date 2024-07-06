@@ -1,8 +1,8 @@
-# TODOS
+# TODOs
 
-- Enemies movement;
-- Ammunitions;
+- Kits de vida;
+- Munições;
+- Kits de munições;
 - Hud;
-- Green Phantom knockouts;
-- Ammunition kits;
-- Medical kits.
+- Nocaute do Green Phantom;
+- Movimento dos inimigos.
