@@ -5,15 +5,20 @@ extends Node
 @export var _total : float = 100;
 @export var _limit : float = 100;
 @export var _base : float = 100;
-@export var invencible : bool = false;
+@export var _invencible : bool = false;
+			
+@export var _invencible_duration : float = 1.0;
 
 signal death;
 signal changed(value : float, limit : float, base : float);
 signal damaged;
+signal invencibility_tick;
+signal invencibility_finished;
 
 func hurt(amount : float):
-	if invencible:
+	if _invencible || amount <= 0:
 		return;
+	apply_invencibility();
 	damaged.emit();
 	var limit : float = get_limit();
 	_total = clamp(_total - amount, 0, limit);
@@ -34,3 +39,13 @@ func get_limit():
 	return max(_limit, 0);
 func is_dead():
 	return get_total() <= 0;
+
+func apply_invencibility():
+	_invencible = true;
+	var amount : float = 0.0;
+	while amount < _invencible_duration:
+		invencibility_tick.emit();
+		await get_tree().create_timer(0.125).timeout;
+		amount += 0.125;
+	invencibility_finished.emit();
+	_invencible = false;

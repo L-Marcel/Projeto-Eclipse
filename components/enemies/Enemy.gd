@@ -10,10 +10,12 @@ extends CharacterBody2D
 @export var gun_fire_sound : AudioStreamPlayer;
 @export var step_sound_player : AudioStreamPlayer;
 @export var step_sounds : Array[AudioStream] = [];
+@export var firing : bool = false;
+
 var step_frame : int = 0;
 
-var bullet : PackedScene = preload("res://components/objects/Bullet.tscn");
-var furtive : bool = false;
+var soundwave : PackedScene = Scenes.get_resource("Soundwave");
+var bullet : PackedScene = Scenes.get_resource("Bullet");
 
 const SPEED = 300.0;
 const JUMP_VELOCITY = -400.0;
@@ -35,9 +37,16 @@ func _ready():
 	Mobs.registry(self);
 	hurtbox.shape = hurtbox.shape.duplicate();
 
+#region Control
+func alert(_danger : int, origin : Vector2):
+	flip(origin.x - global_position.x < 0);
+
 func fire(precision : float = randf_range(0.0, 1.0)):
-	if can_fire:
+	if can_fire && firing:
 		flash.on = true;
+		var soundwave_instance = soundwave.instantiate() as Soundwave;
+		soundwave_instance.global_position = fire_point.global_position;
+		get_parent().add_child(soundwave_instance);
 		var bullet_instance = bullet.instantiate() as Bullet;
 		bullet_instance.configure_as_enemy(self);
 		var angle_diff = randf_range(-10, 10) * (1.0 - precision);
@@ -48,10 +57,14 @@ func fire(precision : float = randf_range(0.0, 1.0)):
 			bullet_instance.rotation_degrees = angle_diff;
 			bullet_instance.global_position = fire_point.global_position;
 		bullet_instance.linear_velocity = Vector2.from_angle(bullet_instance.rotation) * 800;
+		soundwave_instance.set_danger(2);
+		soundwave_instance.play(
+			32.0,
+			124.0
+		);
 		gun_fire_sound.play();
 		get_parent().add_child(bullet_instance);
 		can_fire = false;
-
 func flip(yes : bool):
 	if yes:
 		scale.y = -abs(scale.y);
@@ -61,7 +74,6 @@ func flip(yes : bool):
 		scale.y = abs(scale.y);
 		rotation_degrees = 0;
 		flipped = false;
-
 func step():
 	if sprite.animation == "run" && step_sounds.size() > 0 && step_frame != sprite.frame && (sprite.frame == 2 || sprite.frame == 5):
 		step_sound_player.stream = step_sounds[randi() % step_sounds.size()];
@@ -86,11 +98,19 @@ func crouch():
 func death():
 	if health.is_dead():
 		states.send_event("death");
+func blink():
+	if sprite.material is ShaderMaterial:
+		sprite.material.set_shader_parameter("whitten", !sprite.material.get_shader_parameter("whitten"));
+func stop_blink():
+	if sprite.material is ShaderMaterial:
+		sprite.material.set_shader_parameter("whitten", false);
+#endregion
 
 func _physics_process(delta):
 	apply_gravity(delta);
 	move_and_slide();
 
+#region Entered
 func _on_idle_state_entered():
 	sprite.play("idle");
 func _on_run_state_entered():
@@ -104,7 +124,8 @@ func _on_crouch_state_entered():
 func _on_death_state_entered():
 	sprite.play("death");
 	set_collision_layer_value(1, false);
-
+#endregion
+#region Processing
 func _on_idle_state_processing(_delta):
 	death();
 	fire(0.75);
@@ -143,6 +164,21 @@ func _on_crouch_state_processing(delta):
 		states.send_event("fall");
 	#elif !Input.is_action_pressed(key_down):
 		#states.send_event("idle");
-
+#endregion
+#region Exited
 func _on_run_state_exited():
 	step_frame = -1;
+#endregion
+
+#region Others
+func _on_view_body_entered(body):
+	if body is Player:
+		firing = true;
+func _on_view_body_exited(body):
+	if body is Player:
+		firing = false;
+func _on_health_invencibility_tick():
+	blink();
+func _on_health_invencibility_finished():
+	stop_blink();
+#endregion

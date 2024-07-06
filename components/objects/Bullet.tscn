@@ -34,14 +34,15 @@ texture = ExtResource("1_mcfq5")
 flip_h = true
 
 [node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(1, 0.419638, 0, 1)
 texture = ExtResource("2_82fjk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_38f16")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 show_behind_parent = true
 position = Vector2(-1, 0)
-color = Color(1, 0.890562, 0, 1)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_ha3oa")

@@ -9,6 +9,7 @@ var _get_position : Callable = func(): return Vector2.ZERO;
 func _ready():
 	sprite.frame_changed.connect(on_sprite_frame_changed);
 	sprite.animation_changed.connect(update_position);
+	update_position();
 func on_sprite_frame_changed():
 	position = _get_position.call();
 

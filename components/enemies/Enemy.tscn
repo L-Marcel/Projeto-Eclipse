@@ -1,6 +1,7 @@
-[gd_scene load_steps=55 format=3 uid="uid://cgxiblhs26fbj"]
+[gd_scene load_steps=57 format=3 uid="uid://cgxiblhs26fbj"]
 
 [ext_resource type="Script" path="res://components/enemies/Enemy.gd" id="1_g43js"]
+[ext_resource type="Material" uid="uid://cb1i58ksue7bq" path="res://scripts/shader/Mob.tres" id="1_ooojd"]
 [ext_resource type="AudioStream" uid="uid://dmrh4tt4g784t" path="res://sounds/step_0.wav" id="2_bkb81"]
 [ext_resource type="AudioStream" uid="uid://n7csqpcckhsr" path="res://sounds/step_1.wav" id="3_nxci1"]
 [ext_resource type="SpriteFrames" uid="uid://b0nhovijexdwn" path="res://components/enemies/Enemy.tres" id="4_l2ntd"]
@@ -12,12 +13,13 @@
 [ext_resource type="Script" path="res://scripts/FirePoint.gd" id="10_p3nx8"]
 [ext_resource type="AudioStream" uid="uid://bnjpjrrd0gw1b" path="res://sounds/fire.wav" id="11_mvlwv"]
 [ext_resource type="PackedScene" uid="uid://detu0uglbmgdf" path="res://components/effects/Flash.tscn" id="12_1hgo1"]
+[ext_resource type="Texture2D" uid="uid://bcpbs1hdf5o6n" path="res://assets/lamp.png" id="12_jbk6j"]
 [ext_resource type="Script" path="res://components/entity/Hurtbox.gd" id="13_3jk5w"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="14_kr387"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="15_0ocyi"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="16_7nvub"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_g7rdg"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x47dy"]
 size = Vector2(21, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gly67"]
@@ -226,9 +228,10 @@ step_sounds = Array[AudioStream]([ExtResource("2_bkb81"), ExtResource("3_nxci1")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("5_urrmf")
-_total = 4.0
-_limit = 4.0
-_base = 4.0
+_total = 8.0
+_limit = 8.0
+_base = 8.0
+_invencible_duration = 0.25
 
 [node name="StepSound" type="AudioStreamPlayer" parent="."]
 volume_db = -25.0
@@ -367,8 +370,9 @@ delay_in_seconds = "0.0"
 script = ExtResource("8_x4m1w")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = ExtResource("1_ooojd")
 sprite_frames = ExtResource("4_l2ntd")
-animation = &"crouch"
+animation = &"idle"
 
 [node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
 position = Vector2(13, -2)
@@ -376,17 +380,27 @@ gizmo_extents = 5.0
 script = ExtResource("10_p3nx8")
 sprite = NodePath("../Sprite")
 
+[node name="Light" type="PointLight2D" parent="FirePoint"]
+texture = ExtResource("12_jbk6j")
+offset = Vector2(48, -2.25)
+
+[node name="View" type="Area2D" parent="FirePoint"]
+
+[node name="Collision" type="CollisionPolygon2D" parent="FirePoint/View"]
+polygon = PackedVector2Array(0, 1, 0, -2, -8, -2, -8, -8, 33, -15, 33, -9, 88, -19, 100, -19, 100, 17, 88, 17)
+
 [node name="FireSound" type="AudioStreamPlayer" parent="FirePoint"]
 stream = ExtResource("11_mvlwv")
 volume_db = -20.0
 mix_target = 1
 
 [node name="Flash" parent="FirePoint" instance=ExtResource("12_1hgo1")]
+visible = false
 position = Vector2(3, 0)
 
 [node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_g7rdg")
+shape = SubResource("RectangleShape2D_x47dy")
 script = ExtResource("13_3jk5w")
 health = NodePath("../Health")
 
@@ -396,6 +410,8 @@ animated_sprite = NodePath("../Sprite")
 collision_shape = NodePath("../Hurtbox")
 shape_frames = SubResource("Resource_vw21c")
 
+[connection signal="invencibility_finished" from="Health" to="." method="_on_health_invencibility_finished"]
+[connection signal="invencibility_tick" from="Health" to="." method="_on_health_invencibility_tick"]
 [connection signal="state_entered" from="States/Root/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_processing" from="States/Root/Idle" to="." method="_on_idle_state_processing"]
 [connection signal="state_entered" from="States/Root/Run" to="." method="_on_run_state_entered"]
@@ -408,3 +424,5 @@ shape_frames = SubResource("Resource_vw21c")
 [connection signal="state_entered" from="States/Root/Fall" to="." method="_on_fall_state_entered"]
 [connection signal="state_processing" from="States/Root/Fall" to="." method="_on_fall_state_processing"]
 [connection signal="state_entered" from="States/Root/Death" to="." method="_on_death_state_entered"]
+[connection signal="body_entered" from="FirePoint/View" to="." method="_on_view_body_entered"]
+[connection signal="body_exited" from="FirePoint/View" to="." method="_on_view_body_exited"]

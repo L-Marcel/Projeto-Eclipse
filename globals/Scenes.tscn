@@ -1,0 +1,10 @@
+[gd_scene load_steps=6 format=3 uid="uid://bvnw2i6qmtpes"]
+
+[ext_resource type="PackedScene" uid="uid://c2tspkpbskfs2" path="res://components/effects/BulletImpact.tscn" id="1_5lkw1"]
+[ext_resource type="PackedScene" uid="uid://ddwaxapj5cpuk" path="res://components/objects/Bullet.tscn" id="1_h2u62"]
+[ext_resource type="PackedScene" uid="uid://dlgcdbqaf8eeg" path="res://components/effects/BulletImpactStick.tscn" id="2_b7pir"]
+[ext_resource type="PackedScene" uid="uid://detu0uglbmgdf" path="res://components/effects/Flash.tscn" id="3_xleed"]
+[ext_resource type="PackedScene" uid="uid://quur3t85wtn5" path="res://components/effects/Soundwave.tscn" id="4_mlifc"]
+
+[node name="Scenes" type="ResourcePreloader"]
+resources = [PackedStringArray("Bullet", "BulletImpact", "BulletImpactStick", "Flash", "Soundwave"), [ExtResource("1_h2u62"), ExtResource("1_5lkw1"), ExtResource("2_b7pir"), ExtResource("3_xleed"), ExtResource("4_mlifc")]]

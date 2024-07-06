@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://ccvd8m4lysnax"]
+[gd_scene load_steps=19 format=3 uid="uid://ccvd8m4lysnax"]
 
 [ext_resource type="Script" path="res://components/players/Player.gd" id="1_3ajtj"]
+[ext_resource type="Material" uid="uid://cb1i58ksue7bq" path="res://scripts/shader/Mob.tres" id="1_etfwo"]
 [ext_resource type="AudioStream" uid="uid://dmrh4tt4g784t" path="res://sounds/step_0.wav" id="2_1bky8"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_vf4cs"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="3_423y7"]
@@ -17,10 +18,10 @@
 [ext_resource type="Script" path="res://components/entity/Hurtbox.gd" id="14_t8vdc"]
 [ext_resource type="Resource" uid="uid://clkypk8p2hx2j" path="res://components/entity/ShapeFrames.tres" id="16_0eqpu"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lih3i"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7h7ss"]
 size = Vector2(21, 32)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "flash", "health", "gun_fire_sound", "step_sound_player") groups=["mob", "player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "step_point", "flash", "health", "gun_fire_sound", "step_sound_player") groups=["mob", "player"]]
 process_mode = 1
 z_index = 200
 script = ExtResource("1_3ajtj")
@@ -28,6 +29,7 @@ sprite = NodePath("Sprite")
 states = NodePath("States")
 hurtbox = NodePath("Hurtbox")
 fire_point = NodePath("FirePoint")
+step_point = NodePath("StepPoint")
 flash = NodePath("FirePoint/Flash")
 health = NodePath("Health")
 gun_fire_sound = NodePath("FirePoint/FireSound")
@@ -37,10 +39,10 @@ sprite_frames = ExtResource("4_kfca6")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("6_335ax")
-_total = 12.0
-_limit = 12.0
-_base = 12.0
-invencible = true
+_total = 24.0
+_limit = 24.0
+_base = 24.0
+_invencible_duration = 0.5
 
 [node name="StepSound" type="AudioStreamPlayer" parent="."]
 volume_db = -25.0
@@ -179,11 +181,16 @@ delay_in_seconds = "0.0"
 script = ExtResource("4_aefvf")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = ExtResource("1_etfwo")
 sprite_frames = ExtResource("4_iyyir")
 animation = &"run"
+frame = 5
+
+[node name="StepPoint" type="Marker2D" parent="."]
+position = Vector2(2.5, 15)
 
 [node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
-position = Vector2(13, -3)
+position = Vector2(13, -2)
 gizmo_extents = 5.0
 script = ExtResource("9_tx268")
 sprite = NodePath("../Sprite")
@@ -198,7 +205,7 @@ position = Vector2(3, 0)
 
 [node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_lih3i")
+shape = SubResource("RectangleShape2D_7h7ss")
 script = ExtResource("14_t8vdc")
 health = NodePath("../Health")
 
@@ -208,6 +215,8 @@ animated_sprite = NodePath("../Sprite")
 collision_shape = NodePath("../Hurtbox")
 shape_frames = ExtResource("16_0eqpu")
 
+[connection signal="invencibility_finished" from="Health" to="." method="_on_health_invencibility_finished"]
+[connection signal="invencibility_tick" from="Health" to="." method="_on_health_invencibility_tick"]
 [connection signal="state_entered" from="States/Root/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_processing" from="States/Root/Idle" to="." method="_on_idle_state_processing"]
 [connection signal="state_entered" from="States/Root/Run" to="." method="_on_run_state_entered"]
@@ -218,5 +227,6 @@ shape_frames = ExtResource("16_0eqpu")
 [connection signal="state_entered" from="States/Root/Jump" to="." method="_on_jump_state_entered"]
 [connection signal="state_processing" from="States/Root/Jump" to="." method="_on_jump_state_processing"]
 [connection signal="state_entered" from="States/Root/Fall" to="." method="_on_fall_state_entered"]
+[connection signal="state_exited" from="States/Root/Fall" to="." method="_on_fall_state_exited"]
 [connection signal="state_processing" from="States/Root/Fall" to="." method="_on_fall_state_processing"]
 [connection signal="state_entered" from="States/Root/Death" to="." method="_on_death_state_entered"]

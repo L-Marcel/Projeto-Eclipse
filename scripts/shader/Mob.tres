@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cb1i58ksue7bq"]
+
+[ext_resource type="Shader" path="res://scripts/shader/Mob.gdshader" id="1_cl07k"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_cl07k")
+shader_parameter/whitten = false

@@ -3,7 +3,8 @@ extends RigidBody2D
 
 @export var stream : Sprite2D;
 
-var impact : PackedScene = preload("res://components/effects/BulletImpact.tscn");
+var soundwave : PackedScene = Scenes.get_resource("Soundwave");
+var impact : PackedScene = Scenes.get_resource("BulletImpact");
 
 func _ready():
 	var tween = get_tree().create_tween();
@@ -34,10 +35,18 @@ func _physics_process(delta):
 		if collider.has_node("Hurtbox"):
 			var hurtbox = collider.get_node("Hurtbox");
 			damage(hurtbox);
-		var impact_instance = impact.instantiate();
+		var soundwave_instance = soundwave.instantiate() as Soundwave;
+		soundwave_instance.global_position = collision.get_position();
+		get_parent().add_child(soundwave_instance);
+		var impact_instance = impact.instantiate() as BulletImpact;
 		impact_instance.global_position = collision.get_position();
 		impact_instance.rotation = collision.get_normal().angle();
 		get_parent().add_child(impact_instance);
+		soundwave_instance.set_danger(1);
+		soundwave_instance.play(
+			16.0,
+			48.0
+		);
 		queue_free();
 
 func damage(target : Hurtbox):
