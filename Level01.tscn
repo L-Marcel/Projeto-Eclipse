@@ -444,6 +444,9 @@ ease = 2
 
 [node name="Level 01" type="Node2D"]
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.2, 0.352941, 0.352941, 1)
+
 [node name="World" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_8xcus")
 

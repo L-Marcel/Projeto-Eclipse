@@ -20,7 +20,7 @@
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="15_0ocyi"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="16_7nvub"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_iofjg"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1vm5v"]
 size = Vector2(21, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gly67"]
@@ -374,17 +374,22 @@ script = ExtResource("8_x4m1w")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = ExtResource("1_ooojd")
 sprite_frames = ExtResource("4_l2ntd")
-animation = &"idle"
+animation = &"death"
+frame = 7
+frame_progress = 1.0
 
 [node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
-position = Vector2(13, -2)
+position = Vector2(10, 13)
 gizmo_extents = 5.0
 script = ExtResource("10_p3nx8")
 sprite = NodePath("../Sprite")
 
 [node name="Light" type="PointLight2D" parent="FirePoint"]
+shadow_enabled = true
+shadow_filter = 1
 texture = ExtResource("12_jbk6j")
-offset = Vector2(48, -2.5)
+offset = Vector2(124, -0.5)
+texture_scale = 0.2
 
 [node name="View" parent="FirePoint" instance=ExtResource("13_awpf0")]
 position = Vector2(0, -0.5)
@@ -400,7 +405,7 @@ position = Vector2(3, 0)
 
 [node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_iofjg")
+shape = SubResource("RectangleShape2D_1vm5v")
 script = ExtResource("13_3jk5w")
 health = NodePath("../Health")
 
