@@ -5,13 +5,12 @@ extends CharacterBody2D
 @export var states : StateChart;
 @export var hurtbox : Hurtbox;
 @export var fire_point : FirePoint;
+@export var view : View;
 @export var flash : Flash;
 @export var health : Health;
 @export var gun_fire_sound : AudioStreamPlayer;
 @export var step_sound_player : AudioStreamPlayer;
 @export var step_sounds : Array[AudioStream] = [];
-@export var firing : bool = false;
-
 var step_frame : int = 0;
 
 var soundwave : PackedScene = Scenes.get_resource("Soundwave");
@@ -42,7 +41,7 @@ func alert(_danger : int, origin : Vector2):
 	flip(origin.x - global_position.x < 0);
 
 func fire(precision : float = randf_range(0.0, 1.0)):
-	if can_fire && firing:
+	if can_fire && view.is_danger():
 		flash.on = true;
 		var soundwave_instance = soundwave.instantiate() as Soundwave;
 		soundwave_instance.global_position = fire_point.global_position;
@@ -164,6 +163,9 @@ func _on_crouch_state_processing(delta):
 		states.send_event("fall");
 	#elif !Input.is_action_pressed(key_down):
 		#states.send_event("idle");
+func _on_death_state_processing(delta):
+	if is_on_floor():
+		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2);
 #endregion
 #region Exited
 func _on_run_state_exited():
@@ -171,12 +173,6 @@ func _on_run_state_exited():
 #endregion
 
 #region Others
-func _on_view_body_entered(body):
-	if body is Player:
-		firing = true;
-func _on_view_body_exited(body):
-	if body is Player:
-		firing = false;
 func _on_health_invencibility_tick():
 	blink();
 func _on_health_invencibility_finished():

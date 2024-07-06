@@ -1,10 +1,10 @@
 [gd_resource type="SpriteFrames" load_steps=32 format=3 uid="uid://cnii5njwndp1x"]
 
-[ext_resource type="Texture2D" uid="uid://uetg8qmvh2ga" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Red/Gunner_Red_Crouch.png" id="1_pg20e"]
-[ext_resource type="Texture2D" uid="uid://ch2x5jiqakjn3" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Red/Gunner_Red_Death.png" id="2_dbbkn"]
-[ext_resource type="Texture2D" uid="uid://dj31y3jnxu75g" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Red/Gunner_Red_Jump.png" id="3_s0l6l"]
-[ext_resource type="Texture2D" uid="uid://6q2tu8x63067" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Red/Gunner_Red_Idle.png" id="4_vkskl"]
-[ext_resource type="Texture2D" uid="uid://b01yhw0uawlbo" path="res://assets/External/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Red/Gunner_Red_Run.png" id="5_mydsw"]
+[ext_resource type="Texture2D" uid="uid://uetg8qmvh2ga" path="res://assets/external/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Red/Gunner_Red_Crouch.png" id="1_pg20e"]
+[ext_resource type="Texture2D" uid="uid://ch2x5jiqakjn3" path="res://assets/external/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Red/Gunner_Red_Death.png" id="2_dbbkn"]
+[ext_resource type="Texture2D" uid="uid://dj31y3jnxu75g" path="res://assets/external/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Red/Gunner_Red_Jump.png" id="3_s0l6l"]
+[ext_resource type="Texture2D" uid="uid://6q2tu8x63067" path="res://assets/external/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Red/Gunner_Red_Idle.png" id="4_vkskl"]
+[ext_resource type="Texture2D" uid="uid://b01yhw0uawlbo" path="res://assets/external/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Red/Gunner_Red_Run.png" id="5_mydsw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_luddy"]
 atlas = ExtResource("1_pg20e")

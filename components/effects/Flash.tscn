@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://detu0uglbmgdf"]
 
 [ext_resource type="Script" path="res://components/effects/Flash.gd" id="1_18qgm"]
-[ext_resource type="Texture2D" uid="uid://b5y1i3vdtt68w" path="res://assets/External/TeamGunner_By_SecretHideout_060519/EXTRAS/MuzzleFlash.png" id="1_78fhr"]
+[ext_resource type="Texture2D" uid="uid://b5y1i3vdtt68w" path="res://assets/external/TeamGunner_By_SecretHideout_060519/EXTRAS/MuzzleFlash.png" id="1_78fhr"]
 
 [sub_resource type="Gradient" id="Gradient_ea5b7"]
 offsets = PackedFloat32Array(0, 0.275862, 0.768025)

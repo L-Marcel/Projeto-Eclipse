@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://cgxiblhs26fbj"]
+[gd_scene load_steps=58 format=3 uid="uid://cgxiblhs26fbj"]
 
 [ext_resource type="Script" path="res://components/enemies/Enemy.gd" id="1_g43js"]
 [ext_resource type="Material" uid="uid://cb1i58ksue7bq" path="res://scripts/shader/Mob.tres" id="1_ooojd"]
@@ -15,11 +15,12 @@
 [ext_resource type="PackedScene" uid="uid://detu0uglbmgdf" path="res://components/effects/Flash.tscn" id="12_1hgo1"]
 [ext_resource type="Texture2D" uid="uid://bcpbs1hdf5o6n" path="res://assets/lamp.png" id="12_jbk6j"]
 [ext_resource type="Script" path="res://components/entity/Hurtbox.gd" id="13_3jk5w"]
+[ext_resource type="PackedScene" uid="uid://rk0chw0wq3jb" path="res://components/enemies/View.tscn" id="13_awpf0"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="14_kr387"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="15_0ocyi"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="16_7nvub"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x47dy"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iofjg"]
 size = Vector2(21, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gly67"]
@@ -212,7 +213,7 @@ data = {
 "run": [SubResource("Resource_hdj0p"), SubResource("Resource_5o4k1"), SubResource("Resource_ineo5"), SubResource("Resource_hy3ou"), SubResource("Resource_77oos"), SubResource("Resource_3u5dn")]
 }
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "flash", "health", "gun_fire_sound", "step_sound_player") groups=["mob"]]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "view", "flash", "health", "gun_fire_sound", "step_sound_player") groups=["mob"]]
 process_mode = 1
 z_index = 200
 script = ExtResource("1_g43js")
@@ -220,6 +221,7 @@ sprite = NodePath("Sprite")
 states = NodePath("States")
 hurtbox = NodePath("Hurtbox")
 fire_point = NodePath("FirePoint")
+view = NodePath("FirePoint/View")
 flash = NodePath("FirePoint/Flash")
 health = NodePath("Health")
 gun_fire_sound = NodePath("FirePoint/FireSound")
@@ -382,12 +384,10 @@ sprite = NodePath("../Sprite")
 
 [node name="Light" type="PointLight2D" parent="FirePoint"]
 texture = ExtResource("12_jbk6j")
-offset = Vector2(48, -2.25)
+offset = Vector2(48, -2.5)
 
-[node name="View" type="Area2D" parent="FirePoint"]
-
-[node name="Collision" type="CollisionPolygon2D" parent="FirePoint/View"]
-polygon = PackedVector2Array(0, 1, 0, -2, -8, -2, -8, -8, 33, -15, 33, -9, 88, -19, 100, -19, 100, 17, 88, 17)
+[node name="View" parent="FirePoint" instance=ExtResource("13_awpf0")]
+position = Vector2(0, -0.5)
 
 [node name="FireSound" type="AudioStreamPlayer" parent="FirePoint"]
 stream = ExtResource("11_mvlwv")
@@ -400,7 +400,7 @@ position = Vector2(3, 0)
 
 [node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_x47dy")
+shape = SubResource("RectangleShape2D_iofjg")
 script = ExtResource("13_3jk5w")
 health = NodePath("../Health")
 
@@ -424,5 +424,4 @@ shape_frames = SubResource("Resource_vw21c")
 [connection signal="state_entered" from="States/Root/Fall" to="." method="_on_fall_state_entered"]
 [connection signal="state_processing" from="States/Root/Fall" to="." method="_on_fall_state_processing"]
 [connection signal="state_entered" from="States/Root/Death" to="." method="_on_death_state_entered"]
-[connection signal="body_entered" from="FirePoint/View" to="." method="_on_view_body_entered"]
-[connection signal="body_exited" from="FirePoint/View" to="." method="_on_view_body_exited"]
+[connection signal="state_processing" from="States/Root/Death" to="." method="_on_death_state_processing"]

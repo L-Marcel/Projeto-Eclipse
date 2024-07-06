@@ -1,0 +1,79 @@
+[gd_scene load_steps=3 format=3 uid="uid://rk0chw0wq3jb"]
+
+[ext_resource type="Script" path="res://components/enemies/View.gd" id="1_doenp"]
+[ext_resource type="Script" path="res://components/enemies/ViewRaycast.gd" id="2_wpob1"]
+
+[node name="View" type="Node2D"]
+script = ExtResource("1_doenp")
+
+[node name="S0" type="RayCast2D" parent="."]
+target_position = Vector2(124, -10.5)
+collision_mask = 2
+script = ExtResource("2_wpob1")
+
+[node name="S1" type="RayCast2D" parent="."]
+target_position = Vector2(124, 10.5)
+collision_mask = 2
+script = ExtResource("2_wpob1")
+
+[node name="R0" type="RayCast2D" parent="."]
+modulate = Color(1, 0.890562, 0, 1)
+target_position = Vector2(248, -24)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+far = true
+
+[node name="R1" type="RayCast2D" parent="."]
+modulate = Color(1, 0.890562, 0, 1)
+target_position = Vector2(248, -18)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+far = true
+
+[node name="R2" type="RayCast2D" parent="."]
+target_position = Vector2(248, -12)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+
+[node name="R3" type="RayCast2D" parent="."]
+target_position = Vector2(248, -6)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+
+[node name="R4" type="RayCast2D" parent="."]
+target_position = Vector2(248, 0)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+
+[node name="R5" type="RayCast2D" parent="."]
+target_position = Vector2(248, 6)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+
+[node name="R6" type="RayCast2D" parent="."]
+target_position = Vector2(248, 12)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+
+[node name="R7" type="RayCast2D" parent="."]
+modulate = Color(1, 0.890562, 0, 1)
+target_position = Vector2(248, 18)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+far = true
+
+[node name="R8" type="RayCast2D" parent="."]
+modulate = Color(1, 0.890562, 0, 1)
+target_position = Vector2(248, 24)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+far = true

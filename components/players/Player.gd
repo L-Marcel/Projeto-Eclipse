@@ -8,6 +8,7 @@ extends CharacterBody2D
 @export var step_point : Marker2D;
 @export var flash : Flash;
 @export var health : Health;
+@export var saw_icon : SawIcon;
 @export var gun_fire_sound : AudioStreamPlayer;
 @export var step_sound_player : AudioStreamPlayer;
 @export var step_sounds : Array[AudioStream] = [];
@@ -33,7 +34,21 @@ var step_frame : int = 0;
 
 var soundwave : PackedScene = Scenes.get_resource("Soundwave");
 var bullet : PackedScene = Scenes.get_resource("Bullet");
-var furtive : bool = false;
+var saw : bool = false :
+	set(value):
+		if saw && !value:
+			await get_tree().create_timer(3.0).timeout;
+			saw = value;
+		else:
+			saw = value;
+			update_visibility();
+			await get_tree().create_timer(3.0).timeout;
+			saw = false;
+		update_visibility();
+var furtive : bool = false :
+	set(value):
+		furtive = value;
+		update_visibility();
 
 const SPEED = 300.0;
 const JUMP_VELOCITY = -400.0;
@@ -66,7 +81,17 @@ func _ready():
 		health._base = health._base/2.0;
 		health.set_total(health.get_limit());
 
-#region Control	
+#region Control
+func update_visibility():
+	if !saw && furtive:
+		saw_icon.update(false);
+		set_collision_layer_value(2, false);
+	elif saw:
+		saw_icon.update(true);
+		set_collision_layer_value(2, true);
+	else:
+		saw_icon.visible = false;
+		set_collision_layer_value(2, true);
 func fire(precision : float = randf_range(0.0, 1.0)):
 	if Input.is_action_pressed(key_fire) && can_fire:
 		flash.on = true;
@@ -165,6 +190,7 @@ func _on_crouch_state_entered():
 	sprite.play("crouch");
 func _on_death_state_entered():
 	set_collision_layer_value(1, false);
+	set_collision_layer_value(2, false);
 	sprite.play("death");
 #endregion
 #region Processing
@@ -215,6 +241,9 @@ func _on_crouch_state_processing(delta):
 	if direction != 0:
 		flip(direction < 0);
 	jump();
+func _on_death_state_processing(delta):
+	if is_on_floor():
+		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2);
 #endregion
 #region Exited
 func _on_fall_state_exited():
@@ -226,6 +255,8 @@ func _on_run_state_exited():
 #endregion
 
 #region Others
+func _on_health_damaged():
+	saw = true;
 func _on_health_invencibility_tick():
 	blink();
 func _on_health_invencibility_finished():

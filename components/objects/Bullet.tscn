@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=3 uid="uid://ddwaxapj5cpuk"]
 
-[ext_resource type="Texture2D" uid="uid://b8np4kd4vc271" path="res://assets/External/TeamGunner_By_SecretHideout_060519/EXTRAS/BulletStream.png" id="1_mcfq5"]
+[ext_resource type="Texture2D" uid="uid://b8np4kd4vc271" path="res://assets/external/TeamGunner_By_SecretHideout_060519/EXTRAS/BulletStream.png" id="1_mcfq5"]
 [ext_resource type="Script" path="res://components/objects/Bullet.gd" id="1_x26no"]
-[ext_resource type="Texture2D" uid="uid://c6mr3qb1fslun" path="res://assets/External/TeamGunner_By_SecretHideout_060519/EXTRAS/SpongeBullet.png" id="2_82fjk"]
+[ext_resource type="Texture2D" uid="uid://c6mr3qb1fslun" path="res://assets/external/TeamGunner_By_SecretHideout_060519/EXTRAS/SpongeBullet.png" id="2_82fjk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_38f16"]
 size = Vector2(3, 1)
