@@ -1,4 +1,4 @@
-class_name SawIcon
+class_name VisionIcon
 extends Sprite2D
 
 @export var saw : Texture;

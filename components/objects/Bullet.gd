@@ -16,6 +16,9 @@ func _ready():
 
 func configure_as_ally(body : Node2D):
 	add_collision_exception_with(body);
+	var invisible_walls = body.get_tree().get_nodes_in_group("invisible_wall");
+	for wall in invisible_walls:
+		add_collision_exception_with(wall);
 	var allies = body.get_tree().get_nodes_in_group("player");
 	for ally in allies:
 		if ally != body:
@@ -23,6 +26,9 @@ func configure_as_ally(body : Node2D):
 
 func configure_as_enemy(body : Node2D):
 	add_collision_exception_with(body);
+	var invisible_walls = body.get_tree().get_nodes_in_group("invisible_wall");
+	for wall in invisible_walls:
+		add_collision_exception_with(wall);
 	var mobs = body.get_tree().get_nodes_in_group("mob");
 	for mob in mobs:
 		if !mob is Player && mob != body:

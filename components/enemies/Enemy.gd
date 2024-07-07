@@ -1,3 +1,4 @@
+@tool
 class_name Enemy
 extends CharacterBody2D
 
@@ -11,6 +12,13 @@ extends CharacterBody2D
 @export var gun_fire_sound : AudioStreamPlayer;
 @export var step_sound_player : AudioStreamPlayer;
 @export var step_sounds : Array[AudioStream] = [];
+@export var flipped : bool = false :
+	set(value):
+		if flipped != value && !Engine.is_editor_hint() && flash:
+			flash.on = false;
+		flipped = value;
+		if Engine.is_editor_hint():
+			flip(flipped);
 var step_frame : int = 0;
 
 var soundwave : PackedScene = Scenes.get_resource("Soundwave");
@@ -19,11 +27,6 @@ var bullet : PackedScene = Scenes.get_resource("Bullet");
 const SPEED = 300.0;
 const JUMP_VELOCITY = -400.0;
 
-var flipped : bool = false :
-	set(value):
-		if flipped != value && flash:
-			flash.on = false;
-		flipped = value;
 var fire_delay : float = 0.25;
 var can_fire : bool = true :
 	set(value):
@@ -33,13 +36,16 @@ var can_fire : bool = true :
 			can_fire = true;
 
 func _ready():
-	Mobs.registry(self);
-	hurtbox.shape = hurtbox.shape.duplicate();
+	if Engine.is_editor_hint():
+		process_mode = Node.PROCESS_MODE_DISABLED;
+	else:
+		Mobs.registry(self);
+		hurtbox.shape = hurtbox.shape.duplicate();
+		process_mode = Node.PROCESS_MODE_INHERIT;
 
 #region Control
 func alert(_danger : int, origin : Vector2):
 	flip(origin.x - global_position.x < 0);
-
 func fire(precision : float = randf_range(0.0, 1.0)):
 	if can_fire && view.is_danger():
 		flash.on = true;
@@ -68,11 +74,13 @@ func flip(yes : bool):
 	if yes:
 		scale.y = -abs(scale.y);
 		rotation_degrees = 180;
-		flipped = true;
+		if !Engine.is_editor_hint():
+			flipped = true;
 	else:
 		scale.y = abs(scale.y);
 		rotation_degrees = 0;
-		flipped = false;
+		if !Engine.is_editor_hint():
+			flipped = false;
 func step():
 	if sprite.animation == "run" && step_sounds.size() > 0 && step_frame != sprite.frame && (sprite.frame == 2 || sprite.frame == 5):
 		step_sound_player.stream = step_sounds[randi() % step_sounds.size()];
@@ -123,6 +131,7 @@ func _on_crouch_state_entered():
 func _on_death_state_entered():
 	sprite.play("death");
 	set_collision_layer_value(1, false);
+	view.enemy_can_be_furtive = true;
 #endregion
 #region Processing
 func _on_idle_state_processing(_delta):

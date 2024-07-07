@@ -17,28 +17,28 @@
 [ext_resource type="AudioStream" uid="uid://bnjpjrrd0gw1b" path="res://sounds/fire.wav" id="10_h1n07"]
 [ext_resource type="Script" path="res://components/entity/Hurtbox.gd" id="14_t8vdc"]
 [ext_resource type="Resource" uid="uid://clkypk8p2hx2j" path="res://components/entity/ShapeFrames.tres" id="16_0eqpu"]
-[ext_resource type="PackedScene" uid="uid://dotrloiei4irn" path="res://components/players/SawIcon.tscn" id="18_e308n"]
+[ext_resource type="PackedScene" uid="uid://dotrloiei4irn" path="res://components/players/VisionIcon.tscn" id="18_e308n"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_am1uv"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3m16y"]
 size = Vector2(21, 32)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "step_point", "flash", "health", "saw_icon", "gun_fire_sound", "step_sound_player") groups=["mob", "player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "health", "fire_point", "flash", "gun_fire_sound", "step_point", "step_sound_player", "vision_icon") groups=["mob", "player"]]
 process_mode = 1
 z_index = 200
 collision_layer = 3
 script = ExtResource("1_3ajtj")
+sprite_frames = ExtResource("4_kfca6")
 sprite = NodePath("Sprite")
 states = NodePath("States")
 hurtbox = NodePath("Hurtbox")
-fire_point = NodePath("FirePoint")
-step_point = NodePath("StepPoint")
-flash = NodePath("FirePoint/Flash")
 health = NodePath("Health")
-saw_icon = NodePath("SawIcon")
+fire_point = NodePath("FirePoint")
+flash = NodePath("FirePoint/Flash")
 gun_fire_sound = NodePath("FirePoint/FireSound")
+step_point = NodePath("StepPoint")
 step_sound_player = NodePath("StepSound")
 step_sounds = Array[AudioStream]([ExtResource("2_1bky8"), ExtResource("3_wf6c8")])
-sprite_frames = ExtResource("4_kfca6")
+vision_icon = NodePath("VisionIcon")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("6_335ax")
@@ -183,7 +183,7 @@ delay_in_seconds = "0.0"
 [node name="Death" type="Node" parent="States/Root"]
 script = ExtResource("4_aefvf")
 
-[node name="SawIcon" parent="." instance=ExtResource("18_e308n")]
+[node name="VisionIcon" parent="." instance=ExtResource("18_e308n")]
 visible = false
 position = Vector2(-1, -27)
 
@@ -197,7 +197,7 @@ frame_progress = 0.657568
 position = Vector2(2.5, 15)
 
 [node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
-position = Vector2(13, -1)
+position = Vector2(13, -2)
 gizmo_extents = 5.0
 script = ExtResource("9_tx268")
 sprite = NodePath("../Sprite")
@@ -212,7 +212,7 @@ position = Vector2(3, 0)
 
 [node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_am1uv")
+shape = SubResource("RectangleShape2D_3m16y")
 script = ExtResource("14_t8vdc")
 health = NodePath("../Health")
 
@@ -222,7 +222,6 @@ animated_sprite = NodePath("../Sprite")
 collision_shape = NodePath("../Hurtbox")
 shape_frames = ExtResource("16_0eqpu")
 
-[connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
 [connection signal="invencibility_finished" from="Health" to="." method="_on_health_invencibility_finished"]
 [connection signal="invencibility_tick" from="Health" to="." method="_on_health_invencibility_tick"]
 [connection signal="state_entered" from="States/Root/Idle" to="." method="_on_idle_state_entered"]

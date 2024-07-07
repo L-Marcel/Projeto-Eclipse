@@ -1,10 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://rk0chw0wq3jb"]
+[gd_scene load_steps=4 format=3 uid="uid://rk0chw0wq3jb"]
 
 [ext_resource type="Script" path="res://components/enemies/View.gd" id="1_doenp"]
+[ext_resource type="Texture2D" uid="uid://bcpbs1hdf5o6n" path="res://assets/lamp.png" id="2_7tb7n"]
 [ext_resource type="Script" path="res://components/enemies/ViewRaycast.gd" id="2_wpob1"]
 
 [node name="View" type="Node2D"]
 script = ExtResource("1_doenp")
+
+[node name="Light" type="PointLight2D" parent="."]
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("2_7tb7n")
+offset = Vector2(124, -0.5)
+texture_scale = 0.2
 
 [node name="S0" type="RayCast2D" parent="."]
 target_position = Vector2(124, -10.5)
@@ -77,3 +85,19 @@ collision_mask = 2
 hit_from_inside = true
 script = ExtResource("2_wpob1")
 far = true
+
+[node name="L0" type="RayCast2D" parent="."]
+modulate = Color(1, 0.890562, 0, 1)
+target_position = Vector2(496, -6)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+out_of_light_range = true
+
+[node name="L1" type="RayCast2D" parent="."]
+modulate = Color(1, 0.890562, 0, 1)
+target_position = Vector2(496, 6)
+collision_mask = 2
+hit_from_inside = true
+script = ExtResource("2_wpob1")
+out_of_light_range = true

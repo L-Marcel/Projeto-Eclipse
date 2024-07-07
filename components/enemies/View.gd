@@ -1,6 +1,7 @@
 class_name View
 extends Node2D
 
+@export var enemy_can_be_furtive : bool = false;
 var danger : bool = false;
 var target : Player = null;
 
@@ -16,9 +17,13 @@ func _process(_delta):
 		if raycast is ViewRaycast && raycast.is_colliding():
 			var collider = raycast.get_collider();
 			if collider is Player && !collider.health.is_dead():
-				_target = collider;
-				_target.saw = true;
-				_danger = !raycast.far;
+				if raycast.out_of_light_range && collider.was_seen > 0:
+					_target = collider;
+					_danger = !raycast.far;
+				elif !raycast.out_of_light_range:
+					_target = collider;
+					_target.set_was_seen(1 if enemy_can_be_furtive else 2);
+					_danger = !raycast.far;
 				if _danger:
 					break;
 	danger = _danger;

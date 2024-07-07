@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://cgxiblhs26fbj"]
+[gd_scene load_steps=57 format=3 uid="uid://cgxiblhs26fbj"]
 
 [ext_resource type="Script" path="res://components/enemies/Enemy.gd" id="1_g43js"]
 [ext_resource type="Material" uid="uid://cb1i58ksue7bq" path="res://scripts/shader/Mob.tres" id="1_ooojd"]
@@ -13,14 +13,13 @@
 [ext_resource type="Script" path="res://scripts/FirePoint.gd" id="10_p3nx8"]
 [ext_resource type="AudioStream" uid="uid://bnjpjrrd0gw1b" path="res://sounds/fire.wav" id="11_mvlwv"]
 [ext_resource type="PackedScene" uid="uid://detu0uglbmgdf" path="res://components/effects/Flash.tscn" id="12_1hgo1"]
-[ext_resource type="Texture2D" uid="uid://bcpbs1hdf5o6n" path="res://assets/lamp.png" id="12_jbk6j"]
 [ext_resource type="Script" path="res://components/entity/Hurtbox.gd" id="13_3jk5w"]
 [ext_resource type="PackedScene" uid="uid://rk0chw0wq3jb" path="res://components/enemies/View.tscn" id="13_awpf0"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="14_kr387"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="15_0ocyi"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="16_7nvub"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sje04"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwgbj"]
 size = Vector2(21, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gly67"]
@@ -214,7 +213,7 @@ data = {
 }
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "view", "flash", "health", "gun_fire_sound", "step_sound_player") groups=["mob"]]
-process_mode = 1
+process_mode = 4
 z_index = 200
 script = ExtResource("1_g43js")
 sprite = NodePath("Sprite")
@@ -374,38 +373,30 @@ script = ExtResource("8_x4m1w")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = ExtResource("1_ooojd")
 sprite_frames = ExtResource("4_l2ntd")
-animation = &"death"
-frame = 7
-frame_progress = 1.0
+animation = &"idle"
+frame_progress = 0.417384
 
 [node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
-position = Vector2(10, 13)
+position = Vector2(13, -2)
 gizmo_extents = 5.0
 script = ExtResource("10_p3nx8")
 sprite = NodePath("../Sprite")
 
-[node name="Light" type="PointLight2D" parent="FirePoint"]
-shadow_enabled = true
-shadow_filter = 1
-texture = ExtResource("12_jbk6j")
-offset = Vector2(124, -0.5)
-texture_scale = 0.2
-
 [node name="View" parent="FirePoint" instance=ExtResource("13_awpf0")]
 position = Vector2(0, -0.5)
+
+[node name="Flash" parent="FirePoint" instance=ExtResource("12_1hgo1")]
+visible = false
+position = Vector2(3, 0)
 
 [node name="FireSound" type="AudioStreamPlayer" parent="FirePoint"]
 stream = ExtResource("11_mvlwv")
 volume_db = -20.0
 mix_target = 1
 
-[node name="Flash" parent="FirePoint" instance=ExtResource("12_1hgo1")]
-visible = false
-position = Vector2(3, 0)
-
 [node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_sje04")
+shape = SubResource("RectangleShape2D_gwgbj")
 script = ExtResource("13_3jk5w")
 health = NodePath("../Health")
 

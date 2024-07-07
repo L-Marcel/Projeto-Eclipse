@@ -28,6 +28,7 @@ enabled=PackedStringArray("res://addons/godot_state_charts/plugin.cfg", "res://a
 
 mob=""
 player=""
+invisible_wall=""
 
 [input]
 

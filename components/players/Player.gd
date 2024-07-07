@@ -1,19 +1,6 @@
 class_name Player
 extends CharacterBody2D
 
-@export var sprite : AnimatedSprite2D;
-@export var states : StateChart;
-@export var hurtbox : Hurtbox;
-@export var fire_point : FirePoint;
-@export var step_point : Marker2D;
-@export var flash : Flash;
-@export var health : Health;
-@export var saw_icon : SawIcon;
-@export var gun_fire_sound : AudioStreamPlayer;
-@export var step_sound_player : AudioStreamPlayer;
-@export var step_sounds : Array[AudioStream] = [];
-var step_frame : int = 0;
-@export var sprite_frames : SpriteFrames;
 @export var player_one : bool = true :
 	set(value):
 		player_one = value;
@@ -31,40 +18,59 @@ var step_frame : int = 0;
 			key_down = "green_down";
 			key_fire = "green_fire";
 			key_interact = "green_interact";
+@export var sprite_frames : SpriteFrames;
 
-var soundwave : PackedScene = Scenes.get_resource("Soundwave");
-var bullet : PackedScene = Scenes.get_resource("Bullet");
-var saw : bool = false :
-	set(value):
-		if saw && !value:
-			await get_tree().create_timer(3.0).timeout;
-			saw = value;
-		else:
-			saw = value;
-			update_visibility();
-			await get_tree().create_timer(3.0).timeout;
-			saw = false;
-		update_visibility();
-var furtive : bool = false :
-	set(value):
-		furtive = value;
-		update_visibility();
+@export_group("Components")
+@export var sprite : AnimatedSprite2D;
+@export var states : StateChart;
+@export var hurtbox : Hurtbox;
+@export var health : Health;
 
-const SPEED = 300.0;
-const JUMP_VELOCITY = -400.0;
+@export_group("Fire")
+@export var fire_delay : float = 0.25;
+@export var fire_point : FirePoint;
+@export var flash : Flash;
+@export var gun_fire_sound : AudioStreamPlayer;
 
-var flipped : bool = false :
-	set(value):
-		if flipped != value && flash:
-			flash.on = false;
-		flipped = value;
-var fire_delay : float = 0.25;
+@export_group("Step")
+@export var step_point : Marker2D;
+@export var step_sound_player : AudioStreamPlayer;
+@export var step_sounds : Array[AudioStream] = [];
+var step_frame : int = 0;
 var can_fire : bool = true :
 	set(value):
 		can_fire = value;
 		if !can_fire:
 			await get_tree().create_timer(fire_delay).timeout;
 			can_fire = true;
+
+@export_group("Visibility")
+@export var vision_icon : VisionIcon;
+var vision_timer : Timer = Timer.new();
+var was_seen : int = 0 :
+	set(value):
+		was_seen = value;
+		update_visibility();
+var furtive : bool = false :
+	set(value):
+		furtive = value;
+		if furtive:
+			z_index = 0;
+		else:
+			z_index = 200;
+		update_visibility();
+
+const SPEED = 300.0;
+const JUMP_VELOCITY = -400.0;
+
+var soundwave : PackedScene = Scenes.get_resource("Soundwave");
+var bullet : PackedScene = Scenes.get_resource("Bullet");
+
+var flipped : bool = false :
+	set(value):
+		if flipped != value && flash:
+			flash.on = false;
+		flipped = value;
 var key_left : String = "red_left";
 var key_right : String = "red_right";
 var key_jump : String = "red_up";
@@ -73,6 +79,8 @@ var key_fire : String = "red_fire";
 var key_interact : String = "red_interact";
 
 func _ready():
+	add_child(vision_timer);
+	vision_timer.timeout.connect(_on_vision_timer_timeout);
 	Mobs.registry(self);
 	sprite.sprite_frames = sprite_frames;
 	hurtbox.shape = hurtbox.shape.duplicate();
@@ -81,17 +89,27 @@ func _ready():
 		health._base = health._base/2.0;
 		health.set_total(health.get_limit());
 
-#region Control
+#region Visibility
+func set_was_seen(value : int, duration : float = 2.0):
+	if value != 0:
+		was_seen = value;
+		vision_timer.wait_time = duration if value > 1 else 0.1;
+		vision_timer.start();
+	else:
+		was_seen = value;
+		vision_timer.stop();
 func update_visibility():
-	if !saw && furtive:
-		saw_icon.update(false);
+	if was_seen <= 1 && furtive:
+		vision_icon.update(false);
 		set_collision_layer_value(2, false);
-	elif saw:
-		saw_icon.update(true);
+	elif was_seen != 0:
+		vision_icon.update(true);
 		set_collision_layer_value(2, true);
 	else:
-		saw_icon.visible = false;
+		vision_icon.visible = false;
 		set_collision_layer_value(2, true);
+#endregion
+#region Control
 func fire(precision : float = randf_range(0.0, 1.0)):
 	if Input.is_action_pressed(key_fire) && can_fire:
 		flash.on = true;
@@ -114,6 +132,7 @@ func fire(precision : float = randf_range(0.0, 1.0)):
 			124.0
 		);
 		gun_fire_sound.play();
+		set_was_seen(2, 0.1);
 		get_parent().add_child(bullet_instance);
 		can_fire = false;
 func flip(yes : bool):
@@ -255,8 +274,8 @@ func _on_run_state_exited():
 #endregion
 
 #region Others
-func _on_health_damaged():
-	saw = true;
+func _on_vision_timer_timeout():
+	was_seen = 0;
 func _on_health_invencibility_tick():
 	blink();
 func _on_health_invencibility_finished():
