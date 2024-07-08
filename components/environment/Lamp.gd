@@ -36,23 +36,22 @@ func update():
 		light.set_scale(Vector2(178.0/49.0, height/248.0));
 func start():
 	if !timed && Engine.is_editor_hint():
-		await get_tree().create_timer(1.0);
+		await get_tree().create_timer(1.0).timeout;
 		start();
-	elif !timed:
-		return;
-	if on:
+	elif on && timed:
 		on = false;
-		await get_tree().create_timer(off_duration);
-	else:
+		await get_tree().create_timer(off_duration).timeout;
+		start();
+	elif timed:
 		on = true;
-		await get_tree().create_timer(on_duration);
-	start();
+		await get_tree().create_timer(on_duration).timeout;
+		start();
 
 func _ready():
 	view.on = on;
 	light.enabled = on;
 	update();
-	await get_tree().create_timer(delay);
+	await get_tree().create_timer(delay).timeout;
 	start();
 func _process(_delta):
 	if light && randi() % 100 <= 10:
