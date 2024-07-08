@@ -6,15 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://7kmj0g40xcpc" path="res://assets/external/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Black/Gunner_Black_Idle.png" id="4_ixhyi"]
 [ext_resource type="Texture2D" uid="uid://bd4gf8ua5gq1g" path="res://assets/external/TeamGunner_By_SecretHideout_060519/CHARACTER_SPRITES/Black/Gunner_Black_Run.png" id="5_8r82p"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qownn"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_16685"]
 atlas = ExtResource("1_7q8be")
 region = Rect2(0, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bl8rt"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0kug6"]
 atlas = ExtResource("1_7q8be")
 region = Rect2(48, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yjeui"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3obhq"]
 atlas = ExtResource("1_7q8be")
 region = Rect2(96, 0, 48, 48)
 
@@ -114,13 +114,13 @@ region = Rect2(240, 0, 48, 48)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qownn")
+"texture": SubResource("AtlasTexture_16685")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bl8rt")
+"texture": SubResource("AtlasTexture_0kug6")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_yjeui")
+"texture": SubResource("AtlasTexture_3obhq")
 }],
 "loop": false,
 "name": &"crouch",

@@ -12,6 +12,7 @@ extends CharacterBody2D
 @export var gun_fire_sound : AudioStreamPlayer;
 @export var step_sound_player : AudioStreamPlayer;
 @export var step_sounds : Array[AudioStream] = [];
+@export var interaction : Interaction;
 @export var flipped : bool = false :
 	set(value):
 		if flipped != value && !Engine.is_editor_hint() && flash:
@@ -42,10 +43,20 @@ func _ready():
 		Mobs.registry(self);
 		hurtbox.shape = hurtbox.shape.duplicate();
 		process_mode = Node.PROCESS_MODE_INHERIT;
+		interaction.registry(on_green_phantom_interact);
 
 #region Control
+func on_green_phantom_interact(_by : Node2D):
+	states.send_event("knockout");
+	interaction.unregistry();
+	interaction.registry(on_second_green_phantom_interact);
+func on_second_green_phantom_interact(_by : Node2D):
+	fire_point.queue_free();
+	interaction.unregistry();
 func alert(_danger : int, origin : Vector2):
-	flip(origin.x - global_position.x < 0);
+	await get_tree().create_timer(1.0).timeout;
+	if sprite.animation != "death":
+		flip(origin.x - global_position.x < 0);
 func fire(precision : float = randf_range(0.0, 1.0)):
 	if can_fire && view.is_danger():
 		flash.on = true;
@@ -129,6 +140,12 @@ func _on_fall_state_entered():
 func _on_crouch_state_entered():
 	sprite.play("crouch");
 func _on_death_state_entered():
+	interaction.unregistry();
+	interaction.registry(on_second_green_phantom_interact);
+	sprite.play("death");
+	set_collision_layer_value(1, false);
+	view.enemy_can_be_furtive = true;
+func _on_knockout_state_entered():
 	sprite.play("death");
 	set_collision_layer_value(1, false);
 	view.enemy_can_be_furtive = true;
@@ -175,11 +192,14 @@ func _on_crouch_state_processing(delta):
 func _on_death_state_processing(delta):
 	if is_on_floor():
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2);
+func _on_knockout_state_processing(delta):
+	_on_death_state_processing(delta);
+
 #endregion
 #region Exited
 func _on_run_state_exited():
 	step_frame = -1;
-#endregion
+#dendregion
 
 #region Others
 func _on_health_invencibility_tick():

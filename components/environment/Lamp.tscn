@@ -8,8 +8,12 @@
 
 [node name="Lamp" type="Node2D" node_paths=PackedStringArray("view", "light")]
 script = ExtResource("1_2odf3")
+on = null
 view = NodePath("View")
 light = NodePath("Light")
+delay = null
+on_duration = null
+off_duration = null
 
 [node name="Sprite" type="Sprite2D" parent="."]
 position = Vector2(0, 1)
@@ -18,7 +22,7 @@ texture = ExtResource("1_jp68g")
 [node name="Light" type="PointLight2D" parent="."]
 rotation = 1.5708
 scale = Vector2(3.63265, 0.5)
-energy = 0.927245
+energy = 0.801587
 shadow_enabled = true
 shadow_filter = 1
 texture = ExtResource("2_6xjxm")

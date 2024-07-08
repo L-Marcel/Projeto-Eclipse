@@ -24,4 +24,5 @@ func registry(callable : Callable):
 	action.connect(callable);
 func unregistry():
 	for connection in action.get_connections():
+		unfocus.emit();
 		action.disconnect(connection["callable"]);

@@ -1,9 +1,10 @@
-[gd_scene load_steps=57 format=3 uid="uid://cgxiblhs26fbj"]
+[gd_scene load_steps=60 format=3 uid="uid://cgxiblhs26fbj"]
 
 [ext_resource type="Script" path="res://components/enemies/Enemy.gd" id="1_g43js"]
 [ext_resource type="Material" uid="uid://cb1i58ksue7bq" path="res://scripts/shader/Mob.tres" id="1_ooojd"]
 [ext_resource type="AudioStream" uid="uid://dmrh4tt4g784t" path="res://sounds/step_0.wav" id="2_bkb81"]
 [ext_resource type="AudioStream" uid="uid://n7csqpcckhsr" path="res://sounds/step_1.wav" id="3_nxci1"]
+[ext_resource type="Script" path="res://components/entity/Interaction.gd" id="4_6itcx"]
 [ext_resource type="SpriteFrames" uid="uid://b0nhovijexdwn" path="res://components/enemies/Enemy.tres" id="4_l2ntd"]
 [ext_resource type="Script" path="res://components/entity/Health.gd" id="5_urrmf"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="6_mjn33"]
@@ -13,13 +14,15 @@
 [ext_resource type="Script" path="res://scripts/FirePoint.gd" id="10_p3nx8"]
 [ext_resource type="AudioStream" uid="uid://bnjpjrrd0gw1b" path="res://sounds/fire.wav" id="11_mvlwv"]
 [ext_resource type="PackedScene" uid="uid://detu0uglbmgdf" path="res://components/effects/Flash.tscn" id="12_1hgo1"]
+[ext_resource type="SpriteFrames" uid="uid://51tbmlrvsehx" path="res://components/enemies/Outline.tres" id="12_cy0mr"]
+[ext_resource type="Script" path="res://components/entity/Outline.gd" id="12_oobsi"]
 [ext_resource type="Script" path="res://components/entity/Hurtbox.gd" id="13_3jk5w"]
 [ext_resource type="PackedScene" uid="uid://rk0chw0wq3jb" path="res://components/enemies/View.tscn" id="13_awpf0"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="14_kr387"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="15_0ocyi"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="16_7nvub"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jb1w3"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4c1x4"]
 size = Vector2(21, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gly67"]
@@ -212,9 +215,10 @@ data = {
 "run": [SubResource("Resource_hdj0p"), SubResource("Resource_5o4k1"), SubResource("Resource_ineo5"), SubResource("Resource_hy3ou"), SubResource("Resource_77oos"), SubResource("Resource_3u5dn")]
 }
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "view", "flash", "health", "gun_fire_sound", "step_sound_player") groups=["mob"]]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "view", "flash", "health", "gun_fire_sound", "step_sound_player", "interaction") groups=["mob"]]
 process_mode = 4
 z_index = 200
+collision_layer = 5
 script = ExtResource("1_g43js")
 sprite = NodePath("Sprite")
 states = NodePath("States")
@@ -226,6 +230,10 @@ health = NodePath("Health")
 gun_fire_sound = NodePath("FirePoint/FireSound")
 step_sound_player = NodePath("StepSound")
 step_sounds = Array[AudioStream]([ExtResource("2_bkb81"), ExtResource("3_nxci1")])
+interaction = NodePath("Interaction")
+
+[node name="Interaction" type="Node" parent="."]
+script = ExtResource("4_6itcx")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("5_urrmf")
@@ -277,6 +285,12 @@ to = NodePath("../../Jump")
 event = &"jump"
 delay_in_seconds = "0.0"
 
+[node name="To Knockout" type="Node" parent="States/Root/Idle"]
+script = ExtResource("9_nswew")
+to = NodePath("../../Knockout")
+event = &"knockout"
+delay_in_seconds = "0.0"
+
 [node name="Run" type="Node" parent="States/Root"]
 script = ExtResource("8_x4m1w")
 
@@ -310,6 +324,12 @@ to = NodePath("../../Jump")
 event = &"jump"
 delay_in_seconds = "0.0"
 
+[node name="To Knockout" type="Node" parent="States/Root/Run"]
+script = ExtResource("9_nswew")
+to = NodePath("../../Knockout")
+event = &"knockout"
+delay_in_seconds = "0.0"
+
 [node name="Crouch" type="Node" parent="States/Root"]
 script = ExtResource("8_x4m1w")
 
@@ -337,6 +357,12 @@ to = NodePath("../../Death")
 event = &"death"
 delay_in_seconds = "0.0"
 
+[node name="To Knockout" type="Node" parent="States/Root/Crouch"]
+script = ExtResource("9_nswew")
+to = NodePath("../../Knockout")
+event = &"knockout"
+delay_in_seconds = "0.0"
+
 [node name="Jump" type="Node" parent="States/Root"]
 script = ExtResource("8_x4m1w")
 
@@ -350,6 +376,12 @@ delay_in_seconds = "0.0"
 script = ExtResource("9_nswew")
 to = NodePath("../../Death")
 event = &"death"
+delay_in_seconds = "0.0"
+
+[node name="To Knockout" type="Node" parent="States/Root/Jump"]
+script = ExtResource("9_nswew")
+to = NodePath("../../Knockout")
+event = &"knockout"
 delay_in_seconds = "0.0"
 
 [node name="Fall" type="Node" parent="States/Root"]
@@ -367,14 +399,31 @@ to = NodePath("../../Death")
 event = &"death"
 delay_in_seconds = "0.0"
 
+[node name="To Knockout" type="Node" parent="States/Root/Fall"]
+script = ExtResource("9_nswew")
+to = NodePath("../../Knockout")
+event = &"knockout"
+delay_in_seconds = "0.0"
+
 [node name="Death" type="Node" parent="States/Root"]
+script = ExtResource("8_x4m1w")
+
+[node name="Knockout" type="Node" parent="States/Root"]
 script = ExtResource("8_x4m1w")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 material = ExtResource("1_ooojd")
 sprite_frames = ExtResource("4_l2ntd")
 animation = &"idle"
-frame_progress = 0.417384
+
+[node name="Outline" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("interaction", "main")]
+visible = false
+modulate = Color(0.611612, 0.847089, 0.45481, 1)
+sprite_frames = ExtResource("12_cy0mr")
+animation = &"idle"
+script = ExtResource("12_oobsi")
+interaction = NodePath("../Interaction")
+main = NodePath("../Sprite")
 
 [node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
 position = Vector2(13, -2)
@@ -396,7 +445,7 @@ mix_target = 1
 
 [node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_jb1w3")
+shape = SubResource("RectangleShape2D_4c1x4")
 script = ExtResource("13_3jk5w")
 health = NodePath("../Health")
 
@@ -421,3 +470,5 @@ shape_frames = SubResource("Resource_vw21c")
 [connection signal="state_processing" from="States/Root/Fall" to="." method="_on_fall_state_processing"]
 [connection signal="state_entered" from="States/Root/Death" to="." method="_on_death_state_entered"]
 [connection signal="state_processing" from="States/Root/Death" to="." method="_on_death_state_processing"]
+[connection signal="state_entered" from="States/Root/Knockout" to="." method="_on_knockout_state_entered"]
+[connection signal="state_processing" from="States/Root/Knockout" to="." method="_on_knockout_state_processing"]

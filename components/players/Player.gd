@@ -20,6 +20,11 @@ extends CharacterBody2D
 			key_interact = "green_interact";
 @export var sprite_frames : SpriteFrames;
 
+@export_group("Interaction")
+@export var actor : Actor;
+@export var actor_collision_shape : CollisionShape2D;
+@export var interaction : Interaction;
+
 @export_group("Components")
 @export var sprite : AnimatedSprite2D;
 @export var states : StateChart;
@@ -77,6 +82,7 @@ var key_jump : String = "red_up";
 var key_down : String = "red_down";
 var key_fire : String = "red_fire";
 var key_interact : String = "red_interact";
+var can_cancel_jump : bool = true;
 
 func _ready():
 	add_child(vision_timer);
@@ -84,10 +90,17 @@ func _ready():
 	Mobs.registry(self);
 	sprite.sprite_frames = sprite_frames;
 	hurtbox.shape = hurtbox.shape.duplicate();
+	actor_collision_shape.shape = hurtbox.shape;
 	if !player_one:
+		actor.set_collision_mask_value(3, true);
+		actor.set_collision_mask_value(4, false);
 		health._limit = health._limit/2.0;
 		health._base = health._base/2.0;
 		health.set_total(health.get_limit());
+		interaction.registry(on_player_one_interact);
+	else:
+		actor.set_collision_mask_value(3, false);
+		actor.set_collision_mask_value(4, true);
 
 #region Visibility
 func set_was_seen(value : int, duration : float = 2.0):
@@ -110,6 +123,14 @@ func update_visibility():
 		set_collision_layer_value(2, true);
 #endregion
 #region Control
+func interact():
+	if Input.is_action_just_pressed(key_interact) && is_on_floor():
+		actor.interact_with_nearest(self);
+func on_player_one_interact(_by : Node2D):
+	if is_on_floor() && ["idle", "run", "crouch"].has(sprite.animation):
+		velocity.y = JUMP_VELOCITY * 1.2;
+		states.send_event("jump");
+		can_cancel_jump = false;
 func fire(precision : float = randf_range(0.0, 1.0)):
 	if Input.is_action_pressed(key_fire) && can_fire:
 		flash.on = true;
@@ -165,7 +186,7 @@ func step(force : bool = false):
 func move():
 	var direction = Input.get_axis(key_left, key_right);
 	if direction:
-		velocity.x = direction * SPEED;
+		velocity.x = direction * (SPEED if player_one else SPEED * 0.75);
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED);
 	if direction != 0:
@@ -217,6 +238,7 @@ func _on_idle_state_processing(_delta):
 	death();
 	if !is_on_floor():
 		states.send_event("fall");
+	interact();
 	fire(0.75);
 	jump();
 	crouch();
@@ -228,6 +250,7 @@ func _on_run_state_processing(_delta):
 	if !is_on_floor():
 		states.send_event("fall");
 	step();
+	interact();
 	fire(0.5);
 	jump();
 	crouch();
@@ -238,7 +261,7 @@ func _on_jump_state_processing(_delta):
 	death();
 	fire(0.25);
 	move();
-	if !Input.is_action_pressed(key_jump):
+	if !Input.is_action_pressed(key_jump) && can_cancel_jump:
 		velocity.y = 0;
 	if velocity.y >= 0:
 		states.send_event("fall");
@@ -254,6 +277,7 @@ func _on_crouch_state_processing(delta):
 		states.send_event("fall");
 	elif !Input.is_action_pressed(key_down):
 		states.send_event("idle");
+	interact();
 	fire(1.0);
 	var direction = Input.get_axis(key_left, key_right);
 	velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2);
@@ -265,6 +289,8 @@ func _on_death_state_processing(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2);
 #endregion
 #region Exited
+func _on_jump_state_exited():
+	can_cancel_jump = true;
 func _on_fall_state_exited():
 	step(true);
 	step_frame = -1;

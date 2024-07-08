@@ -99,6 +99,13 @@ green_interact={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Default"
+2d_physics/layer_2="Visible"
+2d_physics/layer_3="GreenInteract"
+2d_physics/layer_4="RedInteract"
+
 [physics]
 
 common/physics_interpolation=true
