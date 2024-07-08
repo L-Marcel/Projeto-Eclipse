@@ -19,7 +19,7 @@
 [ext_resource type="Resource" uid="uid://clkypk8p2hx2j" path="res://components/entity/ShapeFrames.tres" id="16_0eqpu"]
 [ext_resource type="PackedScene" uid="uid://dotrloiei4irn" path="res://components/players/VisionIcon.tscn" id="18_e308n"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3m16y"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8gpkl"]
 size = Vector2(21, 32)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "health", "fire_point", "flash", "gun_fire_sound", "step_point", "step_sound_player", "vision_icon") groups=["mob", "player"]]
@@ -212,7 +212,7 @@ position = Vector2(3, 0)
 
 [node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_3m16y")
+shape = SubResource("RectangleShape2D_8gpkl")
 script = ExtResource("14_t8vdc")
 health = NodePath("../Health")
 

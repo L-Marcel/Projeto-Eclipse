@@ -28,6 +28,7 @@ height = 324
 
 [node name="SkyBottom" type="Parallax2D" parent="."]
 scale = Vector2(2.5, 2.5)
+scroll_scale = Vector2(1, 1.1)
 repeat_size = Vector2(576, 324)
 repeat_times = 4
 
@@ -37,26 +38,27 @@ texture = SubResource("GradientTexture2D_8he8h")
 
 [node name="SkyTop" type="Parallax2D" parent="."]
 scale = Vector2(2.5, 2.5)
+scroll_scale = Vector2(1, 1.1)
 repeat_size = Vector2(576, 324)
 repeat_times = 4
 
 [node name="Sprite" type="Sprite2D" parent="SkyTop"]
-position = Vector2(288, -598.4)
+position = Vector2(288, -601.6)
 texture = SubResource("GradientTexture2D_71o6t")
 
 [node name="Sky" type="Parallax2D" parent="."]
 scale = Vector2(2.5, 2.5)
-scroll_scale = Vector2(0.9, 1)
+scroll_scale = Vector2(0.9, 1.1)
 repeat_size = Vector2(576, 0)
 repeat_times = 4
 
 [node name="Sprite" type="Sprite2D" parent="Sky"]
-position = Vector2(288, 51.2)
+position = Vector2(288, 44.8)
 texture = ExtResource("1_wo870")
 
 [node name="Buildings" type="Parallax2D" parent="."]
 scale = Vector2(2, 2)
-scroll_scale = Vector2(0.8, 1.1)
+scroll_scale = Vector2(0.7, 1.1)
 scroll_offset = Vector2(-16, -120)
 repeat_size = Vector2(576, 0)
 repeat_times = 4
@@ -67,7 +69,7 @@ texture = ExtResource("2_f3k7f")
 
 [node name="Buildings2" type="Parallax2D" parent="."]
 scale = Vector2(2, 2)
-scroll_scale = Vector2(0.7, 1.1)
+scroll_scale = Vector2(1, 1.1)
 scroll_offset = Vector2(-16, -120)
 repeat_size = Vector2(576, 0)
 repeat_times = 4
@@ -78,7 +80,7 @@ texture = ExtResource("3_yvcw7")
 
 [node name="Train" type="Parallax2D" parent="."]
 scale = Vector2(2, 2)
-scroll_scale = Vector2(0.7, 1.1)
+scroll_scale = Vector2(1, 1.1)
 scroll_offset = Vector2(-16, -120)
 repeat_size = Vector2(576, 0)
 autoscroll = Vector2(60, 0)
@@ -90,7 +92,7 @@ texture = ExtResource("4_ix70l")
 
 [node name="Buildings3" type="Parallax2D" parent="."]
 scale = Vector2(2, 2)
-scroll_scale = Vector2(0.6, 1.1)
+scroll_scale = Vector2(1.3, 1.1)
 scroll_offset = Vector2(-16, -120)
 repeat_size = Vector2(576, 0)
 repeat_times = 4
