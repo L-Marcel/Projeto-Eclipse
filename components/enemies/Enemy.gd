@@ -2,6 +2,8 @@
 class_name Enemy
 extends CharacterBody2D
 
+
+@export_group("Components")
 @export var sprite : AnimatedSprite2D;
 @export var states : StateChart;
 @export var hurtbox : Hurtbox;
@@ -9,10 +11,29 @@ extends CharacterBody2D
 @export var view : View;
 @export var flash : Flash;
 @export var health : Health;
-@export var gun_fire_sound : AudioStreamPlayer;
-@export var step_sound_player : AudioStreamPlayer;
-@export var step_sounds : Array[AudioStream] = [];
 @export var interaction : Interaction;
+
+@export_group("Sound")
+@export var alert_sound : AudioStreamPlayer;
+@export var gun_fire_sound : AudioStreamPlayer;
+
+@export_group("Patrol")
+@export var patrol : bool = false;
+@export var patrol_delay_range : Vector2 = Vector2(3.0, 5.0);
+@export var walk_in_patrol : bool = false;
+@export var max_walk_distance : float = 124.0;
+var walked_distance : float = 0.0;
+@export var always_crouch_when_stop : bool = false :
+	set(value):
+		always_crouch_when_stop = value;
+		if Engine.is_editor_hint() && always_crouch_when_stop:
+			sprite.animation = "crouch";
+			sprite.frame = 2;
+		elif Engine.is_editor_hint():
+			sprite.animation = "idle";
+			sprite.frame = 0;
+var target_direction : float = 0.0;
+
 @export var flipped : bool = false :
 	set(value):
 		if flipped != value && !Engine.is_editor_hint() && flash:
@@ -22,12 +43,18 @@ extends CharacterBody2D
 			flip(flipped);
 var step_frame : int = 0;
 
+var target : Player = null;
 var soundwave : PackedScene = Scenes.get_resource("Soundwave");
 var bullet : PackedScene = Scenes.get_resource("Bullet");
 
-const SPEED = 300.0;
+const SPEED = 100.0;
 const JUMP_VELOCITY = -400.0;
 
+var alerted : bool = false :
+	set(value):
+		alerted = value;
+		if alerted && alert_sound:
+			alert_sound.play();
 var fire_delay : float = 0.25;
 var can_fire : bool = true :
 	set(value):
@@ -44,8 +71,26 @@ func _ready():
 		hurtbox.shape = hurtbox.shape.duplicate();
 		process_mode = Node.PROCESS_MODE_INHERIT;
 		interaction.registry(on_green_phantom_interact);
+		view.target_changed.connect(on_target_changed);
+		start_patrol();
 
 #region Control
+func on_target_changed():
+	stop_patrol();
+	if sprite.animation == "death" || !is_instance_valid(view):
+		return;
+	if view.target && !alerted:
+		await get_tree().create_timer(0.5).timeout;
+		if sprite.animation == "death" || !is_instance_valid(view):
+			return;
+		target = view.target;
+		if target && !alerted:
+			alerted = true;
+			Game.enemies_alerted += 1;
+	elif view.target:
+		target = view.target;
+	else:
+		target = null;
 func on_green_phantom_interact(_by : Node2D):
 	states.send_event("knockout");
 	interaction.unregistry();
@@ -54,11 +99,12 @@ func on_second_green_phantom_interact(_by : Node2D):
 	fire_point.queue_free();
 	interaction.unregistry();
 func alert(_danger : int, origin : Vector2):
-	await get_tree().create_timer(1.0).timeout;
-	if sprite.animation != "death":
+	if !alerted:
+		await get_tree().create_timer(1.0).timeout;
+	if sprite.animation != "death" && !target:
 		flip(origin.x - global_position.x < 0);
 func fire(precision : float = randf_range(0.0, 1.0)):
-	if can_fire && view.is_danger():
+	if can_fire && is_instance_valid(view) && is_instance_valid(flash) && view.is_danger() && target:
 		flash.on = true;
 		var soundwave_instance = soundwave.instantiate() as Soundwave;
 		soundwave_instance.global_position = fire_point.global_position;
@@ -82,6 +128,8 @@ func fire(precision : float = randf_range(0.0, 1.0)):
 		get_parent().add_child(bullet_instance);
 		can_fire = false;
 func flip(yes : bool):
+	if sprite.animation == "death":
+		return;
 	if yes:
 		scale.y = -abs(scale.y);
 		rotation_degrees = 180;
@@ -92,27 +140,23 @@ func flip(yes : bool):
 		rotation_degrees = 0;
 		if !Engine.is_editor_hint():
 			flipped = false;
-func step():
-	if sprite.animation == "run" && step_sounds.size() > 0 && step_frame != sprite.frame && (sprite.frame == 2 || sprite.frame == 5):
-		step_sound_player.stream = step_sounds[randi() % step_sounds.size()];
-		step_sound_player.play();
-		step_frame = sprite.frame;
 func move():
-	var direction = 0; #Input.get_axis(key_left, key_right);
+	var direction = target_direction;
 	if direction:
 		velocity.x = direction * SPEED;
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED);
 	if direction != 0:
 		flip(direction < 0);
+	if target:
+		flip(target.global_position.x - global_position.x < 0);
 	return direction;
 func apply_gravity(delta : float):
 	if !is_on_floor():
 		velocity += get_gravity() * delta;
 func crouch():
-	pass;
-	#if Input.is_action_pressed(key_down):
-		#states.send_event("crouch");
+	if target || (always_crouch_when_stop && target_direction == 0.0):
+		states.send_event("crouch");
 func death():
 	if health.is_dead():
 		states.send_event("death");
@@ -123,8 +167,24 @@ func stop_blink():
 	if sprite.material is ShaderMaterial:
 		sprite.material.set_shader_parameter("whitten", false);
 #endregion
+#region Patrol
+func stop_patrol():
+	target_direction = 0.0;
+func start_patrol():
+	if patrol && !alerted && sprite.animation != "death":
+		await get_tree().create_timer(randf_range(patrol_delay_range.x, patrol_delay_range.y)).timeout;
+		if !walk_in_patrol || (walk_in_patrol && randi() % 100 >= 50):
+			flip(!flipped);
+		else:
+			target_direction = 1.0 if flipped else -1.0;
+		start_patrol();
+#endregion
 
 func _physics_process(delta):
+	walked_distance += abs(velocity.x) * delta;
+	if walked_distance >= max_walk_distance:
+		walked_distance = 0.0;
+		target_direction = 0.0;
 	apply_gravity(delta);
 	move_and_slide();
 
@@ -140,12 +200,14 @@ func _on_fall_state_entered():
 func _on_crouch_state_entered():
 	sprite.play("crouch");
 func _on_death_state_entered():
+	Game.enemies_alerted -= 1;
 	interaction.unregistry();
 	interaction.registry(on_second_green_phantom_interact);
 	sprite.play("death");
 	set_collision_layer_value(1, false);
 	view.enemy_can_be_furtive = true;
 func _on_knockout_state_entered():
+	Game.enemies_alerted -= 1;
 	sprite.play("death");
 	set_collision_layer_value(1, false);
 	view.enemy_can_be_furtive = true;
@@ -160,7 +222,6 @@ func _on_idle_state_processing(_delta):
 		states.send_event("run");
 func _on_run_state_processing(_delta):
 	death();
-	step();
 	fire(0.5);
 	crouch();
 	var direction = move();
@@ -181,14 +242,16 @@ func _on_fall_state_processing(_delta):
 func _on_crouch_state_processing(delta):
 	death();
 	fire(1.0);
-	var direction = 0; #Input.get_axis(key_left, key_right);
+	var direction = target_direction;
 	velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2);
 	if direction != 0:
 		flip(direction < 0);
+	if target:
+		flip(target.global_position.x - global_position.x < 0);
 	if !is_on_floor():
 		states.send_event("fall");
-	#elif !Input.is_action_pressed(key_down):
-		#states.send_event("idle");
+	elif (!target && !always_crouch_when_stop) || (direction != 0.0 && always_crouch_when_stop):
+		states.send_event("idle");
 func _on_death_state_processing(delta):
 	if is_on_floor():
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 2);
@@ -202,6 +265,10 @@ func _on_run_state_exited():
 #dendregion
 
 #region Others
+func _on_health_damaged():
+	if !alerted:
+		alerted = true;
+		Game.enemies_alerted += 1;
 func _on_health_invencibility_tick():
 	blink();
 func _on_health_invencibility_finished():

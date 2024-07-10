@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cq4dns6i5nnqu"]
+
+[ext_resource type="Script" path="res://components/environment/Tank.gd" id="1_f5wj2"]
+[ext_resource type="Texture2D" uid="uid://bmh442e6s45mt" path="res://assets/external/3 Objects/2 Decoration/27.png" id="2_e5c5u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tomcn"]
+size = Vector2(71, 36)
+
+[node name="AltTank" type="Node2D" node_paths=PackedStringArray("area")]
+script = ExtResource("1_f5wj2")
+area = NodePath("Area")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -18)
+texture = ExtResource("2_e5c5u")
+
+[node name="Area" type="Area2D" parent="."]
+position = Vector2(0, -38)
+
+[node name="Collision" type="CollisionShape2D" parent="Area"]
+position = Vector2(3.5, 20)
+shape = SubResource("RectangleShape2D_tomcn")

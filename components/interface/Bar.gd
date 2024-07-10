@@ -3,6 +3,7 @@
 class_name Bar
 extends MarginContainer
 
+@export var gradient : bool = false;
 @export var disabled : bool = false;
 @export var content_scale : float = 1.0;
 @export var width : float = 10;
@@ -22,6 +23,10 @@ extends MarginContainer
 @export var value_color : Color = Color.WHITE :
 	set(value):
 		value_color = value;
+		_update_colors();
+@export var initial_color : Color = value_color :
+	set(value):
+		initial_color = value;
 		_update_colors();
 
 @onready var back_rect : ColorRect = %Back;
@@ -77,4 +82,6 @@ func _process(delta):
 	custom_minimum_size.y = height * content_scale;
 	custom_minimum_size.x = (2 + ((width - 2) * (current_value_limit/base_value))) * content_scale;
 	value_rect.custom_minimum_size.x = (width - 2) * (current_value/base_value);
+	if gradient:
+		value_rect.color = initial_color.lerp(value_color, current_value/current_value_limit);
 	fake_rect.custom_minimum_size.x = (width - 2) * (fake_value/base_value);

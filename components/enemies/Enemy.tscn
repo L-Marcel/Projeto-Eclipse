@@ -1,13 +1,12 @@
-[gd_scene load_steps=60 format=3 uid="uid://cgxiblhs26fbj"]
+[gd_scene load_steps=59 format=3 uid="uid://cgxiblhs26fbj"]
 
 [ext_resource type="Script" path="res://components/enemies/Enemy.gd" id="1_g43js"]
 [ext_resource type="Material" uid="uid://cb1i58ksue7bq" path="res://scripts/shader/Mob.tres" id="1_ooojd"]
-[ext_resource type="AudioStream" uid="uid://dmrh4tt4g784t" path="res://sounds/step_0.wav" id="2_bkb81"]
-[ext_resource type="AudioStream" uid="uid://n7csqpcckhsr" path="res://sounds/step_1.wav" id="3_nxci1"]
 [ext_resource type="Script" path="res://components/entity/Interaction.gd" id="4_6itcx"]
 [ext_resource type="SpriteFrames" uid="uid://b0nhovijexdwn" path="res://components/enemies/Enemy.tres" id="4_l2ntd"]
 [ext_resource type="Script" path="res://components/entity/Health.gd" id="5_urrmf"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="6_mjn33"]
+[ext_resource type="AudioStream" uid="uid://b7twx6yk4phtn" path="res://sounds/enemy_alert.wav" id="6_xn0df"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_g4652"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_x4m1w"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="9_nswew"]
@@ -22,7 +21,7 @@
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="15_0ocyi"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="16_7nvub"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4c1x4"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ibrd"]
 size = Vector2(21, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gly67"]
@@ -215,7 +214,7 @@ data = {
 "run": [SubResource("Resource_hdj0p"), SubResource("Resource_5o4k1"), SubResource("Resource_ineo5"), SubResource("Resource_hy3ou"), SubResource("Resource_77oos"), SubResource("Resource_3u5dn")]
 }
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "view", "flash", "health", "gun_fire_sound", "step_sound_player", "interaction") groups=["mob"]]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "states", "hurtbox", "fire_point", "view", "flash", "health", "interaction", "alert_sound", "gun_fire_sound") groups=["mob"]]
 process_mode = 4
 z_index = 200
 collision_layer = 5
@@ -227,10 +226,10 @@ fire_point = NodePath("FirePoint")
 view = NodePath("FirePoint/View")
 flash = NodePath("FirePoint/Flash")
 health = NodePath("Health")
-gun_fire_sound = NodePath("FirePoint/FireSound")
-step_sound_player = NodePath("StepSound")
-step_sounds = Array[AudioStream]([ExtResource("2_bkb81"), ExtResource("3_nxci1")])
 interaction = NodePath("Interaction")
+alert_sound = NodePath("Alert")
+gun_fire_sound = NodePath("FirePoint/FireSound")
+max_walk_distance = null
 
 [node name="Interaction" type="Node" parent="."]
 script = ExtResource("4_6itcx")
@@ -241,6 +240,10 @@ _total = 8.0
 _limit = 8.0
 _base = 8.0
 _invencible_duration = 0.25
+
+[node name="Alert" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_xn0df")
+volume_db = -20.0
 
 [node name="StepSound" type="AudioStreamPlayer" parent="."]
 volume_db = -25.0
@@ -435,7 +438,6 @@ sprite = NodePath("../Sprite")
 position = Vector2(0, -0.5)
 
 [node name="Flash" parent="FirePoint" instance=ExtResource("12_1hgo1")]
-visible = false
 position = Vector2(3, 0)
 
 [node name="FireSound" type="AudioStreamPlayer" parent="FirePoint"]
@@ -445,7 +447,7 @@ mix_target = 1
 
 [node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_4c1x4")
+shape = SubResource("RectangleShape2D_5ibrd")
 script = ExtResource("13_3jk5w")
 health = NodePath("../Health")
 
@@ -455,6 +457,7 @@ animated_sprite = NodePath("../Sprite")
 collision_shape = NodePath("../Hurtbox")
 shape_frames = SubResource("Resource_vw21c")
 
+[connection signal="damaged" from="Health" to="." method="_on_health_damaged"]
 [connection signal="invencibility_finished" from="Health" to="." method="_on_health_invencibility_finished"]
 [connection signal="invencibility_tick" from="Health" to="." method="_on_health_invencibility_tick"]
 [connection signal="state_entered" from="States/Root/Idle" to="." method="_on_idle_state_entered"]

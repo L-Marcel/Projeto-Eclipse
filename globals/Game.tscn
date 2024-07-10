@@ -1,10 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://7pduy73gychv"]
+[gd_scene load_steps=14 format=3 uid="uid://7pduy73gychv"]
 
 [ext_resource type="FontFile" uid="uid://lpgtbhgxnix8" path="res://theme/font/PixeloidSans-Bold.ttf" id="1_0roo2"]
 [ext_resource type="Script" path="res://globals/Game.gd" id="1_ffpfp"]
 [ext_resource type="FontFile" uid="uid://cxvjks6oj5ios" path="res://theme/font/PixeloidSans.ttf" id="2_3kfj7"]
 [ext_resource type="AudioStream" uid="uid://behqtycmh4cc6" path="res://musics/DOS-88 - City Stomper.mp3" id="2_bjypi"]
 [ext_resource type="AudioStream" uid="uid://bx8oiwgy4ms8r" path="res://musics/Crash Landing.mp3" id="3_cbqcb"]
+[ext_resource type="AudioStream" uid="uid://brc1pu24rx3qv" path="res://sounds/alarm.wav" id="4_7br3w"]
+[ext_resource type="PackedScene" uid="uid://b1v58qfxxbw3r" path="res://components/interface/Bar.tscn" id="6_lswe8"]
+[ext_resource type="Texture2D" uid="uid://340xbc7tonxh" path="res://assets/alarm.png" id="6_o28cr"]
+[ext_resource type="Texture2D" uid="uid://bjk54ipkp15h8" path="res://assets/alarm_tick.png" id="8_n5lbj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_h7ghc"]
 font = ExtResource("1_0roo2")
@@ -18,7 +22,13 @@ font_size = 36
 font = ExtResource("2_3kfj7")
 font_size = 36
 
-[node name="Game" type="CanvasLayer" node_paths=PackedStringArray("control", "description_label", "tip_label", "in_action_player", "game_over_player")]
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_134od"]
+frames = 2
+frame_0/texture = ExtResource("6_o28cr")
+frame_1/texture = ExtResource("8_n5lbj")
+frame_1/duration = 1.0
+
+[node name="Game" type="CanvasLayer" node_paths=PackedStringArray("control", "description_label", "tip_label", "in_action_player", "game_over_player", "alarm_player", "alarm_bar", "alarm_icon")]
 process_mode = 3
 script = ExtResource("1_ffpfp")
 control = NodePath("Control")
@@ -26,16 +36,9 @@ description_label = NodePath("Control/Margin/Center/Body/Description")
 tip_label = NodePath("Control/Margin/Center/Body/Tip")
 in_action_player = NodePath("InAction")
 game_over_player = NodePath("GameOver")
-
-[node name="InAction" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_bjypi")
-volume_db = -30.0
-parameters/looping = true
-
-[node name="GameOver" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_cbqcb")
-volume_db = -30.0
-parameters/looping = true
+alarm_player = NodePath("Alarm")
+alarm_bar = NodePath("Body/Alarm/Bar")
+alarm_icon = NodePath("Body/Alarm/AlarmIcon")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -52,7 +55,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.588235)
+color = Color(0, 0, 0, 0.784314)
 
 [node name="Margin" type="MarginContainer" parent="Control"]
 layout_mode = 1
@@ -99,3 +102,55 @@ text = "Apertem Enter ou Select para tentar novamente"
 label_settings = SubResource("LabelSettings_780h1")
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="Alarm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_7br3w")
+volume_db = -20.0
+
+[node name="InAction" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_bjypi")
+volume_db = -30.0
+parameters/looping = true
+
+[node name="GameOver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_cbqcb")
+volume_db = -30.0
+parameters/looping = true
+
+[node name="Body" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_bottom = -72.0
+grow_vertical = 0
+scale = Vector2(4, 4)
+
+[node name="Alarm" type="HBoxContainer" parent="Body"]
+layout_mode = 0
+offset_right = 82.0
+offset_bottom = 9.0
+theme_override_constants/separation = 2
+
+[node name="AlarmIcon" type="TextureRect" parent="Body/Alarm"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = SubResource("AnimatedTexture_134od")
+stretch_mode = 2
+
+[node name="Bar" parent="Body/Alarm" instance=ExtResource("6_lswe8")]
+custom_minimum_size = Vector2(64, 7)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/margin_bottom = 2
+gradient = true
+width = 64.0
+height = 7.0
+border_color = Color(1, 1, 1, 1)
+back_color = Color(0.23888, 0.242786, 0.258915, 1)
+fake_color = Color(0.239216, 0.243137, 0.258824, 1)
+value_color = Color(0.87451, 0.392157, 0.305882, 1)
+initial_color = Color(0.87451, 1, 0.478431, 1)
+fake_change_speed = 60.0

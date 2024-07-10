@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=3 uid="uid://s7wl6rb02txk"]
+
+[ext_resource type="Script" path="res://components/environment/Switch.gd" id="1_f1prw"]
+[ext_resource type="Script" path="res://components/entity/Interaction.gd" id="2_3e23w"]
+[ext_resource type="Texture2D" uid="uid://dsm2ma1xjm76t" path="res://assets/switch.png" id="3_xwps0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mo0nn"]
+atlas = ExtResource("3_xwps0")
+region = Rect2(18, 0, 9, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x048x"]
+atlas = ExtResource("3_xwps0")
+region = Rect2(9, 0, 9, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_km8qs"]
+atlas = ExtResource("3_xwps0")
+region = Rect2(0, 0, 9, 11)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_46nx7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mo0nn")
+}],
+"loop": true,
+"name": &"actived",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x048x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_km8qs")
+}],
+"loop": true,
+"name": &"focus",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tet51"]
+size = Vector2(10, 12)
+
+[node name="Switch" type="StaticBody2D" node_paths=PackedStringArray("sprite", "interaction")]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_f1prw")
+sprite = NodePath("Sprite")
+interaction = NodePath("Interaction")
+
+[node name="Interaction" type="Node" parent="."]
+script = ExtResource("2_3e23w")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_46nx7")
+animation = &"focus"
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tet51")

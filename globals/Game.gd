@@ -5,19 +5,33 @@ extends CanvasLayer
 @export var tip_label : Label;
 @export var in_action_player : AudioStreamPlayer;
 @export var game_over_player : AudioStreamPlayer;
+@export var alarm_player : AudioStreamPlayer;
+@export var alarm_bar : Bar;
+@export var alarm_icon : TextureRect;
 var can_reset : bool = false;
+
+var alarm_progress : float = 0.0 :
+	set(value):
+		alarm_progress = value;
+		if alarm_bar:
+			alarm_bar.update(alarm_progress, 1.0, 1.0);
+var enemies_alerted : int = 0;
 
 signal reset;
 
-func game_over(description : String):
-	if !visible:
+func game_over(description : String, alarm = false):
+	enemies_alerted = 0;
+	if !control.visible:
 		get_tree().paused = true;
-		game_over_player.play();
+		if !alarm:
+			game_over_player.play();
+		else:
+			alarm_player.play();
 		in_action_player.stop();
 		description_label.modulate.a = 0.0;
 		tip_label.modulate.a = 0.0;
 		control.modulate.a = 0.0;
-		visible = true;
+		control.visible = true;
 		description_label.text = description;
 		var tween : Tween = create_tween();
 		tween.tween_property(control, "modulate", Color.WHITE, 2.0);
@@ -26,17 +40,35 @@ func game_over(description : String):
 		tween.play();
 		can_reset = true;
 func start():
+	enemies_alerted = 0;
+	alarm_progress = 0;
 	tip_label.modulate.a = 0.0;
 	game_over_player.stop();
+	alarm_player.stop();
 	in_action_player.play();
-	visible = false;
+	control.visible = false;
 	get_tree().paused = false;
 func _ready():
 	start();
 
-func _process(_delta):
+func _process(delta):
+	if alarm_progress != 0 && alarm_icon.texture is AnimatedTexture:
+		alarm_icon.texture.pause = false;
+	elif alarm_progress == 0 && alarm_icon.texture is AnimatedTexture:
+		alarm_icon.texture.pause = true;
+		alarm_icon.texture.current_frame = 0;
+		
+	if !control.visible:
+		enemies_alerted = max(0, enemies_alerted);
+		if enemies_alerted > 0:
+			alarm_progress = clamp(alarm_progress + (delta / 10.0) * enemies_alerted, 0.0, 1.0);
+		else:
+			alarm_progress = clamp(alarm_progress -(delta / 10.0), 0.0, 1.0);
+		if alarm_progress >= 1.0 && !control.visible:
+			game_over("O alarme tocou! Os dados se perderam...", true);
 	if Input.is_action_just_pressed("start") && tip_label.modulate.a >= 0.25 && can_reset:
 		can_reset = false;
 		reset.emit();
 		start();
 		get_tree().change_scene_to_file("res://Level01.tscn");
+		enemies_alerted = 0;

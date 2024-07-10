@@ -4,7 +4,14 @@ extends Node2D
 @export var on : bool = true;
 @export var enemy_can_be_furtive : bool = false;
 var danger : bool = false;
-var target : Player = null;
+var target : Player = null :
+	set(value):
+		target = value;
+		target_changed.emit();
+
+signal target_changed;
+
+var reseting_target : bool = false;
 
 func is_danger():
 	return danger;
@@ -31,3 +38,8 @@ func _process(_delta):
 	danger = _danger;
 	if _target != null:
 		target = _target;
+		reseting_target = false;
+	elif !reseting_target:
+		reseting_target = true;
+		await get_tree().create_timer(1.0).timeout;
+		target = null;

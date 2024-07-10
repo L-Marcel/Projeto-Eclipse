@@ -12,6 +12,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 script = ExtResource("2_ikav7")
 border_color = Color(0, 0, 0, 1)
+initial_color = Color(1, 1, 1, 1)
 
 [node name="Container" type="MarginContainer" parent="."]
 unique_name_in_owner = true
