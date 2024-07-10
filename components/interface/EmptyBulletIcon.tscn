@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://f5s17mmiik6y"]
+
+[ext_resource type="Texture2D" uid="uid://vkns0ckcpns1" path="res://assets/empty_bullet.png" id="1_ymke3"]
+
+[node name="BulletIcon" type="TextureRect"]
+texture = ExtResource("1_ymke3")
+stretch_mode = 2

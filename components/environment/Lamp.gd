@@ -51,8 +51,9 @@ func _ready():
 	view.on = on;
 	light.enabled = on;
 	update();
-	await get_tree().create_timer(delay).timeout;
-	start();
+	if !Engine.is_editor_hint():
+		await get_tree().create_timer(delay).timeout;
+		start();
 func _process(_delta):
 	if light && randi() % 100 <= 10:
 		var max_range : float = 0.2;

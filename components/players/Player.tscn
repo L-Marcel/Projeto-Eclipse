@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://ccvd8m4lysnax"]
+[gd_scene load_steps=23 format=3 uid="uid://ccvd8m4lysnax"]
 
 [ext_resource type="Script" path="res://components/players/Player.gd" id="1_3ajtj"]
 [ext_resource type="Material" uid="uid://cb1i58ksue7bq" path="res://scripts/shader/Mob.tres" id="1_etfwo"]
@@ -12,7 +12,6 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="5_bpiqr"]
 [ext_resource type="Script" path="res://components/entity/Actor.gd" id="5_i13sb"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/animated_shape_2d.gd" id="6_3esgo"]
-[ext_resource type="Script" path="res://components/entity/Health.gd" id="6_335ax"]
 [ext_resource type="Script" path="res://scripts/FirePoint.gd" id="9_tx268"]
 [ext_resource type="PackedScene" uid="uid://detu0uglbmgdf" path="res://components/effects/Flash.tscn" id="10_4ua1c"]
 [ext_resource type="AudioStream" uid="uid://bnjpjrrd0gw1b" path="res://sounds/fire.wav" id="10_h1n07"]
@@ -23,10 +22,10 @@
 [ext_resource type="Resource" uid="uid://clkypk8p2hx2j" path="res://components/entity/ShapeFrames.tres" id="16_0eqpu"]
 [ext_resource type="PackedScene" uid="uid://dotrloiei4irn" path="res://components/players/VisionIcon.tscn" id="18_e308n"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6egw3"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u20ea"]
 size = Vector2(21, 32)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("actor", "actor_collision_shape", "interaction", "sprite", "states", "hurtbox", "health", "fire_point", "flash", "gun_fire_sound", "step_point", "step_sound_player", "vision_icon") groups=["mob", "player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("actor", "actor_collision_shape", "interaction", "sprite", "states", "hurtbox", "fire_point", "flash", "gun_fire_sound", "step_point", "step_sound_player", "vision_icon") groups=["mob", "player"]]
 process_mode = 1
 z_index = 200
 collision_layer = 11
@@ -38,7 +37,6 @@ interaction = NodePath("Interaction")
 sprite = NodePath("Sprite")
 states = NodePath("States")
 hurtbox = NodePath("Hurtbox")
-health = NodePath("Health")
 fire_point = NodePath("FirePoint")
 flash = NodePath("FirePoint/Flash")
 gun_fire_sound = NodePath("FirePoint/FireSound")
@@ -58,13 +56,6 @@ monitorable = false
 script = ExtResource("5_i13sb")
 
 [node name="Collision" type="CollisionShape2D" parent="Actor"]
-
-[node name="Health" type="Node" parent="."]
-script = ExtResource("6_335ax")
-_total = 24.0
-_limit = 24.0
-_base = 24.0
-_invencible_duration = 0.5
 
 [node name="StepSound" type="AudioStreamPlayer" parent="."]
 volume_db = -25.0
@@ -238,11 +229,10 @@ mix_target = 1
 [node name="Flash" parent="FirePoint" instance=ExtResource("10_4ua1c")]
 position = Vector2(3, 0)
 
-[node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
+[node name="Hurtbox" type="CollisionShape2D" parent="."]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_6egw3")
+shape = SubResource("RectangleShape2D_u20ea")
 script = ExtResource("14_t8vdc")
-health = NodePath("../Health")
 
 [node name="AnimatedShape2D" type="Node" parent="." node_paths=PackedStringArray("animated_sprite", "collision_shape")]
 script = ExtResource("6_3esgo")
@@ -250,8 +240,6 @@ animated_sprite = NodePath("../Sprite")
 collision_shape = NodePath("../Hurtbox")
 shape_frames = ExtResource("16_0eqpu")
 
-[connection signal="invencibility_finished" from="Health" to="." method="_on_health_invencibility_finished"]
-[connection signal="invencibility_tick" from="Health" to="." method="_on_health_invencibility_tick"]
 [connection signal="state_entered" from="States/Root/Idle" to="." method="_on_idle_state_entered"]
 [connection signal="state_processing" from="States/Root/Idle" to="." method="_on_idle_state_processing"]
 [connection signal="state_entered" from="States/Root/Run" to="." method="_on_run_state_entered"]

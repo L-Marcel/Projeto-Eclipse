@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://cxwh675la76h0"]
+
+[ext_resource type="Texture2D" uid="uid://bm3lnu0ah4ypf" path="res://assets/ammo_kit.png" id="1_1nfgt"]
+[ext_resource type="Script" path="res://components/objects/AmmoKit.gd" id="1_2d5go"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eywlg"]
+atlas = ExtResource("1_1nfgt")
+region = Rect2(0, 0, 32, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ms6ex"]
+atlas = ExtResource("1_1nfgt")
+region = Rect2(32, 0, 32, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gc1mh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eywlg")
+}],
+"loop": false,
+"name": &"default",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ms6ex")
+}],
+"loop": false,
+"name": &"void",
+"speed": 1.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xgwrm"]
+size = Vector2(29, 17)
+
+[node name="AmmoKit" type="Area2D" node_paths=PackedStringArray("sprite")]
+script = ExtResource("1_2d5go")
+sprite = NodePath("Sprite")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -11)
+sprite_frames = SubResource("SpriteFrames_gc1mh")
+animation = &"void"
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, -8.5)
+shape = SubResource("RectangleShape2D_xgwrm")

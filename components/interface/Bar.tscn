@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1v58qfxxbw3r"]
+
+[ext_resource type="Texture2D" uid="uid://cl1w78o58ka41" path="res://assets/box.png" id="2_cggny"]
+[ext_resource type="Script" path="res://components/interface/Bar.gd" id="2_ikav7"]
+
+[node name="Bar" type="MarginContainer"]
+custom_minimum_size = Vector2(10, 3)
+layout_direction = 2
+offset_right = 10.0
+offset_bottom = 3.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("2_ikav7")
+border_color = Color(0, 0, 0, 1)
+
+[node name="Container" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(3, 3)
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="Back" type="ColorRect" parent="Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(0.608, 0.671, 0.698, 1)
+
+[node name="Fake" type="ColorRect" parent="Container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+color = Color(0.78, 0.863, 0.816, 1)
+
+[node name="Value" type="ColorRect" parent="Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Border" type="NinePatchRect" parent="."]
+unique_name_in_owner = true
+modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2(3, 3)
+layout_mode = 2
+texture = ExtResource("2_cggny")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1

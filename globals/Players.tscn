@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://5t8i2ewbxmrw"]
+
+[ext_resource type="Script" path="res://components/entity/Health.gd" id="1_it2b8"]
+[ext_resource type="Script" path="res://globals/Players.gd" id="1_rkyvk"]
+[ext_resource type="Script" path="res://components/entity/Clip.gd" id="3_u4853"]
+
+[node name="Players" type="Node" node_paths=PackedStringArray("red_health", "green_health", "red_clip", "green_clip")]
+script = ExtResource("1_rkyvk")
+red_health = NodePath("RedGhostHealth")
+green_health = NodePath("GreenPhantomHealth")
+red_clip = NodePath("RedGhostClip")
+green_clip = NodePath("GreenPhantomClip")
+
+[node name="RedGhostHealth" type="Node" parent="."]
+script = ExtResource("1_it2b8")
+_total = 24.0
+_limit = 24.0
+_base = 24.0
+_invencible_duration = 0.5
+
+[node name="GreenPhantomHealth" type="Node" parent="."]
+script = ExtResource("1_it2b8")
+_total = 12.0
+_limit = 12.0
+_base = 12.0
+_invencible_duration = 0.5
+
+[node name="RedGhostClip" type="Node" parent="."]
+script = ExtResource("3_u4853")
+
+[node name="GreenPhantomClip" type="Node" parent="."]
+script = ExtResource("3_u4853")

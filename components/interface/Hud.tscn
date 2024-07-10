@@ -1,0 +1,196 @@
+[gd_scene load_steps=11 format=3 uid="uid://bpkae5agechp8"]
+
+[ext_resource type="Script" path="res://components/interface/Hud.gd" id="1_aoj87"]
+[ext_resource type="Texture2D" uid="uid://doiq4m2nepu47" path="res://assets/red-head.png" id="1_k3qih"]
+[ext_resource type="Script" path="res://components/interface/ClipHud.gd" id="2_hxvx7"]
+[ext_resource type="Texture2D" uid="uid://cpyljl5r74wdx" path="res://assets/green-head.png" id="2_je3g4"]
+[ext_resource type="PackedScene" uid="uid://b1v58qfxxbw3r" path="res://components/interface/Bar.tscn" id="2_wlwd5"]
+[ext_resource type="PackedScene" uid="uid://bgtaghrv7pq8j" path="res://components/interface/BulletIcon.tscn" id="5_pa0a5"]
+[ext_resource type="FontFile" uid="uid://dxsixc4mfm6gq" path="res://theme/font/PixeloidMono.ttf" id="6_gyx6s"]
+[ext_resource type="Script" path="res://components/interface/AmmoInfo.gd" id="7_ox6pp"]
+[ext_resource type="Texture2D" uid="uid://bxe4neh1hgkv0" path="res://assets/bullets.png" id="8_36p8j"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_64qft"]
+font = ExtResource("6_gyx6s")
+font_size = 9
+
+[node name="Hud" type="CanvasLayer" node_paths=PackedStringArray("red_bar", "green_bar")]
+script = ExtResource("1_aoj87")
+red_bar = NodePath("Red/Header/Red/Head/Info/Bar")
+green_bar = NodePath("Green/Green/Head/Info/Bar")
+
+[node name="Red" type="MarginContainer" parent="."]
+offset_right = 157.0
+offset_bottom = 29.0
+scale = Vector2(4, 4)
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Header" type="HBoxContainer" parent="Red"]
+layout_mode = 2
+alignment = 1
+
+[node name="Red" type="VBoxContainer" parent="Red/Header"]
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="Head" type="HBoxContainer" parent="Red/Header/Red"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Red/Header/Red/Head"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("1_k3qih")
+stretch_mode = 2
+
+[node name="Info" type="VBoxContainer" parent="Red/Header/Red/Head"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Bar" parent="Red/Header/Red/Head/Info" instance=ExtResource("2_wlwd5")]
+custom_minimum_size = Vector2(48, 6)
+layout_mode = 2
+size_flags_vertical = 4
+width = 48.0
+height = 6.0
+border_color = Color(1, 1, 1, 1)
+back_color = Color(0.595987, 0.297993, 0.297993, 1)
+fake_color = Color(0.96817, 0.708348, 0.654586, 1)
+value_color = Color(0.874449, 0.392279, 0.305806, 1)
+base_value = 24.0
+current_value_limit = 24.0
+current_value = 24.0
+
+[node name="Clip" type="HBoxContainer" parent="Red/Header/Red/Head/Info"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 1
+script = ExtResource("2_hxvx7")
+
+[node name="BulletIcon8" parent="Red/Header/Red/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon9" parent="Red/Header/Red/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon10" parent="Red/Header/Red/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon11" parent="Red/Header/Red/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon12" parent="Red/Header/Red/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon13" parent="Red/Header/Red/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon14" parent="Red/Header/Red/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="Ammo" type="MarginContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_right = -40.0
+grow_horizontal = 0
+scale = Vector2(4, 4)
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Head" type="HBoxContainer" parent="Ammo"]
+layout_mode = 2
+theme_override_constants/separation = 1
+alignment = 1
+
+[node name="AmmoInfo" type="Label" parent="Ammo/Head"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "0x"
+label_settings = SubResource("LabelSettings_64qft")
+script = ExtResource("7_ox6pp")
+
+[node name="Icon" type="TextureRect" parent="Ammo/Head"]
+layout_mode = 2
+texture = ExtResource("8_36p8j")
+stretch_mode = 4
+
+[node name="Green" type="MarginContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+scale = Vector2(-4, 4)
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Green" type="VBoxContainer" parent="Green"]
+layout_mode = 2
+
+[node name="Head" type="HBoxContainer" parent="Green/Green"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Icon" type="TextureRect" parent="Green/Green/Head"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("2_je3g4")
+stretch_mode = 2
+flip_h = true
+
+[node name="Info" type="VBoxContainer" parent="Green/Green/Head"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Bar" parent="Green/Green/Head/Info" instance=ExtResource("2_wlwd5")]
+custom_minimum_size = Vector2(25, 6)
+layout_mode = 2
+size_flags_vertical = 4
+width = 48.0
+height = 6.0
+border_color = Color(1, 1, 1, 1)
+back_color = Color(0.364431, 0.595987, 0.297993, 1)
+fake_color = Color(0.817973, 0.958528, 0.734566, 1)
+value_color = Color(0.611612, 0.847089, 0.45481, 1)
+base_value = 24.0
+current_value_limit = 12.0
+current_value = 12.0
+
+[node name="Clip" type="HBoxContainer" parent="Green/Green/Head/Info"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 1
+alignment = 2
+script = ExtResource("2_hxvx7")
+player_one = false
+
+[node name="BulletIcon9" parent="Green/Green/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon10" parent="Green/Green/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon11" parent="Green/Green/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon12" parent="Green/Green/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon18" parent="Green/Green/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon19" parent="Green/Green/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon20" parent="Green/Green/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2
+
+[node name="BulletIcon21" parent="Green/Green/Head/Info/Clip" instance=ExtResource("5_pa0a5")]
+layout_mode = 2

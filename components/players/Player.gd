@@ -29,7 +29,8 @@ extends CharacterBody2D
 @export var sprite : AnimatedSprite2D;
 @export var states : StateChart;
 @export var hurtbox : Hurtbox;
-@export var health : Health;
+var health : Health;
+var clip : Clip;
 
 @export_group("Fire")
 @export var fire_delay : float = 0.25;
@@ -94,13 +95,17 @@ func _ready():
 	if !player_one:
 		actor.set_collision_mask_value(3, true);
 		actor.set_collision_mask_value(4, false);
-		health._limit = health._limit/2.0;
-		health._base = health._base/2.0;
-		health.set_total(health.get_limit());
+		health = Players.green_health;
+		clip = Players.green_clip;
 		interaction.registry(on_player_one_interact);
 	else:
 		actor.set_collision_mask_value(3, false);
 		actor.set_collision_mask_value(4, true);
+		health = Players.red_health;
+		clip = Players.red_clip;
+	hurtbox.health = health;
+	health.invencibility_finished.connect(_on_health_invencibility_finished);
+	health.invencibility_tick.connect(_on_health_invencibility_tick);
 
 #region Visibility
 func set_was_seen(value : int, duration : float = 2.0):
@@ -133,28 +138,33 @@ func on_player_one_interact(_by : Node2D):
 		can_cancel_jump = false;
 func fire(precision : float = randf_range(0.0, 1.0)):
 	if Input.is_action_pressed(key_fire) && can_fire:
-		flash.on = true;
-		var soundwave_instance = soundwave.instantiate() as Soundwave;
-		soundwave_instance.global_position = fire_point.global_position;
-		get_parent().add_child(soundwave_instance);
-		var bullet_instance = bullet.instantiate() as Bullet;
-		bullet_instance.configure_as_ally(self);
-		var angle_diff = randf_range(-10, 10) * (1.0 - precision);
-		if scale.y == -abs(scale.y):
-			bullet_instance.global_position = fire_point.global_position;
-			bullet_instance.rotation_degrees = 180 + angle_diff;
-		else:
-			bullet_instance.rotation_degrees = angle_diff;
-			bullet_instance.global_position = fire_point.global_position;
-		bullet_instance.linear_velocity = Vector2.from_angle(bullet_instance.rotation) * 800;
-		soundwave_instance.set_danger(2);
-		soundwave_instance.play(
-			32.0,
-			124.0
-		);
-		gun_fire_sound.play();
-		set_was_seen(2, 0.1);
-		get_parent().add_child(bullet_instance);
+		if clip.has_ammo():
+			flash.on = true;
+			var soundwave_instance = soundwave.instantiate() as Soundwave;
+			soundwave_instance.global_position = fire_point.global_position;
+			get_parent().add_child(soundwave_instance);
+			var bullet_instance = bullet.instantiate() as Bullet;
+			bullet_instance.configure_as_ally(self);
+			var angle_diff = randf_range(-10, 10) * (1.0 - precision);
+			if scale.y == -abs(scale.y):
+				bullet_instance.global_position = fire_point.global_position;
+				bullet_instance.rotation_degrees = 180 + angle_diff;
+			else:
+				bullet_instance.rotation_degrees = angle_diff;
+				bullet_instance.global_position = fire_point.global_position;
+			bullet_instance.linear_velocity = Vector2.from_angle(bullet_instance.rotation) * 800;
+			soundwave_instance.set_danger(2);
+			soundwave_instance.play(
+				32.0,
+				124.0
+			);
+			gun_fire_sound.play();
+			set_was_seen(2, 0.1);
+			get_parent().add_child(bullet_instance);
+			clip.fire();
+			can_fire = false;
+		elif !clip.is_reloading():
+			clip.reload();
 		can_fire = false;
 func flip(yes : bool):
 	if yes:

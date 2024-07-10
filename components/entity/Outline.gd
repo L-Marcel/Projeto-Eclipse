@@ -10,8 +10,9 @@ extends AnimatedSprite2D
 @export var main : AnimatedSprite2D;
 
 func _ready():
-	interaction.focus.connect(_on_focus);
-	interaction.unfocus.connect(_on_unfocus);
+	if !Engine.is_editor_hint():
+		interaction.focus.connect(_on_focus);
+		interaction.unfocus.connect(_on_unfocus);
 	main.frame_changed.connect(_on_frame_changed);
 	main.animation_changed.connect(_on_animation_changed);
 func _on_unfocus():
