@@ -1,0 +1,101 @@
+[gd_scene load_steps=9 format=3 uid="uid://7pduy73gychv"]
+
+[ext_resource type="FontFile" uid="uid://lpgtbhgxnix8" path="res://theme/font/PixeloidSans-Bold.ttf" id="1_0roo2"]
+[ext_resource type="Script" path="res://globals/Game.gd" id="1_ffpfp"]
+[ext_resource type="FontFile" uid="uid://cxvjks6oj5ios" path="res://theme/font/PixeloidSans.ttf" id="2_3kfj7"]
+[ext_resource type="AudioStream" uid="uid://behqtycmh4cc6" path="res://musics/DOS-88 - City Stomper.mp3" id="2_bjypi"]
+[ext_resource type="AudioStream" uid="uid://bx8oiwgy4ms8r" path="res://musics/Crash Landing.mp3" id="3_cbqcb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_h7ghc"]
+font = ExtResource("1_0roo2")
+font_size = 72
+
+[sub_resource type="LabelSettings" id="LabelSettings_bxb67"]
+font = ExtResource("2_3kfj7")
+font_size = 36
+
+[sub_resource type="LabelSettings" id="LabelSettings_780h1"]
+font = ExtResource("2_3kfj7")
+font_size = 36
+
+[node name="Game" type="CanvasLayer" node_paths=PackedStringArray("control", "description_label", "tip_label", "in_action_player", "game_over_player")]
+process_mode = 3
+script = ExtResource("1_ffpfp")
+control = NodePath("Control")
+description_label = NodePath("Control/Margin/Center/Body/Description")
+tip_label = NodePath("Control/Margin/Center/Body/Tip")
+in_action_player = NodePath("InAction")
+game_over_player = NodePath("GameOver")
+
+[node name="InAction" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_bjypi")
+volume_db = -30.0
+parameters/looping = true
+
+[node name="GameOver" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_cbqcb")
+volume_db = -30.0
+parameters/looping = true
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.588235)
+
+[node name="Margin" type="MarginContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 32
+
+[node name="Center" type="VBoxContainer" parent="Control/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="Title" type="Label" parent="Control/Margin/Center"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_h7ghc")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Body" type="VBoxContainer" parent="Control/Margin/Center"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Description" type="Label" parent="Control/Margin/Center/Body"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+text = "O alarme tocou e os dados foram perdidos...."
+label_settings = SubResource("LabelSettings_bxb67")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Tip" type="Label" parent="Control/Margin/Center/Body"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+text = "Apertem Enter ou Select para tentar novamente"
+label_settings = SubResource("LabelSettings_780h1")
+horizontal_alignment = 1
+autowrap_mode = 3

@@ -15,14 +15,14 @@ green_clip = NodePath("GreenPhantomClip")
 script = ExtResource("1_it2b8")
 _total = 24.0
 _limit = 24.0
-_base = 24.0
+_base = 16.0
 _invencible_duration = 0.5
 
 [node name="GreenPhantomHealth" type="Node" parent="."]
 script = ExtResource("1_it2b8")
 _total = 12.0
 _limit = 12.0
-_base = 12.0
+_base = 16.0
 _invencible_duration = 0.5
 
 [node name="RedGhostClip" type="Node" parent="."]
@@ -30,3 +30,4 @@ script = ExtResource("3_u4853")
 
 [node name="GreenPhantomClip" type="Node" parent="."]
 script = ExtResource("3_u4853")
+max_ammonition = 6

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ccvd8m4lysnax"]
+[gd_scene load_steps=26 format=3 uid="uid://ccvd8m4lysnax"]
 
 [ext_resource type="Script" path="res://components/players/Player.gd" id="1_3ajtj"]
 [ext_resource type="Material" uid="uid://cb1i58ksue7bq" path="res://scripts/shader/Mob.tres" id="1_etfwo"]
@@ -20,12 +20,15 @@
 [ext_resource type="SpriteFrames" uid="uid://51tbmlrvsehx" path="res://components/enemies/Outline.tres" id="15_60gml"]
 [ext_resource type="Script" path="res://components/entity/Outline.gd" id="15_jqt5w"]
 [ext_resource type="Resource" uid="uid://clkypk8p2hx2j" path="res://components/entity/ShapeFrames.tres" id="16_0eqpu"]
+[ext_resource type="AudioStream" uid="uid://c1xnurorqy8bk" path="res://sounds/reload_tick.wav" id="17_het82"]
+[ext_resource type="AudioStream" uid="uid://c2ek747nn7ms0" path="res://sounds/out_ammo.wav" id="17_vv83o"]
+[ext_resource type="AudioStream" uid="uid://c0ikf0ybtdgbd" path="res://sounds/reload_finished.wav" id="18_44tlp"]
 [ext_resource type="PackedScene" uid="uid://dotrloiei4irn" path="res://components/players/VisionIcon.tscn" id="18_e308n"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_u20ea"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_entpq"]
 size = Vector2(21, 32)
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("actor", "actor_collision_shape", "interaction", "sprite", "states", "hurtbox", "fire_point", "flash", "gun_fire_sound", "step_point", "step_sound_player", "vision_icon") groups=["mob", "player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("actor", "actor_collision_shape", "interaction", "sprite", "states", "hurtbox", "fire_point", "flash", "gun_fire_sound", "gun_out_ammo_sound", "gun_reload_sound", "gun_reload_tick_sound", "step_point", "step_sound_player", "vision_icon") groups=["mob", "player"]]
 process_mode = 1
 z_index = 200
 collision_layer = 11
@@ -40,6 +43,9 @@ hurtbox = NodePath("Hurtbox")
 fire_point = NodePath("FirePoint")
 flash = NodePath("FirePoint/Flash")
 gun_fire_sound = NodePath("FirePoint/FireSound")
+gun_out_ammo_sound = NodePath("FirePoint/OutAmmo")
+gun_reload_sound = NodePath("FirePoint/RealodFinished")
+gun_reload_tick_sound = NodePath("FirePoint/ReloadTick")
 step_point = NodePath("StepPoint")
 step_sound_player = NodePath("StepSound")
 step_sounds = Array[AudioStream]([ExtResource("2_1bky8"), ExtResource("3_wf6c8")])
@@ -216,10 +222,23 @@ main = NodePath("../Sprite")
 position = Vector2(2.5, 15)
 
 [node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
+visible = false
 position = Vector2(13, -2)
 gizmo_extents = 5.0
 script = ExtResource("9_tx268")
 sprite = NodePath("../Sprite")
+
+[node name="ReloadTick" type="AudioStreamPlayer" parent="FirePoint"]
+stream = ExtResource("17_het82")
+volume_db = -20.0
+
+[node name="OutAmmo" type="AudioStreamPlayer" parent="FirePoint"]
+stream = ExtResource("17_vv83o")
+volume_db = -10.0
+
+[node name="RealodFinished" type="AudioStreamPlayer" parent="FirePoint"]
+stream = ExtResource("18_44tlp")
+volume_db = -20.0
 
 [node name="FireSound" type="AudioStreamPlayer" parent="FirePoint"]
 stream = ExtResource("10_h1n07")
@@ -231,7 +250,7 @@ position = Vector2(3, 0)
 
 [node name="Hurtbox" type="CollisionShape2D" parent="."]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_u20ea")
+shape = SubResource("RectangleShape2D_entpq")
 script = ExtResource("14_t8vdc")
 
 [node name="AnimatedShape2D" type="Node" parent="." node_paths=PackedStringArray("animated_sprite", "collision_shape")]
@@ -254,3 +273,4 @@ shape_frames = ExtResource("16_0eqpu")
 [connection signal="state_processing" from="States/Root/Fall" to="." method="_on_fall_state_processing"]
 [connection signal="state_entered" from="States/Root/Death" to="." method="_on_death_state_entered"]
 [connection signal="state_processing" from="States/Root/Death" to="." method="_on_death_state_processing"]
+[connection signal="animation_finished" from="Sprite" to="." method="_on_sprite_animation_finished"]

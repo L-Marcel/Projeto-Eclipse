@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cxwh675la76h0"]
+[gd_scene load_steps=8 format=3 uid="uid://cxwh675la76h0"]
 
 [ext_resource type="Texture2D" uid="uid://bm3lnu0ah4ypf" path="res://assets/ammo_kit.png" id="1_1nfgt"]
 [ext_resource type="Script" path="res://components/objects/AmmoKit.gd" id="1_2d5go"]
+[ext_resource type="AudioStream" uid="uid://dx7daun782363" path="res://sounds/kit.wav" id="2_4jbwm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eywlg"]
 atlas = ExtResource("1_1nfgt")
@@ -33,9 +34,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xgwrm"]
 size = Vector2(29, 17)
 
-[node name="AmmoKit" type="Area2D" node_paths=PackedStringArray("sprite")]
+[node name="AmmoKit" type="Area2D" node_paths=PackedStringArray("sprite", "audio")]
 script = ExtResource("1_2d5go")
 sprite = NodePath("Sprite")
+audio = NodePath("Collect")
+
+[node name="Collect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_4jbwm")
+volume_db = -20.0
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -11)

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bx8oiwgy4ms8r"
+path="res://.godot/imported/Crash Landing.mp3-a65dd8e42cb7af5cdc7bbfd782bb81db.mp3str"
+
+[deps]
+
+source_file="res://musics/Crash Landing.mp3"
+dest_files=["res://.godot/imported/Crash Landing.mp3-a65dd8e42cb7af5cdc7bbfd782bb81db.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

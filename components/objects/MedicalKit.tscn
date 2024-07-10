@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cpomlia0aoxnu"]
+[gd_scene load_steps=11 format=3 uid="uid://cpomlia0aoxnu"]
 
 [ext_resource type="Texture2D" uid="uid://cyjmce7p82xhe" path="res://assets/medical_kit.png" id="1_3l7oq"]
 [ext_resource type="Script" path="res://components/objects/MedicalKit.gd" id="1_wkesn"]
+[ext_resource type="AudioStream" uid="uid://dx7daun782363" path="res://sounds/kit.wav" id="2_uor01"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8jkvv"]
 atlas = ExtResource("1_3l7oq")
@@ -54,9 +55,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ihojc"]
 size = Vector2(29, 17)
 
-[node name="MedicalKit" type="Area2D" node_paths=PackedStringArray("sprite")]
+[node name="MedicalKit" type="Area2D" node_paths=PackedStringArray("sprite", "audio")]
 script = ExtResource("1_wkesn")
 sprite = NodePath("Sprite")
+audio = NodePath("Collect")
+
+[node name="Collect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_uor01")
+volume_db = -20.0
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(1.5, -11.5)

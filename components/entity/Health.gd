@@ -6,14 +6,29 @@ extends Node
 @export var _limit : float = 100;
 @export var _base : float = 100;
 @export var _invencible : bool = false;
-			
 @export var _invencible_duration : float = 1.0;
+var _inital_total = _total;
+var _inital_limit = _limit;
+var _inital_base = _base;
+var _inital_invencible = _invencible;
 
 signal death;
 signal changed(value : float, limit : float, base : float);
 signal damaged;
 signal invencibility_tick;
 signal invencibility_finished;
+
+func _ready():
+	_inital_total = _total;
+	_inital_limit = _limit;
+	_inital_base = _base;
+	_inital_invencible = _invencible;
+func reset():
+	_total = _inital_total;
+	_limit = _inital_limit;
+	_base = _inital_base;
+	_invencible = _inital_invencible;
+	changed.emit(_total, _limit, _base);
 
 func hurt(amount : float):
 	if _invencible || amount <= 0:

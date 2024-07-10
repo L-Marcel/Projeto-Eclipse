@@ -2,6 +2,7 @@ class_name MedicalKit
 extends Area2D
 
 @export var sprite : AnimatedSprite2D;
+@export var audio : AudioStreamPlayer;
 
 func _ready():
 	body_entered.connect(_on_body_entered);
@@ -14,4 +15,5 @@ func _on_body_entered(body : Node2D):
 		for player in players:
 			if player is Player:
 				player.health.heal(8.0);
+		audio.play();
 		sprite.play("open");

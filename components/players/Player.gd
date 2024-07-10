@@ -11,6 +11,7 @@ extends CharacterBody2D
 			key_down = "red_down";
 			key_fire = "red_fire";
 			key_interact = "red_interact";
+			key_reload = "red_reload";
 		else:
 			key_left = "green_left";
 			key_right = "green_right";
@@ -18,6 +19,7 @@ extends CharacterBody2D
 			key_down = "green_down";
 			key_fire = "green_fire";
 			key_interact = "green_interact";
+			key_reload = "green_reload";
 @export var sprite_frames : SpriteFrames;
 
 @export_group("Interaction")
@@ -37,6 +39,9 @@ var clip : Clip;
 @export var fire_point : FirePoint;
 @export var flash : Flash;
 @export var gun_fire_sound : AudioStreamPlayer;
+@export var gun_out_ammo_sound : AudioStreamPlayer;
+@export var gun_reload_sound : AudioStreamPlayer;
+@export var gun_reload_tick_sound : AudioStreamPlayer;
 
 @export_group("Step")
 @export var step_point : Marker2D;
@@ -83,6 +88,7 @@ var key_jump : String = "red_up";
 var key_down : String = "red_down";
 var key_fire : String = "red_fire";
 var key_interact : String = "red_interact";
+var key_reload : String = "red_reload";
 var can_cancel_jump : bool = true;
 
 func _ready():
@@ -106,6 +112,8 @@ func _ready():
 	hurtbox.health = health;
 	health.invencibility_finished.connect(_on_health_invencibility_finished);
 	health.invencibility_tick.connect(_on_health_invencibility_tick);
+	clip.reload_finished.connect(_on_reload_finished);
+	clip.reload_tick.connect(_on_reload_tick);
 
 #region Visibility
 func set_was_seen(value : int, duration : float = 2.0):
@@ -143,6 +151,11 @@ func fire(precision : float = randf_range(0.0, 1.0)):
 			var soundwave_instance = soundwave.instantiate() as Soundwave;
 			soundwave_instance.global_position = fire_point.global_position;
 			get_parent().add_child(soundwave_instance);
+			soundwave_instance.set_danger(2);
+			soundwave_instance.play(
+				32.0,
+				124.0
+			);
 			var bullet_instance = bullet.instantiate() as Bullet;
 			bullet_instance.configure_as_ally(self);
 			var angle_diff = randf_range(-10, 10) * (1.0 - precision);
@@ -153,19 +166,20 @@ func fire(precision : float = randf_range(0.0, 1.0)):
 				bullet_instance.rotation_degrees = angle_diff;
 				bullet_instance.global_position = fire_point.global_position;
 			bullet_instance.linear_velocity = Vector2.from_angle(bullet_instance.rotation) * 800;
-			soundwave_instance.set_danger(2);
-			soundwave_instance.play(
-				32.0,
-				124.0
-			);
 			gun_fire_sound.play();
 			set_was_seen(2, 0.1);
 			get_parent().add_child(bullet_instance);
-			clip.fire();
-			can_fire = false;
-		elif !clip.is_reloading():
-			clip.reload();
+		else:
+			var soundwave_instance = soundwave.instantiate() as Soundwave;
+			soundwave_instance.global_position = fire_point.global_position;
+			get_parent().add_child(soundwave_instance);
+			soundwave_instance.set_danger(0);
+			soundwave_instance.play();
+			gun_out_ammo_sound.play();
+		clip.fire();
 		can_fire = false;
+	elif Input.is_action_pressed(key_reload) && !clip.is_reloading():
+		clip.reload();
 func flip(yes : bool):
 	if yes:
 		scale.y = -abs(scale.y);
@@ -184,14 +198,14 @@ func step(force : bool = false):
 		step_frame = sprite.frame;
 		if player_one:
 			soundwave_instance.play();
-			step_sound_player.volume_db = -25.0;
+			step_sound_player.volume_db = -20.0;
 			step_sound_player.play();
 		else:
 			soundwave_instance.play(
 				soundwave_instance.min_size,
 				soundwave_instance.max_size / 2.0
 			);
-			step_sound_player.volume_db = -30.0;
+			step_sound_player.volume_db = -25.0;
 			step_sound_player.play();
 func move():
 	var direction = Input.get_axis(key_left, key_right);
@@ -310,10 +324,23 @@ func _on_run_state_exited():
 #endregion
 
 #region Others
+func _on_sprite_animation_finished():
+	if sprite.animation == "death":
+		await get_tree().create_timer(0.25).timeout;
+		Game.game_over("O %s morreu em missão..." % ["Red Ghost" if player_one else "Green Phantom"]);
 func _on_vision_timer_timeout():
 	was_seen = 0;
 func _on_health_invencibility_tick():
 	blink();
 func _on_health_invencibility_finished():
 	stop_blink();
+func _on_reload_finished():
+	var soundwave_instance = soundwave.instantiate() as Soundwave;
+	soundwave_instance.global_position = fire_point.global_position;
+	get_parent().add_child(soundwave_instance);
+	soundwave_instance.set_danger(0);
+	soundwave_instance.play();
+	gun_reload_sound.play();
+func _on_reload_tick():
+	gun_reload_tick_sound.play();
 #endregion
