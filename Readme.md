@@ -5,7 +5,7 @@ Em síntese, é um protótipo de um jogo de tiro cooperativo para exatamente doi
 Como é um protótipo, é bem curto.
 
 # Como jogar
-O jogador verde consegue abater inimigos interagindo com eles e integarir com alguns objetos do mapa. O vermelho é bem mais forte, rápido, tem mais bala e consegue jogar o outro jogador para cima.
+O jogador verde consegue abater inimigos interagindo com eles e integarir com alguns objetos do mapa. O vermelho é bem mais forte, rápido, tem mais balas e consegue jogar o outro jogador para cima.
 
 ## Instalação
 Os binários do jogo estão disponível [aqui](https://github.com/L-Marcel/Projeto-Eclipse/releases/tag/1.0.0), tanto para `Windows` como para o `Linux`. É só baixar e executar. E não precisa baixar todos os arquivos disponíveis da página. Se vai jogar no `Windows`, baixe os com sufixo `_windows`. Se vai jogar no `Linux`, baixe os com sufixo `_linux`.
