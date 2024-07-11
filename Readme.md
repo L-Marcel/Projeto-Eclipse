@@ -10,7 +10,7 @@ O jogador verde consegue abater inimigos interagindo com eles e integarir com al
 ## Instalação
 Os binários do jogo estão disponível [aqui](https://github.com/L-Marcel/Projeto-Eclipse/releases/tag/1.0.1), tanto para `Windows` como para o `Linux`. É só baixar e executar. E não precisa baixar todos os arquivos disponíveis da página. Se vai jogar no `Windows`, baixe os com sufixo `_windows`. Se vai jogar no `Linux`, baixe os com sufixo `_linux`.
 
-Lembrando que você tem que ter permissão para executar o binário.
+Lembrando que você tem que ter permissão para executar o binário. Para fechar o jogo, basta apertar `F8`.
 
 ## Controles - Jogador (vermelho)
 - `w, a, s, d` - andar e se agachar;
