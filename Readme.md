@@ -2,6 +2,8 @@
 Este projeto faz parte de um trabalho da disciplina de `Fundamento de Jogos Digitais`.
 Em síntese, é um protótipo de um jogo de tiro cooperativo para exatamente dois jogadores que mistura furtividade e ação.
 
+Como é um protótipo, é bem curto.
+
 # Como jogar
 O jogador verde consegue abater inimigos interagindo com eles e integarir com alguns objetos do mapa. O vermelho é bem mais forte, rápido, tem mais bala e consegue jogar o outro jogador para cima.
 
@@ -25,7 +27,7 @@ Lembrando que você tem que ter permissão para executar o binário.
 *Observações*: em algums teclados, tantas teclas simultaneamente podem falhar. Mas não se trata de uma falha do jogo, e sim de uma falha de hardware (o próprio teclado) ­- que as vezes não suporta tantas teclas precionadas simultaneamente (como é o caso do meu).
 
 ### Joystick - Jogador (verde)
-Mas o segundo jogador também pode controlar seu personagem por um `joystick`. Os botões são preconfigurados como no caso do teclado. Segue abaixo uma lista de botões considerando um `layout` de um joystick` modelo `Xbox`:
+Mas o segundo jogador também pode controlar seu personagem por um `joystick`. Os botões são preconfigurados como no caso do teclado. Segue abaixo uma lista de botões considerando um `layout` de um `joystick` modelo `Xbox`:
 
 - `marcha da direita` - andar;
 - `A` - pular;
