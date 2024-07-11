@@ -1,5 +1,5 @@
 # Projeto Eclipse
-Este projeto faz parte de um trabalho da disciplina de `Fundamentos de Jogos Digitais`.
+Este projeto faz parte de um trabalho da disciplina de `Fundamento de Jogos Digitais`.
 Em síntese, é um protótipo de um jogo de tiro cooperativo para exatamente dois jogadores que mistura furtividade e ação.
 
 # Como jogar
