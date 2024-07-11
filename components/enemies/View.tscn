@@ -88,7 +88,7 @@ far = true
 
 [node name="L0" type="RayCast2D" parent="."]
 modulate = Color(1, 0.890562, 0, 1)
-target_position = Vector2(496, -6)
+target_position = Vector2(600, -6)
 collision_mask = 2
 hit_from_inside = true
 script = ExtResource("2_wpob1")
@@ -96,7 +96,7 @@ out_of_light_range = true
 
 [node name="L1" type="RayCast2D" parent="."]
 modulate = Color(1, 0.890562, 0, 1)
-target_position = Vector2(496, 6)
+target_position = Vector2(600, 6)
 collision_mask = 2
 hit_from_inside = true
 script = ExtResource("2_wpob1")

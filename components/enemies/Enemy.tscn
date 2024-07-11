@@ -1,7 +1,8 @@
-[gd_scene load_steps=59 format=3 uid="uid://cgxiblhs26fbj"]
+[gd_scene load_steps=60 format=3 uid="uid://cgxiblhs26fbj"]
 
 [ext_resource type="Script" path="res://components/enemies/Enemy.gd" id="1_g43js"]
 [ext_resource type="Material" uid="uid://cb1i58ksue7bq" path="res://scripts/shader/Mob.tres" id="1_ooojd"]
+[ext_resource type="SpriteFrames" uid="uid://ca4uglnumtgty" path="res://components/enemies/YellowEnemy.tres" id="2_lpjkc"]
 [ext_resource type="Script" path="res://components/entity/Interaction.gd" id="4_6itcx"]
 [ext_resource type="SpriteFrames" uid="uid://b0nhovijexdwn" path="res://components/enemies/Enemy.tres" id="4_l2ntd"]
 [ext_resource type="Script" path="res://components/entity/Health.gd" id="5_urrmf"]
@@ -21,7 +22,7 @@
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frame_2d.gd" id="15_0ocyi"]
 [ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="16_7nvub"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ibrd"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_os5ch"]
 size = Vector2(21, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gly67"]
@@ -219,6 +220,7 @@ process_mode = 4
 z_index = 200
 collision_layer = 5
 script = ExtResource("1_g43js")
+yellow_sprite_frames = ExtResource("2_lpjkc")
 sprite = NodePath("Sprite")
 states = NodePath("States")
 hurtbox = NodePath("Hurtbox")
@@ -229,7 +231,6 @@ health = NodePath("Health")
 interaction = NodePath("Interaction")
 alert_sound = NodePath("Alert")
 gun_fire_sound = NodePath("FirePoint/FireSound")
-max_walk_distance = null
 
 [node name="Interaction" type="Node" parent="."]
 script = ExtResource("4_6itcx")
@@ -447,7 +448,7 @@ mix_target = 1
 
 [node name="Hurtbox" type="CollisionShape2D" parent="." node_paths=PackedStringArray("health")]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_5ibrd")
+shape = SubResource("RectangleShape2D_os5ch")
 script = ExtResource("13_3jk5w")
 health = NodePath("../Health")
 

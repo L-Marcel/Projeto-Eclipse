@@ -2,6 +2,8 @@
 class_name Enemy
 extends CharacterBody2D
 
+@export var yellow : bool = false;
+@export var yellow_sprite_frames : SpriteFrames;
 
 @export_group("Components")
 @export var sprite : AnimatedSprite2D;
@@ -18,6 +20,7 @@ extends CharacterBody2D
 @export var gun_fire_sound : AudioStreamPlayer;
 
 @export_group("Patrol")
+@export var with_light : bool = true;
 @export var patrol : bool = false;
 @export var patrol_delay_range : Vector2 = Vector2(3.0, 5.0);
 @export var walk_in_patrol : bool = false;
@@ -55,6 +58,8 @@ var alerted : bool = false :
 		alerted = value;
 		if alerted && alert_sound:
 			alert_sound.play();
+		if alerted && interaction && sprite && sprite.animation != "death":
+			interaction.unregistry();
 var fire_delay : float = 0.25;
 var can_fire : bool = true :
 	set(value):
@@ -68,10 +73,16 @@ func _ready():
 		process_mode = Node.PROCESS_MODE_DISABLED;
 	else:
 		Mobs.registry(self);
+		if yellow:
+			health._limit = 24;
+			health._base = 24;
+			health.set_total(24);
+			sprite.sprite_frames = yellow_sprite_frames;
 		hurtbox.shape = hurtbox.shape.duplicate();
 		process_mode = Node.PROCESS_MODE_INHERIT;
 		interaction.registry(on_green_phantom_interact);
 		view.target_changed.connect(on_target_changed);
+		view.without_light = !with_light;
 		start_patrol();
 
 #region Control
@@ -92,9 +103,10 @@ func on_target_changed():
 	else:
 		target = null;
 func on_green_phantom_interact(_by : Node2D):
-	states.send_event("knockout");
-	interaction.unregistry();
-	interaction.registry(on_second_green_phantom_interact);
+	if !alerted:
+		states.send_event("knockout");
+		interaction.unregistry();
+		interaction.registry(on_second_green_phantom_interact);
 func on_second_green_phantom_interact(_by : Node2D):
 	fire_point.queue_free();
 	interaction.unregistry();

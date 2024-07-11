@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://styjofwip8vh"]
+
+[ext_resource type="FontFile" uid="uid://dxsixc4mfm6gq" path="res://theme/font/PixeloidMono.ttf" id="1_2pmq4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_t56n1"]
+font = ExtResource("1_2pmq4")
+font_size = 18
+shadow_color = Color(0, 0, 0, 0.5)
+
+[node name="Tip" type="Label"]
+offset_right = 312.0
+offset_bottom = 120.0
+text = "Text"
+label_settings = SubResource("LabelSettings_t56n1")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

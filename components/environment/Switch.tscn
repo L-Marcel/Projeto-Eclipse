@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://s7wl6rb02txk"]
+[gd_scene load_steps=10 format=3 uid="uid://s7wl6rb02txk"]
 
 [ext_resource type="Script" path="res://components/environment/Switch.gd" id="1_f1prw"]
 [ext_resource type="Script" path="res://components/entity/Interaction.gd" id="2_3e23w"]
+[ext_resource type="AudioStream" uid="uid://c2ek747nn7ms0" path="res://sounds/out_ammo.wav" id="2_qr4ix"]
 [ext_resource type="Texture2D" uid="uid://dsm2ma1xjm76t" path="res://assets/switch.png" id="3_xwps0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mo0nn"]
@@ -46,12 +47,16 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tet51"]
 size = Vector2(10, 12)
 
-[node name="Switch" type="StaticBody2D" node_paths=PackedStringArray("sprite", "interaction")]
+[node name="Switch" type="StaticBody2D" node_paths=PackedStringArray("sprite", "interaction", "sound")]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_f1prw")
 sprite = NodePath("Sprite")
 interaction = NodePath("Interaction")
+sound = NodePath("Sound")
+
+[node name="Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_qr4ix")
 
 [node name="Interaction" type="Node" parent="."]
 script = ExtResource("2_3e23w")

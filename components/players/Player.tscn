@@ -25,7 +25,7 @@
 [ext_resource type="AudioStream" uid="uid://c0ikf0ybtdgbd" path="res://sounds/reload_finished.wav" id="18_44tlp"]
 [ext_resource type="PackedScene" uid="uid://dotrloiei4irn" path="res://components/players/VisionIcon.tscn" id="18_e308n"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_entpq"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nx20q"]
 size = Vector2(21, 32)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("actor", "actor_collision_shape", "interaction", "sprite", "states", "hurtbox", "fire_point", "flash", "gun_fire_sound", "gun_out_ammo_sound", "gun_reload_sound", "gun_reload_tick_sound", "step_point", "step_sound_player", "vision_icon") groups=["mob", "player"]]
@@ -207,6 +207,8 @@ position = Vector2(-1, -27)
 material = ExtResource("1_etfwo")
 sprite_frames = ExtResource("14_yfoc6")
 animation = &"crouch"
+frame = 2
+frame_progress = 1.0
 
 [node name="Outline" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("interaction", "main")]
 visible = false
@@ -214,6 +216,7 @@ modulate = Color(0.874449, 0.392279, 0.305806, 1)
 material = ExtResource("1_etfwo")
 sprite_frames = ExtResource("15_60gml")
 animation = &"crouch"
+frame = 2
 script = ExtResource("15_jqt5w")
 interaction = NodePath("../Interaction")
 main = NodePath("../Sprite")
@@ -223,7 +226,7 @@ position = Vector2(2.5, 15)
 
 [node name="FirePoint" type="Marker2D" parent="." node_paths=PackedStringArray("sprite")]
 visible = false
-position = Vector2(13, -2)
+position = Vector2(14, 2)
 gizmo_extents = 5.0
 script = ExtResource("9_tx268")
 sprite = NodePath("../Sprite")
@@ -250,7 +253,7 @@ position = Vector2(3, 0)
 
 [node name="Hurtbox" type="CollisionShape2D" parent="."]
 position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_entpq")
+shape = SubResource("RectangleShape2D_nx20q")
 script = ExtResource("14_t8vdc")
 
 [node name="AnimatedShape2D" type="Node" parent="." node_paths=PackedStringArray("animated_sprite", "collision_shape")]

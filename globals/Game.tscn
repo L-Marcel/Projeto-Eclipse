@@ -28,15 +28,17 @@ frame_0/texture = ExtResource("6_o28cr")
 frame_1/texture = ExtResource("8_n5lbj")
 frame_1/duration = 1.0
 
-[node name="Game" type="CanvasLayer" node_paths=PackedStringArray("control", "description_label", "tip_label", "in_action_player", "game_over_player", "alarm_player", "alarm_bar", "alarm_icon")]
+[node name="Game" type="CanvasLayer" node_paths=PackedStringArray("control", "description_label", "tip_label", "title_label", "in_action_player", "game_over_player", "alarm_player", "victory", "alarm_bar", "alarm_icon")]
 process_mode = 3
 script = ExtResource("1_ffpfp")
 control = NodePath("Control")
 description_label = NodePath("Control/Margin/Center/Body/Description")
 tip_label = NodePath("Control/Margin/Center/Body/Tip")
+title_label = NodePath("Control/Margin/Center/Title")
 in_action_player = NodePath("InAction")
 game_over_player = NodePath("GameOver")
 alarm_player = NodePath("Alarm")
+victory = NodePath("Victory")
 alarm_bar = NodePath("Body/Alarm/Bar")
 alarm_icon = NodePath("Body/Alarm/AlarmIcon")
 
@@ -106,6 +108,11 @@ autowrap_mode = 3
 [node name="Alarm" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_7br3w")
 volume_db = -20.0
+
+[node name="Victory" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_cbqcb")
+volume_db = -20.0
+parameters/looping = true
 
 [node name="InAction" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_bjypi")
